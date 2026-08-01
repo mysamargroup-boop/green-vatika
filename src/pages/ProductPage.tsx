@@ -1,0 +1,449 @@
+import React, { useState } from 'react';
+import { Plant } from '../types/nursery';
+import { LazyImage } from '../components/LazyImage';
+import { plantsData } from '../data/mockData';
+import {
+  ArrowLeft,
+  Star,
+  Sun,
+  Droplets,
+  Wind,
+  ShieldAlert,
+  Check,
+  ShoppingCart,
+  ShoppingBag,
+  MessageSquare,
+  Heart,
+  Share2,
+  Truck,
+  RotateCcw,
+  Sparkles,
+} from 'lucide-react';
+import confetti from 'canvas-confetti';
+
+interface ProductPageProps {
+  plant: Plant;
+  onBack: () => void;
+  onAddToCart: (plant: Plant, quantity: number, size: string, color: string) => void;
+  onSelectPlant: (plant: Plant) => void;
+  onOpenOrderPage: (plant: Plant, quantity: number, size: string, color: string) => void;
+}
+
+export const ProductPage: React.FC<ProductPageProps> = ({
+  plant,
+  onBack,
+  onAddToCart,
+  onSelectPlant,
+  onOpenOrderPage,
+}) => {
+  const [quantity, setQuantity] = useState<number>(1);
+  const [selectedSize, setSelectedSize] = useState<string>(plant.potSize || '8 inch standard');
+  const [selectedPotColor, setSelectedPotColor] = useState<string>('Terracotta');
+  const [activeTab, setActiveTab] = useState<'care' | 'details' | 'reviews'>('care');
+  const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
+
+  const potColors = ['Terracotta', 'Matte White', 'Forest Green', 'Charcoal'];
+  const sizeOptions = ['6 inch compact', '8 inch standard', '10 inch luxury'];
+
+  // Alternative product gallery images
+  const galleryImages = [
+    plant.image,
+    plant.hoverImage || plant.image,
+    'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg',
+    'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg',
+  ];
+  const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
+
+  const handleAddToCart = () => {
+    onAddToCart(plant, quantity, selectedSize, selectedPotColor);
+    confetti({
+      particleCount: 40,
+      spread: 60,
+      origin: { y: 0.7 },
+      colors: ['#16a34a', '#22c55e', '#f59e0b'],
+    });
+  };
+
+  const handleDirectWhatsAppBuy = () => {
+    const messageText = encodeURIComponent(
+      `🌿 *GREEN VATIKA INSTANT BUY ORDER*\n\n` +
+      `*Plant:* ${plant.name}\n` +
+      `*Category:* ${plant.category}\n` +
+      `*Pot Size:* ${selectedSize}\n` +
+      `*Planter Color:* ${selectedPotColor}\n` +
+      `*Quantity:* ${quantity}\n` +
+      `*Total Price:* ₹${plant.price * quantity}\n\n` +
+      `Please process this order and send payment details!`
+    );
+    window.open(`https://wa.me/919876543210?text=${messageText}`, '_blank');
+  };
+
+  const relatedPlants = plantsData
+    .filter((p) => p.category === plant.category && p.id !== plant.id)
+    .slice(0, 4);
+
+  return (
+    <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
+      <div className="container mx-auto px-4 md:px-8">
+        {/* Back & Breadcrumb Bar */}
+        <div className="flex items-center justify-between mb-8">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border/80 shadow-sm"
+          >
+            <ArrowLeft className="h-4 w-4" /> Back to Shop
+          </button>
+
+          <div className="text-xs font-semibold text-muted-foreground hidden sm:block">
+            Home / Shop / <span className="text-primary font-bold">{plant.category}</span> / {plant.name}
+          </div>
+        </div>
+
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column: Image Gallery */}
+          <div className="space-y-4">
+            {/* Main Featured Image */}
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-border/80 bg-card">
+              <LazyImage
+                src={galleryImages[activeImageIndex]}
+                alt={plant.name}
+                aspectRatio="aspect-square"
+                className="w-full h-full object-cover"
+              />
+
+              {plant.badge && (
+                <span className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider text-white bg-amber-500 shadow-lg">
+                  {plant.badge}
+                </span>
+              )}
+
+              <div className="absolute top-4 right-4 flex items-center gap-2">
+                <button
+                  onClick={() => setIsWishlisted(!isWishlisted)}
+                  className="p-3 rounded-full glass hover:bg-white text-foreground shadow-md transition-all"
+                >
+                  <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-600'}`} />
+                </button>
+                <button
+                  onClick={() => {
+                    navigator.clipboard?.writeText(window.location.href);
+                    alert('Product link copied to clipboard!');
+                  }}
+                  className="p-3 rounded-full glass hover:bg-white text-foreground shadow-md transition-all"
+                >
+                  <Share2 className="h-5 w-5 text-slate-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* Gallery Thumbnails */}
+            <div className="grid grid-cols-4 gap-3">
+              {galleryImages.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveImageIndex(index)}
+                  className={`rounded-2xl overflow-hidden border-2 transition-all ${
+                    activeImageIndex === index
+                      ? 'border-primary ring-2 ring-primary/30 scale-105'
+                      : 'border-border opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  <LazyImage src={img} alt="thumbnail" aspectRatio="aspect-square" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Column: Details, Options & Direct Order Actions */}
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center justify-between text-xs text-primary font-bold mb-2">
+                <span className="px-3 py-1 rounded-full bg-primary/10">{plant.category} Collection</span>
+                <div className="flex items-center gap-1 text-amber-500 font-bold">
+                  <Star className="h-4 w-4 fill-current" />
+                  <span>{plant.rating}</span>
+                  <span className="text-muted-foreground font-normal">({plant.reviewsCount} verified reviews)</span>
+                </div>
+              </div>
+
+              <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
+                {plant.name}
+              </h1>
+              <p className="text-sm text-muted-foreground italic mt-1">{plant.botanicalName}</p>
+            </div>
+
+            {/* Price & Savings */}
+            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/80 flex items-center justify-between">
+              <div>
+                <div className="text-xs text-muted-foreground font-semibold">Special Nursery Price</div>
+                <div className="flex items-baseline gap-3 mt-0.5">
+                  <span className="text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
+                  {plant.originalPrice && (
+                    <span className="text-base text-muted-foreground line-through font-medium">
+                      ₹{plant.originalPrice * quantity}
+                    </span>
+                  )}
+                  {plant.discount && (
+                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/10 text-red-600">
+                      Save {plant.discount}%
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="text-right">
+                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400">In Stock & Healthy</div>
+                <div className="text-[11px] text-muted-foreground">Ready for Express Delivery</div>
+              </div>
+            </div>
+
+            <p className="text-sm text-muted-foreground leading-relaxed">{plant.description}</p>
+
+            {/* Specs Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
+                <Sun className="h-5 w-5 text-amber-500 mx-auto" />
+                <div className="text-[10px] uppercase font-bold text-muted-foreground">Sunlight</div>
+                <div className="text-xs font-bold text-foreground line-clamp-1">{plant.light}</div>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
+                <Droplets className="h-5 w-5 text-blue-500 mx-auto" />
+                <div className="text-[10px] uppercase font-bold text-muted-foreground">Watering</div>
+                <div className="text-xs font-bold text-foreground line-clamp-1">{plant.water}</div>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
+                <Wind className="h-5 w-5 text-emerald-600 mx-auto" />
+                <div className="text-[10px] uppercase font-bold text-muted-foreground">Air Purifier</div>
+                <div className="text-xs font-bold text-foreground">{plant.airPurifying ? 'NASA Certified' : 'Standard'}</div>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
+                <ShieldAlert className="h-5 w-5 text-purple-600 mx-auto" />
+                <div className="text-[10px] uppercase font-bold text-muted-foreground">Pet Friendly</div>
+                <div className="text-xs font-bold text-foreground">{plant.petFriendly ? 'Pet Safe' : 'Caution'}</div>
+              </div>
+            </div>
+
+            {/* Customizer: Size */}
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                1. Select Pot Size
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {sizeOptions.map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all ${
+                      selectedSize === size
+                        ? 'border-primary bg-primary/10 text-primary shadow-sm'
+                        : 'border-border text-foreground hover:bg-secondary'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Customizer: Planter Color */}
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">
+                2. Select Planter Color
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {potColors.map((color) => (
+                  <button
+                    key={color}
+                    onClick={() => setSelectedPotColor(color)}
+                    className={`px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                      selectedPotColor === color
+                        ? 'border-primary bg-primary text-white shadow-md'
+                        : 'border-border text-foreground hover:bg-secondary'
+                    }`}
+                  >
+                    {color}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-xs font-bold uppercase text-muted-foreground">Select Quantity</span>
+              <div className="flex items-center border border-border rounded-full p-1 bg-secondary/50">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="h-8 w-8 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-xs"
+                >
+                  -
+                </button>
+                <span className="px-5 text-sm font-bold text-foreground">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="h-8 w-8 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-xs"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Primary Action Buttons */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border/80">
+              <button
+                onClick={handleDirectWhatsAppBuy}
+                className="py-3.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm shadow-xl shadow-[#25D366]/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] whitespace-nowrap"
+              >
+                <svg className="h-5 w-5 fill-white shrink-0" viewBox="0 0 24 24">
+                  <path d="M12.031 2c-5.517 0-9.993 4.476-9.993 9.993 0 1.763.459 3.479 1.33 4.992l-1.413 5.161 5.281-1.386c1.455.794 3.1 1.222 4.795 1.222 5.517 0 9.993-4.476 9.993-9.993s-4.476-9.989-9.993-9.989zm5.787 14.175c-.244.688-1.428 1.312-1.968 1.375-.54.062-1.227.094-3.528-.844-2.775-1.129-4.547-3.953-4.688-4.141-.141-.188-1.125-1.5-1.125-2.859 0-1.359.703-2.016.953-2.281.25-.266.547-.328.734-.328.188 0 .375.004.531.008.172.004.402-.066.629.477.234.563.797 1.945.867 2.086.07.141.117.305.023.492-.094.188-.141.305-.281.469-.141.164-.297.367-.422.492-.141.141-.289.293-.125.574.164.281.727 1.2 1.562 1.941 1.074.953 1.977 1.25 2.258 1.391.281.141.445.117.609-.07.164-.188.703-.82 0.891-1.102.188-.281.375-.234.629-.141.25.094 1.594.75 1.867.891.273.141.453.211.516.328.062.117.062.688-.182 1.376z"/>
+                </svg>
+                Buy Now on WhatsApp
+              </button>
+
+              <button
+                onClick={() => onOpenOrderPage(plant, quantity, selectedSize, selectedPotColor)}
+                className="py-3.5 px-6 rounded-2xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white font-extrabold text-sm shadow-xl shadow-slate-900/30 border border-slate-700/60 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] whitespace-nowrap"
+              >
+                <ShoppingBag className="h-5 w-5 text-emerald-400" /> Proceed to Order Checkout
+              </button>
+            </div>
+
+            {/* Delivery Assurance */}
+            <div className="grid grid-cols-2 gap-4 pt-4 text-xs text-muted-foreground border-t border-border/40">
+              <div className="flex items-center gap-2">
+                <Truck className="h-4 w-4 text-primary shrink-0" />
+                <span>Safely packed with 100% replacement guarantee</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RotateCcw className="h-4 w-4 text-primary shrink-0" />
+                <span>7-Day Freshness & Healthy Leaf Warranty</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Information Tabs */}
+        <div className="mt-16 bg-card rounded-3xl border border-border/80 p-6 md:p-8 shadow-xl">
+          <div className="flex items-center gap-4 border-b border-border/60 pb-4 mb-6">
+            <button
+              onClick={() => setActiveTab('care')}
+              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+                activeTab === 'care'
+                  ? 'bg-primary text-white shadow-md'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Expert Care Guidelines
+            </button>
+            <button
+              onClick={() => setActiveTab('details')}
+              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+                activeTab === 'details'
+                  ? 'bg-primary text-white shadow-md'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Plant Specifications
+            </button>
+            <button
+              onClick={() => setActiveTab('reviews')}
+              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+                activeTab === 'reviews'
+                  ? 'bg-primary text-white shadow-md'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Customer Reviews ({plant.reviewsCount})
+            </button>
+          </div>
+
+          {activeTab === 'care' && (
+            <div className="space-y-4">
+              <h3 className="font-heading font-extrabold text-lg text-foreground flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-primary" /> How to Care for Your {plant.name}
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {plant.careInstructions.map((tip, idx) => (
+                  <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl bg-secondary/40 border border-border/60">
+                    <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-sm text-foreground/90 font-medium">{tip}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'details' && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase">Botanical Name</span>
+                <div className="font-bold text-foreground italic mt-0.5">{plant.botanicalName}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase">Height Range</span>
+                <div className="font-bold text-foreground mt-0.5">{plant.height}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase">Difficulty Level</span>
+                <div className="font-bold text-foreground mt-0.5">{plant.difficulty}</div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reviews' && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+                <div className="text-3xl font-extrabold text-amber-600">{plant.rating} / 5.0</div>
+                <div className="text-xs text-muted-foreground">
+                  Based on <strong>{plant.reviewsCount} customer ratings</strong>. 100% verified plant buyers.
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { name: 'Kavita Roy', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
+                  { name: 'Sameer Sen', text: 'Healthy root system and beautiful ceramic planter.', rating: 5, date: '1 week ago' },
+                ].map((rev, idx) => (
+                  <div key={idx} className="p-4 rounded-2xl border border-border/60 bg-secondary/30 space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-bold text-foreground">{rev.name}</span>
+                      <span className="text-muted-foreground">{rev.date}</span>
+                    </div>
+                    <p className="text-sm text-foreground/90 italic">"{rev.text}"</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Related Plants */}
+        {relatedPlants.length > 0 && (
+          <div className="mt-20">
+            <h3 className="font-heading text-2xl font-extrabold text-foreground mb-6">
+              You May Also Like
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+              {relatedPlants.map((p) => (
+                <div
+                  key={p.id}
+                  onClick={() => onSelectPlant(p)}
+                  className="rounded-3xl bg-card border border-border/80 overflow-hidden hover:border-primary/40 transition-all cursor-pointer group"
+                >
+                  <LazyImage src={p.image} alt={p.name} aspectRatio="aspect-square" className="group-hover:scale-105 transition-transform" />
+                  <div className="p-4">
+                    <h4 className="font-bold text-sm text-foreground line-clamp-1">{p.name}</h4>
+                    <div className="text-xs font-extrabold text-primary mt-1">₹{p.price}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

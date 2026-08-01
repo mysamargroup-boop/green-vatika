@@ -1,0 +1,5 @@
+name = "green-vatika-nursery"
+pages_build_output_dir = "./dist"
+
+[site]
+bucket = "./dist"

@@ -93,7 +93,7 @@ export const ContactSection: React.FC = () => {
             {/* Map Mockup Card */}
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-border/80 aspect-[16/9] bg-muted">
               <img
-                src="https://images.unsplash.com/photo-1520157646479-22f25713523d"
+                src="https://images.unsplash.com/photo-1520157646479-22f25713523d?auto=format&fit=crop&w=600&q=75"
                 alt="nursery location"
                 className="w-full h-full object-cover filter brightness-75"
               />

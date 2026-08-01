@@ -51,8 +51,8 @@ export const ProductPage: React.FC<ProductPageProps> = ({
   const galleryImages = [
     plant.image,
     plant.hoverImage || plant.image,
-    'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg',
-    'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg',
+    'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=600',
   ];
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 

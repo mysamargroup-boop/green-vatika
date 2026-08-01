@@ -37,6 +37,12 @@ const BlogPage = lazy(() =>
 const ContactPage = lazy(() =>
   import('./pages/ContactPage').then((m) => ({ default: m.ContactPage }))
 );
+const PrivacyPage = lazy(() =>
+  import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage }))
+);
+const TermsPage = lazy(() =>
+  import('./pages/TermsPage').then((m) => ({ default: m.TermsPage }))
+);
 const ProductPage = lazy(() =>
   import('./pages/ProductPage').then((m) => ({ default: m.ProductPage }))
 );
@@ -87,7 +93,7 @@ export default function App() {
   useEffect(() => {
     const syncViewFromHash = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'contact', 'product', 'checkout'].includes(hash)) {
+      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(hash)) {
         setCurrentView(hash as ViewState);
       } else {
         setCurrentView('home');
@@ -315,6 +321,18 @@ export default function App() {
         {currentView === 'contact' && (
           <Suspense fallback={<PageFallbackSkeleton />}>
             <ContactPage onBack={() => navigateToView('home')} />
+          </Suspense>
+        )}
+
+        {currentView === 'privacy' && (
+          <Suspense fallback={<PageFallbackSkeleton />}>
+            <PrivacyPage onBack={() => navigateToView('home')} />
+          </Suspense>
+        )}
+
+        {currentView === 'terms' && (
+          <Suspense fallback={<PageFallbackSkeleton />}>
+            <TermsPage onBack={() => navigateToView('home')} />
           </Suspense>
         )}
 

@@ -77,10 +77,12 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="#home" className="hover:text-primary transition-colors">Home</a></li>
               <li><a href="#about" className="hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">Shop Plants</a></li>
+              <li><a href="#shop" className="hover:text-primary transition-colors">Shop Plants</a></li>
               <li><a href="#categories" className="hover:text-primary transition-colors">Categories</a></li>
               <li><a href="#services" className="hover:text-primary transition-colors">Services</a></li>
               <li><a href="#blog" className="hover:text-primary transition-colors">Gardening Blog</a></li>
+              <li><a href="#privacy" className="hover:text-primary transition-colors">Privacy Policy</a></li>
+              <li><a href="#terms" className="hover:text-primary transition-colors">Terms of Service</a></li>
             </ul>
           </div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Leaf, Search, ShoppingCart, Menu, X, Sun, Moon, PhoneCall, ShoppingBag } from 'lucide-react';
 
-export type ViewState = 'home' | 'about' | 'categories' | 'shop' | 'quiz' | 'services' | 'blog' | 'contact' | 'product' | 'checkout';
+export type ViewState = 'home' | 'about' | 'categories' | 'shop' | 'quiz' | 'services' | 'blog' | 'contact' | 'product' | 'checkout' | 'privacy' | 'terms';
 
 interface HeaderProps {
   cartCount: number;

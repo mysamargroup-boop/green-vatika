@@ -7,9 +7,19 @@ interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   cartItems: CartItem[];
-  onUpdateQuantity: (plantId: string, quantity: number) => void;
-  onRemoveItem: (plantId: string) => void;
+  onUpdateQuantity: (
+    plantId: string,
+    quantity: number,
+    selectedSize?: string,
+    selectedPotColor?: string
+  ) => void;
+  onRemoveItem: (
+    plantId: string,
+    selectedSize?: string,
+    selectedPotColor?: string
+  ) => void;
   onClearCart: () => void;
+  onNavigateCheckout?: () => void;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -19,6 +29,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onUpdateQuantity,
   onRemoveItem,
   onClearCart,
+  onNavigateCheckout,
 }) => {
   if (!isOpen) return null;
 
@@ -49,7 +60,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     let itemsList = cartItems
       .map(
         (item, i) =>
-          `${i + 1}. ${item.plant.name} (${item.selectedSize || 'Standard'}) x${item.quantity} = ₹${
+          `${i + 1}. ${item.plant.name} (${item.selectedSize || 'Standard'}, ${item.selectedPotColor || 'Terracotta'}) x${item.quantity} = ₹${
             item.plant.price * item.quantity
           }`
       )
@@ -122,55 +133,75 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </button>
               </div>
             ) : (
-              cartItems.map((item) => (
-                <div
-                  key={item.plant.id}
-                  className="flex items-center gap-4 p-3 rounded-2xl border border-border/80 bg-card hover:border-primary/30 transition-all shadow-sm"
-                >
-                  <img
-                    src={item.plant.image}
-                    alt={item.plant.name}
-                    className="h-16 w-16 rounded-xl object-cover border border-border shrink-0"
-                  />
+              cartItems.map((item) => {
+                const itemKey = `${item.plant.id}-${item.selectedSize || 'standard'}-${item.selectedPotColor || 'terracotta'}`;
+                return (
+                  <div
+                    key={itemKey}
+                    className="flex items-center gap-4 p-3 rounded-2xl border border-border/80 bg-card hover:border-primary/30 transition-all shadow-sm"
+                  >
+                    <img
+                      src={item.plant.image}
+                      alt={item.plant.name}
+                      className="h-16 w-16 rounded-xl object-cover border border-border shrink-0"
+                    />
 
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-sm text-foreground line-clamp-1">{item.plant.name}</h4>
-                    <div className="text-xs text-muted-foreground mt-0.5">
-                      {item.selectedSize || 'Standard'} • {item.selectedPotColor || 'Terracotta'}
-                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-bold text-sm text-foreground line-clamp-1">{item.plant.name}</h4>
+                      <div className="text-xs text-muted-foreground mt-0.5">
+                        {item.selectedSize || 'Standard'} • {item.selectedPotColor || 'Terracotta'}
+                      </div>
 
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="font-extrabold text-sm text-foreground">
-                        ₹{item.plant.price * item.quantity}
-                      </span>
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="font-extrabold text-sm text-foreground">
+                          ₹{item.plant.price * item.quantity}
+                        </span>
 
-                      {/* Quantity buttons */}
-                      <div className="flex items-center border border-border rounded-full p-0.5 bg-secondary/40">
-                        <button
-                          onClick={() => onUpdateQuantity(item.plant.id, item.quantity - 1)}
-                          className="h-6 w-6 rounded-full hover:bg-card text-xs font-bold text-foreground flex items-center justify-center"
-                        >
-                          -
-                        </button>
-                        <span className="px-2 text-xs font-bold text-foreground">{item.quantity}</span>
-                        <button
-                          onClick={() => onUpdateQuantity(item.plant.id, item.quantity + 1)}
-                          className="h-6 w-6 rounded-full hover:bg-card text-xs font-bold text-foreground flex items-center justify-center"
-                        >
-                          +
-                        </button>
+                        {/* Quantity buttons */}
+                        <div className="flex items-center border border-border rounded-full p-0.5 bg-secondary/40">
+                          <button
+                            onClick={() =>
+                              onUpdateQuantity(
+                                item.plant.id,
+                                item.quantity - 1,
+                                item.selectedSize,
+                                item.selectedPotColor
+                              )
+                            }
+                            className="h-6 w-6 rounded-full hover:bg-card text-xs font-bold text-foreground flex items-center justify-center"
+                          >
+                            -
+                          </button>
+                          <span className="px-2 text-xs font-bold text-foreground">{item.quantity}</span>
+                          <button
+                            onClick={() =>
+                              onUpdateQuantity(
+                                item.plant.id,
+                                item.quantity + 1,
+                                item.selectedSize,
+                                item.selectedPotColor
+                              )
+                            }
+                            className="h-6 w-6 rounded-full hover:bg-card text-xs font-bold text-foreground flex items-center justify-center"
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <button
-                    onClick={() => onRemoveItem(item.plant.id)}
-                    className="p-2 text-muted-foreground hover:text-red-500 transition-colors"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              ))
+                    <button
+                      onClick={() =>
+                        onRemoveItem(item.plant.id, item.selectedSize, item.selectedPotColor)
+                      }
+                      className="p-2 text-muted-foreground hover:text-red-500 transition-colors"
+                      title="Remove Item"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                );
+              })
             )}
           </div>
 
@@ -234,10 +265,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <MessageSquare className="h-4 w-4" /> Instant WhatsApp Checkout
                 </button>
                 <button
-                  onClick={() => alert('Order simulation successful! Green Vatika team will contact you.')}
+                  onClick={() => {
+                    onClose();
+                    if (onNavigateCheckout) onNavigateCheckout();
+                  }}
                   className="w-full py-3 rounded-full bg-primary text-white font-bold text-sm hover:bg-primary/90 shadow-md transition-all flex items-center justify-center gap-2"
                 >
-                  Proceed to Checkout <ArrowRight className="h-4 w-4" />
+                  Proceed to Order Checkout <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </div>

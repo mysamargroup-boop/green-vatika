@@ -76,9 +76,71 @@ export default function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setInitialLoading(false);
-    }, 400);
+    }, 300);
     return () => clearTimeout(timer);
   }, []);
+
+  // Dynamic Document Title & Meta Description updater based on currentView & active product
+  useEffect(() => {
+    const metaMap: Record<ViewState, { title: string; desc: string }> = {
+      home: {
+        title: 'Green Vatika — Premium Plant Nursery | Indoor, Outdoor & Flowering Plants',
+        desc: 'Green Vatika is a trusted premium plant nursery offering healthy indoor plants, outdoor plants, flowering plants, fruit trees, succulents, bonsai and organic gardening essentials.',
+      },
+      about: {
+        title: 'About Us — Green Vatika Nursery',
+        desc: 'Learn about Green Vatika Nursery, our 10+ year legacy, 15 acres of organic greenhouses, and our commitment to bringing healthy greenery to your home.',
+      },
+      categories: {
+        title: 'Plant Categories — Green Vatika Nursery',
+        desc: 'Explore our wide range of plant categories including Indoor, Outdoor, Flowering, Fruit trees, Succulents, Bonsai, Pots, and Gardening Tools.',
+      },
+      shop: {
+        title: 'Shop Plants & Gardening Supplies — Green Vatika Nursery',
+        desc: 'Browse our complete catalog of air-purifying house plants, fruit trees, exotic succulents, and handcrafted pots with express delivery.',
+      },
+      quiz: {
+        title: 'Plant Matcher Quiz — Find Your Perfect Plant | Green Vatika',
+        desc: 'Take our interactive plant quiz to discover the ideal indoor or outdoor plants tailored to your light, watering, and space preferences.',
+      },
+      services: {
+        title: 'Landscape & Gardening Services — Green Vatika Nursery',
+        desc: 'Professional garden landscaping, AMC plant maintenance, terrace garden setups, living green wall installations, and plant doctor consultations.',
+      },
+      blog: {
+        title: 'Plant Care & Gardening Blog — Green Vatika Nursery',
+        desc: 'Read expert advice from senior horticulturists on houseplant care, watering tips, balcony gardening, and NASA air-purifying plants.',
+      },
+      contact: {
+        title: 'Contact Us & Nursery Location — Green Vatika Nursery',
+        desc: 'Visit Green Vatika Nursery at Niranjan Ward, Teen Puliya, Khairi Naka, Narsinghpur, MP or reach out via WhatsApp for plant orders.',
+      },
+      product: {
+        title: activeProductView ? `${activeProductView.name} — Green Vatika Nursery` : 'Plant Details — Green Vatika Nursery',
+        desc: activeProductView ? activeProductView.description : 'Detailed plant specifications, care instructions, and online ordering.',
+      },
+      checkout: {
+        title: 'Order Checkout — Green Vatika Nursery',
+        desc: 'Complete your plant purchase with express delivery scheduling and instant WhatsApp confirmation.',
+      },
+      privacy: {
+        title: 'Privacy Policy — Green Vatika Nursery',
+        desc: 'Read the privacy policy of Green Vatika Nursery regarding customer data protection and safe orders.',
+      },
+      terms: {
+        title: 'Terms of Service — Green Vatika Nursery',
+        desc: 'Read the terms and conditions for purchasing plants and landscaping services from Green Vatika Nursery.',
+      },
+    };
+
+    const currentMeta = metaMap[currentView] || metaMap.home;
+    document.title = currentMeta.title;
+
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute('content', currentMeta.desc);
+    }
+  }, [currentView, activeProductView]);
 
   // Sync dark mode class with root html element
   useEffect(() => {
@@ -109,6 +171,9 @@ export default function App() {
 
   // Smooth scroll & transition on view change + update URL hash
   const navigateToView = (view: ViewState) => {
+    if (view !== 'checkout') {
+      setDirectCheckoutPlant(null);
+    }
     setIsNavigating(true);
     window.location.hash = view === 'home' ? '' : view;
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -128,11 +193,16 @@ export default function App() {
   const handleAddToCart = (
     plant: Plant,
     quantity: number = 1,
-    selectedSize?: string,
-    selectedPotColor?: string
+    selectedSize: string = '8 inch standard',
+    selectedPotColor: string = 'Terracotta'
   ) => {
     setCartItems((prev) => {
-      const existingIndex = prev.findIndex((item) => item.plant.id === plant.id);
+      const existingIndex = prev.findIndex(
+        (item) =>
+          item.plant.id === plant.id &&
+          (item.selectedSize || '8 inch standard') === selectedSize &&
+          (item.selectedPotColor || 'Terracotta') === selectedPotColor
+      );
       if (existingIndex > -1) {
         const updated = [...prev];
         updated[existingIndex].quantity += quantity;
@@ -143,18 +213,42 @@ export default function App() {
     showToast(`Added ${plant.name} to your garden cart! 🌿`);
   };
 
-  const handleUpdateQuantity = (plantId: string, newQuantity: number) => {
+  const handleUpdateQuantity = (
+    plantId: string,
+    newQuantity: number,
+    selectedSize: string = '8 inch standard',
+    selectedPotColor: string = 'Terracotta'
+  ) => {
     if (newQuantity <= 0) {
-      handleRemoveItem(plantId);
+      handleRemoveItem(plantId, selectedSize, selectedPotColor);
       return;
     }
     setCartItems((prev) =>
-      prev.map((item) => (item.plant.id === plantId ? { ...item, quantity: newQuantity } : item))
+      prev.map((item) =>
+        item.plant.id === plantId &&
+        (item.selectedSize || '8 inch standard') === selectedSize &&
+        (item.selectedPotColor || 'Terracotta') === selectedPotColor
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
     );
   };
 
-  const handleRemoveItem = (plantId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.plant.id !== plantId));
+  const handleRemoveItem = (
+    plantId: string,
+    selectedSize: string = '8 inch standard',
+    selectedPotColor: string = 'Terracotta'
+  ) => {
+    setCartItems((prev) =>
+      prev.filter(
+        (item) =>
+          !(
+            item.plant.id === plantId &&
+            (item.selectedSize || '8 inch standard') === selectedSize &&
+            (item.selectedPotColor || 'Terracotta') === selectedPotColor
+          )
+      )
+    );
   };
 
   const handleClearCart = () => {
@@ -367,7 +461,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onNavigateView={navigateToView} />
 
       {/* Slide-over Shopping Cart Drawer */}
       <CartDrawer
@@ -377,6 +471,7 @@ export default function App() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveItem={handleRemoveItem}
         onClearCart={handleClearCart}
+        onNavigateCheckout={() => navigateToView('checkout')}
       />
 
       {/* Plant Details Quick View Modal */}
@@ -445,6 +540,7 @@ export default function App() {
                           handleAddToCart(plant);
                         }}
                         className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors"
+                        title="Add to Cart"
                       >
                         <ShoppingCart className="h-4 w-4" />
                       </button>

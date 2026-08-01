@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { Leaf, Heart, Instagram, Facebook, Youtube, Send, MapPin } from 'lucide-react';
+import { Heart, Instagram, Facebook, Youtube, Send, MapPin } from 'lucide-react';
+import { ViewState } from './Header';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onNavigateView?: (view: ViewState) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -14,23 +19,33 @@ export const Footer: React.FC = () => {
     }
   };
 
+  const nav = (view: ViewState, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigateView) {
+      onNavigateView(view);
+    } else {
+      window.location.hash = view === 'home' ? '' : view;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="bg-card border-t border-border/80 pt-16 pb-8 relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border/60">
           {/* Col 1: Brand & Logo */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
+            <button onClick={(e) => nav('home', e)} className="flex items-center gap-3 text-left group focus:outline-none">
               <img
                 src="/logo.png"
                 alt="Green Vatika Logo"
-                className="h-10 w-auto object-contain"
+                className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
               />
               <div>
                 <div className="font-heading font-extrabold text-xl text-foreground">Green Vatika</div>
                 <div className="text-[10px] uppercase tracking-widest text-primary font-bold">Premium Plant Nursery</div>
               </div>
-            </div>
+            </button>
 
             <p className="text-sm text-muted-foreground max-w-sm leading-relaxed">
               Bringing nature closer to your home. We grow healthy indoor plants, outdoor landscaping greenery, fruit varieties, succulents & organic care supplies.
@@ -45,24 +60,27 @@ export const Footer: React.FC = () => {
               <a
                 href="https://instagram.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="p-2.5 rounded-full bg-secondary hover:bg-primary/20 text-foreground hover:text-primary transition-colors"
+                title="Instagram"
               >
                 <Instagram className="h-4 w-4" />
               </a>
               <a
                 href="https://facebook.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="p-2.5 rounded-full bg-secondary hover:bg-primary/20 text-foreground hover:text-primary transition-colors"
+                title="Facebook"
               >
                 <Facebook className="h-4 w-4" />
               </a>
               <a
                 href="https://youtube.com"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="p-2.5 rounded-full bg-secondary hover:bg-primary/20 text-foreground hover:text-primary transition-colors"
+                title="YouTube"
               >
                 <Youtube className="h-4 w-4" />
               </a>
@@ -75,14 +93,14 @@ export const Footer: React.FC = () => {
               Quick Navigation
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#home" className="hover:text-primary transition-colors">Home</a></li>
-              <li><a href="#about" className="hover:text-primary transition-colors">About Us</a></li>
-              <li><a href="#shop" className="hover:text-primary transition-colors">Shop Plants</a></li>
-              <li><a href="#categories" className="hover:text-primary transition-colors">Categories</a></li>
-              <li><a href="#services" className="hover:text-primary transition-colors">Services</a></li>
-              <li><a href="#blog" className="hover:text-primary transition-colors">Gardening Blog</a></li>
-              <li><a href="#privacy" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-              <li><a href="#terms" className="hover:text-primary transition-colors">Terms of Service</a></li>
+              <li><button onClick={(e) => nav('home', e)} className="hover:text-primary transition-colors text-left">Home</button></li>
+              <li><button onClick={(e) => nav('about', e)} className="hover:text-primary transition-colors text-left">About Us</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Shop Plants</button></li>
+              <li><button onClick={(e) => nav('categories', e)} className="hover:text-primary transition-colors text-left">Categories</button></li>
+              <li><button onClick={(e) => nav('services', e)} className="hover:text-primary transition-colors text-left">Services</button></li>
+              <li><button onClick={(e) => nav('blog', e)} className="hover:text-primary transition-colors text-left">Gardening Blog</button></li>
+              <li><button onClick={(e) => nav('privacy', e)} className="hover:text-primary transition-colors text-left">Privacy Policy</button></li>
+              <li><button onClick={(e) => nav('terms', e)} className="hover:text-primary transition-colors text-left">Terms of Service</button></li>
             </ul>
           </div>
 
@@ -92,12 +110,12 @@ export const Footer: React.FC = () => {
               Categories
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><a href="#featured" className="hover:text-primary transition-colors">Indoor Air Purifiers</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">Outdoor Garden Plants</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">Flowering Climbers</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">All-Season Fruit Trees</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">Miniature Bonsai</a></li>
-              <li><a href="#featured" className="hover:text-primary transition-colors">Organic Soil & Pots</a></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Indoor Air Purifiers</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Outdoor Garden Plants</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Flowering Climbers</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">All-Season Fruit Trees</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Miniature Bonsai</button></li>
+              <li><button onClick={(e) => nav('shop', e)} className="hover:text-primary transition-colors text-left">Organic Soil & Pots</button></li>
             </ul>
           </div>
 
@@ -146,7 +164,7 @@ export const Footer: React.FC = () => {
             <a
               href="https://instagram.com/shubham__nema"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="font-extrabold text-primary hover:underline"
             >
               Samar

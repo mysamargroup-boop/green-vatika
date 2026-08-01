@@ -18,6 +18,8 @@ import {
   Truck,
   RotateCcw,
   Sparkles,
+  Flame,
+  Zap,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -420,23 +422,137 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           )}
         </div>
 
-        {/* Related Plants */}
+        {/* Related Plants Section */}
         {relatedPlants.length > 0 && (
           <div className="mt-20">
-            <h3 className="font-heading text-2xl font-extrabold text-foreground mb-6">
-              You May Also Like
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
+                  Handpicked Recommendations
+                </span>
+                <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-foreground mt-2">
+                  You May Also Like
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedPlants.map((p) => (
                 <div
                   key={p.id}
                   onClick={() => onSelectPlant(p)}
-                  className="rounded-3xl bg-card border border-border/80 overflow-hidden hover:border-primary/40 transition-all cursor-pointer group"
+                  className="group relative rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
-                  <LazyImage src={p.image} alt={p.name} aspectRatio="aspect-square" className="group-hover:scale-105 transition-transform" />
-                  <div className="p-4">
-                    <h4 className="font-bold text-sm text-foreground line-clamp-1">{p.name}</h4>
-                    <div className="text-xs font-extrabold text-primary mt-1">₹{p.price}</div>
+                  {/* Image Container with Badges */}
+                  <div className="relative aspect-square overflow-hidden bg-muted/40">
+                    <LazyImage
+                      src={p.image}
+                      alt={p.name}
+                      aspectRatio="aspect-square"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+
+                    {/* Badges Overlay Left */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                      {p.badge && (
+                        <span
+                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md border border-white/20 ${
+                            p.badge === 'Bestseller'
+                              ? 'bg-gradient-to-r from-amber-500 to-orange-500'
+                              : p.badge === 'Sale'
+                              ? 'bg-gradient-to-r from-red-600 to-rose-500'
+                              : p.badge === 'Eco Choice'
+                              ? 'bg-gradient-to-r from-emerald-600 to-teal-500'
+                              : 'bg-primary'
+                          }`}
+                        >
+                          {p.badge}
+                        </span>
+                      )}
+
+                      {p.discount && (
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-md border border-white/30 flex items-center gap-1">
+                          <Flame className="h-3 w-3 fill-amber-300 text-amber-200" />
+                          {p.discount}% OFF
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="p-4 flex-1 flex flex-col justify-between">
+                    <div>
+                      {/* Category & Rating */}
+                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
+                        <span className="font-extrabold text-primary">{p.category}</span>
+                        <div className="flex items-center gap-1 text-amber-500 font-extrabold">
+                          <Star className="h-3.5 w-3.5 fill-current" />
+                          <span>{p.rating}</span>
+                        </div>
+                      </div>
+
+                      {/* Title */}
+                      <h4 className="font-heading font-extrabold text-base text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                        {p.name}
+                      </h4>
+                      <p className="text-xs text-muted-foreground italic line-clamp-1 mb-2.5">
+                        {p.botanicalName}
+                      </p>
+
+                      {/* Care Badges */}
+                      <div className="flex items-center gap-1.5 mb-3 flex-wrap">
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground bg-secondary/80 px-2 py-0.5 rounded-md">
+                          <Sun className="h-3 w-3 text-amber-500" /> {p.light.split(' ')[0]}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground bg-secondary/80 px-2 py-0.5 rounded-md">
+                          <Droplets className="h-3 w-3 text-blue-500" /> {p.water.split(' ')[0]}
+                        </span>
+                        {p.airPurifying && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
+                            <Wind className="h-3 w-3" /> Purifier
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Price & Action Buttons */}
+                    <div className="pt-2 border-t border-border/40 space-y-2.5">
+                      <div className="flex items-baseline justify-between">
+                        <div className="flex items-baseline gap-1.5">
+                          <span className="text-lg font-black text-foreground">₹{p.price}</span>
+                          {p.originalPrice && (
+                            <span className="text-xs text-muted-foreground line-through font-bold">
+                              ₹{p.originalPrice}
+                            </span>
+                          )}
+                        </div>
+                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold">
+                          In Stock
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenOrderPage(p, 1, '8 inch standard', 'Terracotta');
+                          }}
+                          className="py-2 px-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-xs flex items-center justify-center gap-1 shadow-md transition-all whitespace-nowrap"
+                        >
+                          <Zap className="h-3 w-3 fill-amber-300 text-amber-200" /> Buy Now
+                        </button>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onAddToCart(p, 1);
+                          }}
+                          className="py-2 px-2.5 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white font-extrabold text-xs flex items-center justify-center gap-1 transition-all whitespace-nowrap"
+                        >
+                          <ShoppingCart className="h-3 w-3" /> Add Cart
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}

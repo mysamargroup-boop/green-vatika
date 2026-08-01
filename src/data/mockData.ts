@@ -7,7 +7,7 @@ export const categoriesData: Category[] = [
     emoji: '🪴',
     iconName: 'Home',
     description: 'Fresh oxygen and natural elegance for your living spaces',
-    image: 'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg',
+    image: 'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 32,
   },
   {
@@ -16,7 +16,7 @@ export const categoriesData: Category[] = [
     emoji: '🌳',
     iconName: 'Trees',
     description: 'Vibrant foliage to beautify gardens, balconies & patios',
-    image: 'https://images.pexels.com/photos/1757571/pexels-photo-1757571.jpeg',
+    image: 'https://images.pexels.com/photos/1757571/pexels-photo-1757571.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 28,
   },
   {
@@ -25,7 +25,7 @@ export const categoriesData: Category[] = [
     emoji: '🌸',
     iconName: 'Flower2',
     description: 'Bursting fragrance & colorful blooms round the year',
-    image: 'https://images.pexels.com/photos/5781628/pexels-photo-5781628.jpeg',
+    image: 'https://images.pexels.com/photos/5781628/pexels-photo-5781628.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 24,
   },
   {
@@ -34,7 +34,7 @@ export const categoriesData: Category[] = [
     emoji: '🍋',
     iconName: 'Apple',
     description: 'Grow your own organic fruits right at home',
-    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg',
+    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 18,
   },
   {
@@ -43,7 +43,7 @@ export const categoriesData: Category[] = [
     emoji: '🌵',
     iconName: 'Sun',
     description: 'Low-maintenance, water-storing desk & window beauties',
-    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg',
+    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 20,
   },
   {
@@ -52,7 +52,7 @@ export const categoriesData: Category[] = [
     emoji: '🌲',
     iconName: 'Sprout',
     description: 'Living miniature art sculptures crafted over years',
-    image: 'https://images.pexels.com/photos/4505164/pexels-photo-4505164.jpeg',
+    image: 'https://images.pexels.com/photos/4505164/pexels-photo-4505164.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 12,
   },
   {
@@ -61,7 +61,7 @@ export const categoriesData: Category[] = [
     emoji: '🏺',
     iconName: 'Package',
     description: 'Handcrafted ceramic, terracotta & eco-friendly pots',
-    image: 'https://images.pexels.com/photos/3209811/pexels-photo-3209811.jpeg',
+    image: 'https://images.pexels.com/photos/3209811/pexels-photo-3209811.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 45,
   },
   {
@@ -70,7 +70,7 @@ export const categoriesData: Category[] = [
     emoji: '🛠️',
     iconName: 'Wrench',
     description: 'Premium pruners, soil mixes, fertilizers & watering cans',
-    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg',
+    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg?auto=compress&cs=tinysrgb&w=600',
     count: 15,
   },
 ];
@@ -85,8 +85,8 @@ export const plantsData: Plant[] = [
     originalPrice: 699,
     rating: 4.9,
     reviewsCount: 142,
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b',
-    hoverImage: 'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80',
+    hoverImage: 'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Bestseller',
     discount: 28,
     description: 'Iconic tropical indoor plant with large glossy split leaves. Perfect statement piece for modern living rooms and office corners.',
@@ -113,8 +113,8 @@ export const plantsData: Plant[] = [
     originalPrice: 450,
     rating: 5.0,
     reviewsCount: 210,
-    image: 'https://images.unsplash.com/photo-1599598425947-320f32997b6a',
-    hoverImage: 'https://images.pexels.com/photos/9414403/pexels-photo-9414403.jpeg',
+    image: 'https://images.unsplash.com/photo-1599598425947-320f32997b6a?auto=format&fit=crop&w=600&q=80',
+    hoverImage: 'https://images.pexels.com/photos/9414403/pexels-photo-9414403.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Eco Choice',
     discount: 33,
     description: 'Indestructible air-purifying plant recommended by NASA. Releases oxygen at night making it ideal for bedroom placement.',
@@ -140,7 +140,7 @@ export const plantsData: Plant[] = [
     originalPrice: 499,
     rating: 4.8,
     reviewsCount: 98,
-    image: 'https://images.unsplash.com/photo-1593691509543-c55fb32e7355',
+    image: 'https://images.unsplash.com/photo-1593691509543-c55fb32e7355?auto=format&fit=crop&w=600&q=80',
     badge: 'Trending',
     discount: 30,
     description: 'Elegant dark green leaves with graceful white blossoms. Tells you when it needs water by gently drooping.',
@@ -166,7 +166,7 @@ export const plantsData: Plant[] = [
     originalPrice: 1299,
     rating: 4.7,
     reviewsCount: 84,
-    image: 'https://images.unsplash.com/photo-1545241047-6083a3684587',
+    image: 'https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=600&q=80',
     badge: 'Bestseller',
     discount: 30,
     description: 'Architectural indoor tree with massive violin-shaped foliage. Adds instant luxury aesthetic to indoor interiors.',
@@ -192,7 +192,7 @@ export const plantsData: Plant[] = [
     originalPrice: 550,
     rating: 4.9,
     reviewsCount: 176,
-    image: 'https://images.pexels.com/photos/5781628/pexels-photo-5781628.jpeg',
+    image: 'https://images.pexels.com/photos/5781628/pexels-photo-5781628.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Sale',
     discount: 27,
     description: 'Hardy outdoor flowering climber loaded with vibrant magenta paper blossoms. Heat tolerant and prolific bloomer.',
@@ -218,7 +218,7 @@ export const plantsData: Plant[] = [
     originalPrice: 899,
     rating: 4.9,
     reviewsCount: 115,
-    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg',
+    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Bestseller',
     discount: 27,
     description: 'Grafted dwarf lemon variety that bears juicy fragrant lemons throughout the year. Perfect for balconies & sunlit terraces.',
@@ -244,7 +244,7 @@ export const plantsData: Plant[] = [
     originalPrice: 299,
     rating: 4.9,
     reviewsCount: 165,
-    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg',
+    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Sale',
     discount: 33,
     description: 'Charming pastel blue-green succulent forming compact rose-like symmetry. Great for desk decor and succulent gardens.',
@@ -270,7 +270,7 @@ export const plantsData: Plant[] = [
     originalPrice: 1899,
     rating: 5.0,
     reviewsCount: 78,
-    image: 'https://images.pexels.com/photos/4505164/pexels-photo-4505164.jpeg',
+    image: 'https://images.pexels.com/photos/4505164/pexels-photo-4505164.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Bestseller',
     discount: 31,
     description: 'Matured bonsai featuring thick aerial roots and glossy dark green canopy. Symbol of longevity, peace and prosperity.',
@@ -296,7 +296,7 @@ export const plantsData: Plant[] = [
     originalPrice: 599,
     rating: 4.8,
     reviewsCount: 130,
-    image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a',
+    image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=600&q=80',
     badge: 'Trending',
     discount: 28,
     description: 'Striking deep bronze-red shiny leaves that absorb household toxins like formaldehydes.',
@@ -318,7 +318,7 @@ export const plantsData: Plant[] = [
     originalPrice: 799,
     rating: 4.9,
     reviewsCount: 188,
-    image: 'https://images.unsplash.com/photo-1520157646479-22f25713523d',
+    image: 'https://images.unsplash.com/photo-1520157646479-22f25713523d?auto=format&fit=crop&w=600&q=80',
     badge: 'Eco Choice',
     discount: 31,
     description: 'Feathery tropical palm fronds that act as a natural indoor humidifier and oxygen powerhouse.',
@@ -340,7 +340,7 @@ export const plantsData: Plant[] = [
     originalPrice: 699,
     rating: 4.9,
     reviewsCount: 64,
-    image: 'https://images.pexels.com/photos/3209811/pexels-photo-3209811.jpeg',
+    image: 'https://images.pexels.com/photos/3209811/pexels-photo-3209811.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Sale',
     discount: 28,
     description: 'Hand-painted breathable ceramic planter with drainage hole and tray. Drainage engineered for root health.',
@@ -362,7 +362,7 @@ export const plantsData: Plant[] = [
     originalPrice: 350,
     rating: 5.0,
     reviewsCount: 312,
-    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg',
+    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg?auto=compress&cs=tinysrgb&w=600',
     badge: 'Bestseller',
     discount: 28,
     description: 'Nutrient-rich enriched blend of vermicompost, coco peat, neem cake, and bio-fertilizer for fast root growth.',
@@ -385,7 +385,7 @@ export const servicesData: Service[] = [
     description: 'End-to-end landscape architecture and softscaping for luxury villas, farmhouses, and terrace gardens.',
     features: ['3D Landscape Mockups', 'Custom Plant Selection', 'Automatic Drip Irrigation', 'Post-Installation Support'],
     priceTag: 'Custom Quote',
-    image: 'https://images.pexels.com/photos/1757571/pexels-photo-1757571.jpeg'
+    image: 'https://images.pexels.com/photos/1757571/pexels-photo-1757571.jpeg?auto=compress&cs=tinysrgb&w=600'
   },
   {
     id: 'plant-maintenance-amc',
@@ -394,7 +394,7 @@ export const servicesData: Service[] = [
     description: 'Hassle-free weekly/bi-weekly gardener visits for pruning, organic fertilizing, repotting & pest protection.',
     features: ['Dedicated Plant Expert', 'Free Replacement Warranty', 'Organic Nutrition Supplies', 'Monthly Health Reports'],
     priceTag: 'Starting ₹1,499/mo',
-    image: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg'
+    image: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=600'
   },
   {
     id: 'balcony-terrace-setup',
@@ -403,7 +403,7 @@ export const servicesData: Service[] = [
     description: 'Transform compact balconies into cozy green oases with railing planters, vertical garden racks & wooden decks.',
     features: ['Space Optimization Design', 'Light-weight Planters', 'Weatherproof Fixtures', 'Low Maintenance Plants'],
     priceTag: 'Starting ₹4,999',
-    image: 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg'
+    image: 'https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=600'
   },
   {
     id: 'vertical-gardening',
@@ -412,7 +412,7 @@ export const servicesData: Service[] = [
     description: 'Space-saving living walls with integrated micro-drip irrigation for exterior building facades & indoor lobby walls.',
     features: ['High Density Air Purifiers', 'Smart Auto Timer Watering', 'Noise & Heat Insulation', '2 Year Structural Warranty'],
     priceTag: 'Starting ₹299/sq.ft',
-    image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a'
+    image: 'https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=600&q=80'
   },
   {
     id: 'corporate-gifting',
@@ -421,7 +421,7 @@ export const servicesData: Service[] = [
     description: 'Sustainable corporate favors, desk succulents & branded planters for events, client appreciation & employee onboarding.',
     features: ['Custom Logo Branding', 'Care Guide Cards', 'Pan-India Bulk Delivery', 'Eco-friendly Jute Packaging'],
     priceTag: 'Bulk Discount Available',
-    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg'
+    image: 'https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg?auto=compress&cs=tinysrgb&w=600'
   },
   {
     id: 'plant-doctor',
@@ -430,7 +430,7 @@ export const servicesData: Service[] = [
     description: 'Experiencing yellow leaves or pests? Get a 1-on-1 virtual or home diagnosis by senior horticulturists.',
     features: ['Detailed Diagnosis Report', 'Custom Care Prescription', 'Organic Fertilizer Sample', 'WhatsApp Direct Support'],
     priceTag: '₹299 / session',
-    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg'
+    image: 'https://images.pexels.com/photos/9412363/pexels-photo-9412363.jpeg?auto=compress&cs=tinysrgb&w=600'
   }
 ];
 
@@ -486,7 +486,7 @@ export const blogPostsData: BlogPost[] = [
     date: 'July 24, 2026',
     readTime: '4 min read',
     category: 'Plant Care',
-    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80',
     content: [
       'Indoor air quality can often be 2 to 5 times more polluted than outdoor air due to synthetic furniture polishes, paints, and lack of ventilation.',
       'According to the renowned NASA Clean Air Study, certain house plants absorb harmful toxins like benzene, formaldehyde, and trichloroethylene through their leaves and roots while releasing pure oxygen.',
@@ -501,7 +501,7 @@ export const blogPostsData: BlogPost[] = [
     date: 'July 18, 2026',
     readTime: '3 min read',
     category: 'Beginner Tips',
-    image: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg',
+    image: 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=600',
     content: [
       'Yellow mushy leaves and dark wet soil are clear indicators of root rot caused by stagnant standing water.',
       'Always test the soil moisture by inserting your index finger 2 inches deep. If soil feels damp, hold off watering for another 2-3 days.',
@@ -516,7 +516,7 @@ export const blogPostsData: BlogPost[] = [
     date: 'July 10, 2026',
     readTime: '5 min read',
     category: 'Fruit Gardening',
-    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg',
+    image: 'https://images.pexels.com/photos/14020921/pexels-photo-14020921.jpeg?auto=compress&cs=tinysrgb&w=600',
     content: [
       'Meyer Lemons are a hybrid between lemons and mandarins, producing thin-skinned sweet juicy fruits.',
       'Place your lemon pot where it receives at least 5 to 6 hours of daily sunlight.',

@@ -1,5 +1,2 @@
-name = "green-vatika-nursery"
+name = "green-vatika"
 pages_build_output_dir = "./dist"
-
-[site]
-bucket = "./dist"

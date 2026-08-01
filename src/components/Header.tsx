@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
             <img
               src="/logo.png"
               alt="Green Vatika Logo"
-              className="h-10 w-auto object-contain group-hover:scale-105 transition-transform"
+              className="h-10 w-auto shrink-0 object-contain group-hover:scale-105 transition-transform"
             />
             <div>
               <div className="font-heading font-extrabold text-lg leading-tight tracking-tight text-foreground">

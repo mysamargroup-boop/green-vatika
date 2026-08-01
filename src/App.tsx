@@ -201,13 +201,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-sans relative">
-      {/* Initial Page Load Overlay Skeleton */}
+      {/* Initial Page Load Overlay with Small Brand Logo */}
       {initialLoading && (
         <div className="fixed inset-0 z-50 bg-background flex items-center justify-center p-6 space-y-4">
-          <div className="text-center space-y-4 max-w-md w-full">
-            <Skeleton width="w-16" height="h-16" borderRadius="rounded-2xl mx-auto" />
-            <Skeleton width="w-3/4" height="h-6" className="mx-auto" />
-            <Skeleton width="w-1/2" height="h-4" className="mx-auto" />
+          <div className="text-center space-y-3 max-w-md w-full flex flex-col items-center justify-center animate-in fade-in duration-300">
+            <img
+              src="/logo.png"
+              alt="Green Vatika Logo"
+              className="h-14 w-auto object-contain animate-pulse pointer-events-none drop-shadow-md"
+            />
+            <div className="font-heading font-extrabold text-lg text-foreground tracking-tight">
+              Green Vatika
+            </div>
+            <div className="h-1 w-24 rounded-full bg-gradient-to-r from-primary via-emerald-400 to-accent animate-pulse" />
           </div>
         </div>
       )}

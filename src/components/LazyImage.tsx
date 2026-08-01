@@ -42,7 +42,7 @@ export const LazyImage: React.FC<LazyImageProps> = ({
   return (
     <div ref={imgRef} className={`relative overflow-hidden ${aspectRatio} ${className}`}>
       {/* Grey Skeleton Shimmer Placeholder */}
-      {!isLoaded && !hasError && (
+      {!isLoaded && !hasError && src && (
         <Skeleton
           width="w-full"
           height="h-full"
@@ -51,10 +51,17 @@ export const LazyImage: React.FC<LazyImageProps> = ({
         />
       )}
 
-      {/* Fallback Error Image */}
-      {hasError ? (
-        <div className="absolute inset-0 bg-secondary flex items-center justify-center text-xs text-muted-foreground font-bold p-2 text-center">
-          🌿 Green Vatika Plant
+      {/* Grayscale Low-Opacity Logo Fallback for Missing/Broken Images */}
+      {hasError || !src ? (
+        <div className="absolute inset-0 bg-secondary/60 flex flex-col items-center justify-center p-4 text-center space-y-2 select-none">
+          <img
+            src="/logo.png"
+            alt="Green Vatika Logo Fallback"
+            className="h-10 w-auto object-contain grayscale opacity-30 pointer-events-none"
+          />
+          <span className="text-[10px] font-extrabold text-muted-foreground/70 uppercase tracking-widest">
+            Green Vatika
+          </span>
         </div>
       ) : (
         isInView && (

@@ -545,7 +545,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onAddToCart(p, 1);
+                            onAddToCart(p, 1, '8 inch standard', 'Terracotta');
                           }}
                           className="py-2 px-2.5 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white font-extrabold text-xs flex items-center justify-center gap-1 transition-all whitespace-nowrap"
                         >

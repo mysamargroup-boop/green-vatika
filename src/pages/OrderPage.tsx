@@ -434,10 +434,10 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               {/* Confirm WhatsApp Order Button */}
               <button
                 type="submit"
-                className="w-full py-3.5 sm:py-4 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-4 hover:scale-[1.02] leading-tight"
+                className="w-full py-4 px-6 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base shadow-xl shadow-teal-600/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2.5 mt-4 hover:scale-[1.02] tracking-wide"
               >
                 <WhatsAppIcon className="h-5 w-5 text-white shrink-0" />
-                <span>Confirm & Place Order on WhatsApp</span>
+                <span>Confirm Order on WhatsApp</span>
               </button>
             </div>
           </div>

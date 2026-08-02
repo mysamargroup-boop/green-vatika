@@ -522,5 +522,50 @@ export const blogPostsData: BlogPost[] = [
       'Place your lemon pot where it receives at least 5 to 6 hours of daily sunlight.',
       'Feed with organic vermicompost and bone meal powder every month for abundant blossoms and heavy fruiting.'
     ]
+  },
+  {
+    id: '4',
+    title: 'Monsoon Plant Care Guide: Protecting Balcony Plants from Heavy Rain',
+    excerpt: 'Rainwater is rich in natural nitrogen, but excess soil waterlogging can damage plant roots. Here is how to shield them.',
+    author: 'Sunil Kumar (Senior Horticulturist)',
+    date: 'August 1, 2026',
+    readTime: '4 min read',
+    category: 'Seasonal Care',
+    image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=600&q=80',
+    content: [
+      'Monsoon season is the natural growing period for Indian tropical plants. Rainwater clears dust from foliage and boosts photosynthesis.',
+      'However, check drainage holes weekly. Waterlogged pots can choke root oxygen levels and invite fungal attacks.',
+      'Prune dead stems, spray organic Neem oil once a fortnight to ward off pests, and tilt pots slightly so heavy rain water flows out effortlessly.'
+    ]
+  },
+  {
+    id: '5',
+    title: 'Organic Potting Mix Masterclass: Coco Peat vs Vermicompost vs Perlite',
+    excerpt: 'Discover the golden 50-30-20 potting ratio for healthy roots, fast growth, and moisture retention.',
+    author: 'Anita Sharma',
+    date: 'August 2, 2026',
+    readTime: '6 min read',
+    category: 'Soil & Fertilizer',
+    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?auto=format&fit=crop&w=600&q=80',
+    content: [
+      'Standard garden soil compacts easily inside pots, suffocating root breathing.',
+      'The ideal nursery potting mix consists of 50% washed Coco Peat for moisture retention, 30% organic Vermicompost for nutrient feeding, and 20% Perlite or Rice Husk for aeration.',
+      'This lightweight mix prevents soil compaction, ensures 100% drainage, and promotes vibrant root network development.'
+    ]
+  },
+  {
+    id: '6',
+    title: 'Monstera Deliciosa: How to Get Huge Split Leaves Indoors',
+    excerpt: 'Unlock iconic Swiss Cheese plant fenestrations with moss poles, adequate light, and proper misting.',
+    author: 'Ramesh Patel',
+    date: 'August 2, 2026',
+    readTime: '5 min read',
+    category: 'Indoor Decor',
+    image: 'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=600&q=80',
+    content: [
+      'Monstera plants develop split leaves (fenestrations) as they mature to allow sunlight to reach lower leaves in tropical rainforests.',
+      'To encourage splits at home, provide bright indirect light and secure aerial roots onto a natural Coco Coir or Moss Pole.',
+      'Wipe large leaves monthly to remove dust particles that block sunlight absorption.'
+    ]
   }
 ];

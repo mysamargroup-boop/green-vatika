@@ -108,12 +108,12 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           {/* Left Column: Image Gallery */}
           <div className="space-y-4">
             {/* Main Featured Image */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-border/80 bg-card">
+            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-border/80 bg-card max-h-[360px] sm:max-h-[420px]">
               <LazyImage
                 src={galleryImages[activeImageIndex]}
                 alt={plant.name}
-                aspectRatio="aspect-square"
-                className="w-full h-full object-cover"
+                aspectRatio="aspect-[4/3] sm:aspect-square"
+                className="w-full h-[360px] sm:h-[420px] object-cover object-center"
               />
 
               {plant.badge && (
@@ -398,27 +398,49 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           )}
 
           {activeTab === 'reviews' && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30">
-                <div className="text-3xl font-extrabold text-amber-600">{plant.rating} / 5.0</div>
-                <div className="text-xs text-muted-foreground">
-                  Based on <strong>{plant.reviewsCount} customer ratings</strong>. 100% verified plant buyers.
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
+                <div className="flex items-center gap-3">
+                  <div className="text-3xl font-black text-amber-600">4.9 ★</div>
+                  <div>
+                    <div className="font-extrabold text-sm text-foreground">Top Rated Nursery Plant</div>
+                    <div className="text-xs text-muted-foreground">Based on {plant.reviewsCount} verified customer reviews</div>
+                  </div>
                 </div>
+                <span className="text-xs font-extrabold px-3 py-1.5 rounded-full bg-amber-500 text-slate-950 shadow-sm">
+                  100% VERIFIED BUYERS
+                </span>
               </div>
 
-              <div className="space-y-3">
-                {[
-                  { name: 'Kavita Roy', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
-                  { name: 'Sameer Sen', text: 'Healthy root system and beautiful ceramic planter.', rating: 5, date: '1 week ago' },
-                ].map((rev, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl border border-border/60 bg-secondary/30 space-y-1">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-foreground">{rev.name}</span>
-                      <span className="text-muted-foreground">{rev.date}</span>
+              {/* Right-to-Left Continuous Flowing Reviews Slider */}
+              <div className="relative overflow-hidden rounded-2xl bg-secondary/40 border border-border/60 py-4">
+                <div className="flex gap-4 animate-marquee whitespace-nowrap [animation-duration:25s] hover:[animation-play-state:paused]">
+                  {[
+                    { name: 'Kavita Roy', location: 'Delhi', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
+                    { name: 'Sameer Sen', location: 'Mumbai', text: 'Healthy root system & beautiful ceramic planter. Highly recommended!', rating: 5, date: '1 week ago' },
+                    { name: 'Anita Verma', location: 'Bangalore', text: 'Packed with 100% eco-friendly protection. Plant is thriving!', rating: 5, date: '3 days ago' },
+                    { name: 'Dr. Rajesh Patel', location: 'Ahmedabad', text: 'Soil mix is rich and organic. Growing fast under indirect light!', rating: 5, date: '5 days ago' },
+                    { name: 'Priya Sharma', location: 'Indore', text: 'Fast delivery to MP! Nursery care team answered my light queries on WhatsApp.', rating: 5, date: 'Yesterday' },
+                    { name: 'Kavita Roy', location: 'Delhi', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
+                    { name: 'Sameer Sen', location: 'Mumbai', text: 'Healthy root system & beautiful ceramic planter. Highly recommended!', rating: 5, date: '1 week ago' },
+                  ].map((rev, idx) => (
+                    <div
+                      key={idx}
+                      className="min-w-[280px] sm:min-w-[320px] max-w-[340px] p-4 rounded-2xl bg-card border border-border/80 shadow-md space-y-2 shrink-0"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-extrabold text-xs text-foreground">{rev.name}</div>
+                          <div className="text-[10px] text-muted-foreground font-medium">{rev.location} • {rev.date}</div>
+                        </div>
+                        <div className="flex text-amber-400 text-xs">★★★★★</div>
+                      </div>
+                      <p className="text-xs text-foreground/90 font-medium leading-relaxed whitespace-normal line-clamp-2">
+                        "{rev.text}"
+                      </p>
                     </div>
-                    <p className="text-sm text-foreground/90 italic">"{rev.text}"</p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           )}

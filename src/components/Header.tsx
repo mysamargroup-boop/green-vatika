@@ -140,19 +140,6 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </button>
 
-              {/* Checkout Icon Button (Desktop Only) */}
-              <button
-                onClick={() => onNavigateView('checkout')}
-                className={`hidden sm:flex p-2.5 rounded-full transition-all border ${
-                  currentView === 'checkout'
-                    ? 'bg-primary text-white border-primary shadow-lg shadow-primary/30'
-                    : 'bg-primary/10 text-primary border-primary/20 hover:bg-primary hover:text-white'
-                }`}
-                title="Proceed to Order Checkout"
-              >
-                <ShoppingBag className="h-4 w-4" />
-              </button>
-
               {/* Mobile Menu Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

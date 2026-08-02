@@ -136,15 +136,15 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   return (
     <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8 max-w-6xl">
-        {/* Header & Back Button */}
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
+        {/* Header & Back Button (Centered Title) */}
+        <div className="relative flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 sm:mb-8 text-center">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
+            className="sm:absolute sm:left-0 inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4" /> Return to Shop
           </button>
-          <h1 className="font-heading text-lg sm:text-2xl font-extrabold text-foreground">
+          <h1 className="font-heading text-xl sm:text-3xl font-extrabold text-foreground text-center">
             Order Checkout & WhatsApp Placement
           </h1>
         </div>
@@ -254,42 +254,55 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 </span>
               </div>
 
-              {/* Date Option Cards */}
+              {/* Date Option Cards (Modernized Calendar Selector) */}
               <div>
-                <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground mb-3">
-                  Select Delivery Date
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground mb-3 flex items-center justify-between">
+                  <span>Select Delivery Date</span>
+                  <span className="text-[11px] text-primary font-bold">✨ Fast Nursery Slot Dispatch</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[
-                    { id: 'today', title: 'Today', subtitle: 'Fast Same Day' },
-                    { id: 'tomorrow', title: 'Tomorrow', subtitle: 'Recommended' },
+                    { id: 'today', title: 'Today', subtitle: 'Same Day Express' },
+                    { id: 'tomorrow', title: 'Tomorrow', subtitle: 'Recommended Slot' },
                     { id: 'dayAfter', title: 'In 2 Days', subtitle: 'Standard Slot' },
-                    { id: 'custom', title: 'Pick Date', subtitle: 'Custom Calendar' },
+                    { id: 'custom', title: 'Custom Date', subtitle: 'Pick Specific Day' },
                   ].map((d) => (
                     <button
                       key={d.id}
                       type="button"
                       onClick={() => setSelectedDateOption(d.id as any)}
-                      className={`p-4 rounded-2xl border text-left transition-all ${
+                      className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all relative overflow-hidden ${
                         selectedDateOption === d.id
-                          ? 'border-primary bg-primary/10 ring-2 ring-primary/30'
+                          ? 'border-primary bg-primary/10 ring-2 ring-primary/30 shadow-md'
                           : 'border-border/80 bg-secondary/30 hover:border-primary/40'
                       }`}
                     >
-                      <div className="font-extrabold text-sm text-foreground">{d.title}</div>
-                      <div className="text-[11px] font-semibold text-muted-foreground mt-0.5">{d.subtitle}</div>
+                      <div className="font-extrabold text-xs sm:text-sm text-foreground flex items-center justify-between">
+                        <span>{d.title}</span>
+                        {selectedDateOption === d.id && (
+                          <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                        )}
+                      </div>
+                      <div className="text-[10px] sm:text-[11px] font-semibold text-muted-foreground mt-1">
+                        {d.subtitle}
+                      </div>
                     </button>
                   ))}
                 </div>
 
                 {selectedDateOption === 'custom' && (
-                  <div className="mt-3">
-                    <input
-                      type="date"
-                      value={customDate}
-                      onChange={(e) => setCustomDate(e.target.value)}
-                      className="bg-secondary/60 border border-border rounded-xl px-4 py-2.5 text-sm font-bold text-foreground focus:outline-none focus:border-primary"
-                    />
+                  <div className="mt-4 p-4 rounded-2xl bg-secondary/40 border border-primary/30 space-y-2 animate-in fade-in duration-200">
+                    <label className="block text-xs font-bold text-foreground flex items-center gap-2">
+                      <Calendar className="h-4 w-4 text-primary" /> Choose Your Custom Date
+                    </label>
+                    <div className="relative max-w-xs">
+                      <input
+                        type="date"
+                        value={customDate}
+                        onChange={(e) => setCustomDate(e.target.value)}
+                        className="w-full bg-card border border-border/80 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold text-foreground focus:outline-none focus:border-primary shadow-sm"
+                      />
+                    </div>
                   </div>
                 )}
               </div>
@@ -431,13 +444,13 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 </div>
               </div>
 
-              {/* Confirm WhatsApp Order Button */}
+              {/* Confirm WhatsApp Order Button (Single Line & Solid WhatsApp Green) */}
               <button
                 type="submit"
-                className="w-full py-4 px-6 rounded-full bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm sm:text-base shadow-xl shadow-teal-600/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2.5 mt-4 hover:scale-[1.02] tracking-wide"
+                className="w-full py-3.5 sm:py-4 px-3 sm:px-6 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-[#25D366]/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2 mt-4 hover:scale-[1.02] whitespace-nowrap overflow-hidden text-ellipsis"
               >
-                <WhatsAppIcon className="h-5 w-5 text-white shrink-0" />
-                <span>Confirm Order on WhatsApp</span>
+                <WhatsAppIcon className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-white shrink-0" />
+                <span className="whitespace-nowrap">Confirm Order on WhatsApp</span>
               </button>
             </div>
           </div>

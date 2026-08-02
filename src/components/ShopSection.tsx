@@ -68,7 +68,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
   }, [activeTab, searchQuery, sortBy]);
 
   return (
-    <section id="featured" className="py-24 md:py-32 relative scroll-mt-20">
+    <section id="featured" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
@@ -149,14 +149,14 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {filteredPlants.map((plant) => {
               const isWishlisted = wishlist.includes(plant.id);
               return (
                 <div
                   key={plant.id}
                   onClick={() => onSelectPlant(plant)}
-                  className="group relative rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+                  className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
                   {/* Image Container with Lazy Loading */}
                   <div className="relative aspect-square overflow-hidden bg-muted/40">
@@ -168,10 +168,10 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                     />
 
                     {/* Badges Overlay Left */}
-                    <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-10">
                       {plant.badge && (
                         <span
-                          className={`px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-white shadow-lg border border-white/20 ${
+                          className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white shadow-lg border border-white/20 ${
                             plant.badge === 'Bestseller'
                               ? 'bg-gradient-to-r from-amber-500 to-orange-500'
                               : plant.badge === 'Sale'
@@ -187,8 +187,8 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
 
                       {/* Vibrant Gradient Discount Badge */}
                       {plant.discount && (
-                        <span className="px-3 py-1 rounded-full text-[11px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-xl shadow-red-500/30 border border-white/30 flex items-center gap-1">
-                          <Flame className="h-3 w-3 fill-amber-300 text-amber-200" />
+                        <span className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[9px] sm:text-[11px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-xl shadow-red-500/30 border border-white/30 flex items-center gap-0.5">
+                          <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-300 text-amber-200" />
                           {plant.discount}% OFF
                         </span>
                       )}
@@ -197,96 +197,92 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                     {/* Wishlist Button Right */}
                     <button
                       onClick={(e) => toggleWishlist(plant.id, e)}
-                      className="absolute top-3 right-3 p-2.5 rounded-full glass hover:bg-white text-foreground transition-all shadow-md z-10"
+                      className="absolute top-2 right-2 sm:top-3 sm:right-3 p-2 sm:p-2.5 rounded-full glass hover:bg-white text-foreground transition-all shadow-md z-10"
                       title="Add to Wishlist"
                     >
                       <Heart
-                        className={`h-4 w-4 ${
+                        className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${
                           isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-600 hover:text-red-500'
                         }`}
                       />
                     </button>
 
                     {/* Quick View Hover Button */}
-                    <div className="absolute inset-x-0 bottom-3 px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    <div className="absolute inset-x-0 bottom-2 sm:bottom-3 px-2 sm:px-4 flex justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           onSelectPlant(plant);
                         }}
-                        className="w-full py-2 rounded-full glass text-xs font-extrabold text-foreground hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-1.5 shadow-lg"
+                        className="w-full py-1.5 sm:py-2 rounded-full glass text-[10px] sm:text-xs font-extrabold text-foreground hover:bg-primary hover:text-white transition-colors flex items-center justify-center gap-1 shadow-lg"
                       >
-                        <Eye className="h-3.5 w-3.5" /> View Details
+                        <Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5" /> View Details
                       </button>
                     </div>
                   </div>
 
                   {/* Card Info Body */}
-                  <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                     <div>
                       {/* Category & Rating */}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
-                        <span className="font-extrabold text-primary">{plant.category}</span>
-                        <div className="flex items-center gap-1 text-amber-500 font-extrabold">
-                          <Star className="h-3.5 w-3.5 fill-current" />
+                      <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1">
+                        <span className="font-extrabold text-primary truncate max-w-[80px] sm:max-w-none">{plant.category}</span>
+                        <div className="flex items-center gap-0.5 sm:gap-1 text-amber-500 font-extrabold">
+                          <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
                           <span>{plant.rating}</span>
-                          <span className="text-muted-foreground font-normal">({plant.reviewsCount})</span>
+                          <span className="text-muted-foreground font-normal hidden sm:inline">({plant.reviewsCount})</span>
                         </div>
                       </div>
 
                       {/* Title */}
-                      <h3 className="font-heading font-extrabold text-base text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <h3 className="font-heading font-extrabold text-xs sm:text-base text-foreground group-hover:text-primary transition-colors line-clamp-1">
                         {plant.name}
                       </h3>
-                      <p className="text-xs text-muted-foreground italic line-clamp-1 mb-3">
+                      <p className="text-[10px] sm:text-xs text-muted-foreground italic line-clamp-1 mb-2 sm:mb-3">
                         {plant.botanicalName}
                       </p>
 
                       {/* Care Badges */}
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground bg-secondary/80 px-2.5 py-1 rounded-md">
-                          <Sun className="h-3 w-3 text-amber-500" /> {plant.light.split(' ')[0]}
+                      <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-4">
+                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
+                          <Sun className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-amber-500" /> {plant.light.split(' ')[0]}
                         </span>
-                        <span className="inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground bg-secondary/80 px-2.5 py-1 rounded-md">
-                          <Droplets className="h-3 w-3 text-blue-500" /> {plant.water.split(' ')[0]}
+                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
+                          <Droplets className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-500" /> {plant.water.split(' ')[0]}
                         </span>
-                        {plant.airPurifying && (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md">
-                            <Wind className="h-3 w-3" /> Purifier
-                          </span>
-                        )}
                       </div>
                     </div>
 
                     {/* Price & Dual Action Buttons */}
-                    <div className="pt-3 border-t border-border/40 space-y-3">
+                    <div className="pt-2 sm:pt-3 border-t border-border/40 space-y-2 sm:space-y-3">
                       <div className="flex items-baseline justify-between">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-xl font-black text-foreground">₹{plant.price}</span>
+                        <div className="flex items-baseline gap-1 sm:gap-2">
+                          <span className="text-base sm:text-xl font-black text-foreground">₹{plant.price}</span>
                           {plant.originalPrice && (
-                            <span className="text-xs text-muted-foreground line-through font-bold">
+                            <span className="text-[10px] sm:text-xs text-muted-foreground line-through font-bold">
                               ₹{plant.originalPrice}
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold">
+                        <span className="text-[9px] sm:text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold hidden sm:inline">
                           In Stock
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center gap-1.5 sm:gap-2">
                         <button
                           onClick={(e) => handleBuyNow(plant, e)}
-                          className="py-2.5 px-3 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-xs flex items-center justify-center gap-1 shadow-md shadow-emerald-600/25 transition-all whitespace-nowrap"
+                          className="flex-1 py-2 sm:py-2.5 px-3 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-[11px] sm:text-xs flex items-center justify-center gap-1 shadow-md shadow-emerald-600/20 transition-all whitespace-nowrap"
                         >
                           <Zap className="h-3.5 w-3.5 fill-amber-300 text-amber-200" /> Buy Now
                         </button>
 
                         <button
                           onClick={(e) => handleAddToCart(plant, e)}
-                          className="py-2.5 px-3 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white font-extrabold text-xs flex items-center justify-center gap-1 transition-all whitespace-nowrap"
+                          title="Add to Cart"
+                          className="p-2 sm:p-2.5 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors shrink-0 shadow-sm"
                         >
-                          <ShoppingCart className="h-3.5 w-3.5" /> Add Cart
+                          <ShoppingCart className="h-4 w-4" />
                         </button>
                       </div>
                     </div>

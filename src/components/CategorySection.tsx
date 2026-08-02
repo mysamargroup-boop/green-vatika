@@ -23,7 +23,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
   };
 
   return (
-    <section id="categories" className="py-24 md:py-32 bg-secondary/50 relative scroll-mt-20 border-y border-border/40">
+    <section id="categories" className="py-10 md:py-14 bg-background border-b border-border/40 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-4">
@@ -57,31 +57,28 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
                     aspectRatio="aspect-square"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
                 </div>
 
-                {/* Category Details & Lucide Icon Overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-4 md:p-5 text-white z-10 space-y-1">
-                  {/* Category Lucide Icon */}
-                  <div className="h-9 w-9 rounded-xl bg-emerald-500/20 backdrop-blur-md border border-emerald-400/40 text-emerald-300 flex items-center justify-center mb-1 shadow-md">
-                    <IconComponent className="h-5 w-5" />
-                  </div>
-
-                  <div className="font-heading font-extrabold text-lg md:text-xl leading-tight">
-                    {cat.name}
-                  </div>
-                  <div className="text-xs text-white/90 font-medium line-clamp-1">
-                    {cat.description}
-                  </div>
-                </div>
-
-                {/* High-Contrast Top-Right Corner Variety Badge */}
-                <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
-                  <span className="text-xs font-black px-3 py-1 rounded-full bg-emerald-900 text-emerald-100 shadow-xl border border-emerald-400/50 backdrop-blur-md">
+                {/* Top Corner Variety Badge */}
+                <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex items-center gap-1.5 z-10">
+                  <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 shadow-md border border-emerald-400/30">
                     {cat.count}+ Varieties
                   </span>
-                  <div className="h-8 w-8 rounded-full bg-emerald-600/90 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-0 -translate-x-2 shadow-lg">
-                    <ChevronRight className="h-4 w-4" />
+                </div>
+
+                {/* Category Details & Icon Overlay */}
+                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 text-white z-10 space-y-1">
+                  {/* Category Lucide Icon Badge */}
+                  <div className="h-7 w-7 sm:h-9 sm:w-9 rounded-xl bg-emerald-500/25 backdrop-blur-md border border-emerald-300/40 text-emerald-300 flex items-center justify-center mb-1 shadow-md">
+                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+
+                  <div className="font-heading font-extrabold text-sm sm:text-lg leading-tight text-white drop-shadow-sm">
+                    {cat.name}
+                  </div>
+                  <div className="text-[11px] sm:text-xs text-white/80 font-medium line-clamp-1">
+                    {cat.description}
                   </div>
                 </div>
               </a>

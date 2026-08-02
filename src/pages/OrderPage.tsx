@@ -4,6 +4,8 @@ import { LazyImage } from '../components/LazyImage';
 import { ArrowLeft, MessageSquare, ShieldCheck, Tag, Truck, Calendar, MapPin, Phone, User, CheckCircle2, Clock } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
+
 interface OrderPageProps {
   cartItems: CartItem[];
   directPlant?: { plant: Plant; quantity: number; size: string; color: string } | null;
@@ -122,7 +124,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
     );
 
     onClearCart();
-    window.open(`https://wa.me/919876543210?text=${whatsappMessage}`, '_blank');
+    window.open(`https://wa.me/919479480068?text=${whatsappMessage}`, '_blank');
   };
 
   const timeSlots = [
@@ -135,14 +137,14 @@ export const OrderPage: React.FC<OrderPageProps> = ({
     <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8 max-w-6xl">
         {/* Header & Back Button */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-4 py-2.5 rounded-full border border-border/80 shadow-sm"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4" /> Return to Shop
           </button>
-          <h1 className="font-heading text-2xl font-extrabold text-foreground">
+          <h1 className="font-heading text-lg sm:text-2xl font-extrabold text-foreground">
             Order Checkout & WhatsApp Placement
           </h1>
         </div>
@@ -432,9 +434,10 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               {/* Confirm WhatsApp Order Button */}
               <button
                 type="submit"
-                className="w-full py-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-4 hover:scale-[1.02] whitespace-nowrap"
+                className="w-full py-3.5 sm:py-4 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 mt-4 hover:scale-[1.02] leading-tight"
               >
-                <MessageSquare className="h-5 w-5" /> Confirm & Place Order on WhatsApp
+                <WhatsAppIcon className="h-5 w-5 text-white shrink-0" />
+                <span>Confirm & Place Order on WhatsApp</span>
               </button>
             </div>
           </div>

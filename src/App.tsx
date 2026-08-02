@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header, ViewState } from './components/Header';
 import { HeroSection } from './components/HeroSection';
+import { HeroSlider } from './components/HeroSlider';
 import { AboutSection } from './components/AboutSection';
 import { CategorySection } from './components/CategorySection';
 import { ShopSection } from './components/ShopSection';
@@ -333,6 +334,7 @@ export default function App() {
         {currentView === 'home' && (
           <>
             <HeroSection />
+            <HeroSlider />
             <ScrollSkeletonContainer height="h-80">
               <AboutSection />
             </ScrollSkeletonContainer>
@@ -483,35 +485,82 @@ export default function App() {
 
       {/* Search Overlay Modal */}
       {isSearchOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="relative w-full max-w-2xl bg-card rounded-3xl border border-border shadow-2xl overflow-hidden p-6 space-y-4">
-            <button
-              onClick={() => setIsSearchOpen(false)}
-              className="absolute top-4 right-4 p-2 rounded-full hover:bg-secondary text-muted-foreground"
-            >
-              <X className="h-5 w-5" />
-            </button>
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-12 sm:pt-20 px-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
+          <div
+            className="fixed inset-0"
+            onClick={() => setIsSearchOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-2xl bg-background/95 backdrop-blur-2xl rounded-3xl border border-primary/20 shadow-2xl overflow-hidden p-5 sm:p-6 space-y-4 animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-border/60">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                  <Search className="h-4 w-4" />
+                </div>
+                <h3 className="font-heading font-extrabold text-base text-foreground">
+                  Search Plants & Supplies
+                </h3>
+              </div>
+              <button
+                onClick={() => setIsSearchOpen(false)}
+                className="p-2 rounded-full hover:bg-secondary text-foreground/80 transition-colors border border-border/40"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary" />
+            {/* Input Box */}
+            <div className="relative rounded-2xl bg-secondary/60 border border-border/80 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all p-1 flex items-center shadow-inner">
+              <Search className="h-5 w-5 text-primary ml-3 shrink-0" />
               <input
                 type="text"
                 autoFocus
-                placeholder="Search plants by name, category or air-purifying status..."
+                placeholder="Search by plant name, category, or care..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-secondary/50 border border-border rounded-full pl-12 pr-4 py-3.5 text-base focus:outline-none focus:border-primary text-foreground font-semibold"
+                className="w-full bg-transparent border-none px-3 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-foreground focus:outline-none placeholder:text-muted-foreground/60"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="p-2 rounded-full hover:bg-secondary text-muted-foreground mr-1"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
 
+            {/* Popular Search Tags */}
+            {!searchQuery.trim() && (
+              <div className="pt-1">
+                <div className="text-[11px] font-extrabold uppercase tracking-wider text-muted-foreground mb-2">
+                  Popular Searches
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {['Indoor', 'Air Purifiers', 'Flowering', 'Fruit Trees', 'Succulents', 'Bonsai'].map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => setSearchQuery(tag)}
+                      className="px-3 py-1.5 rounded-full bg-secondary/80 hover:bg-primary/15 hover:text-primary text-xs font-bold text-foreground transition-colors border border-border/50"
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Results Section */}
             {searchQuery.trim() && (
               <div className="max-h-96 overflow-y-auto space-y-3 pt-2">
-                <div className="text-xs font-bold uppercase text-muted-foreground">
-                  Found {searchResults.length} Results
+                <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Found {searchResults.length} Matching Plants
                 </div>
                 {searchResults.length === 0 ? (
-                  <div className="text-center py-8 text-sm text-muted-foreground">
-                    No matching plants found.
+                  <div className="text-center py-10 bg-secondary/30 rounded-2xl border border-dashed border-border p-4">
+                    <div className="text-3xl mb-2">🪴</div>
+                    <div className="font-bold text-sm text-foreground">No plants found for "{searchQuery}"</div>
+                    <div className="text-xs text-muted-foreground mt-1">Try searching for Indoor, Snake Plant, or Bonsai.</div>
                   </div>
                 ) : (
                   searchResults.map((plant) => (
@@ -521,17 +570,21 @@ export default function App() {
                         openProductPage(plant);
                         setIsSearchOpen(false);
                       }}
-                      className="flex items-center justify-between p-3 rounded-2xl border border-border/60 hover:border-primary/40 hover:bg-secondary/40 transition-all cursor-pointer"
+                      className="flex items-center justify-between p-3 rounded-2xl border border-border/60 hover:border-primary/40 hover:bg-secondary/40 transition-all cursor-pointer group"
                     >
                       <div className="flex items-center gap-3">
                         <img
                           src={plant.image}
                           alt={plant.name}
-                          className="h-12 w-12 rounded-xl object-cover"
+                          className="h-12 w-12 rounded-xl object-cover shadow-sm group-hover:scale-105 transition-transform"
                         />
                         <div>
-                          <div className="font-bold text-sm text-foreground">{plant.name}</div>
-                          <div className="text-xs text-primary font-bold">{plant.category} • ₹{plant.price}</div>
+                          <div className="font-extrabold text-sm text-foreground group-hover:text-primary transition-colors">
+                            {plant.name}
+                          </div>
+                          <div className="text-xs text-primary font-bold">
+                            {plant.category} • ₹{plant.price}
+                          </div>
                         </div>
                       </div>
                       <button
@@ -539,7 +592,7 @@ export default function App() {
                           e.stopPropagation();
                           handleAddToCart(plant);
                         }}
-                        className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors"
+                        className="p-2.5 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-colors"
                         title="Add to Cart"
                       >
                         <ShoppingCart className="h-4 w-4" />

@@ -7,7 +7,7 @@ export const BlogSection: React.FC = () => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
 
   return (
-    <section id="blog" className="py-24 md:py-32 relative scroll-mt-20">
+    <section id="blog" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Title */}
         <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">

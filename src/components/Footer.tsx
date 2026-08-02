@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Instagram, Facebook, Youtube, Send, MapPin } from 'lucide-react';
+import { Heart, Instagram, Facebook, Youtube, Send, MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { ViewState } from './Header';
 
 interface FooterProps {
@@ -51,9 +51,28 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
               Bringing nature closer to your home. We grow healthy indoor plants, outdoor landscaping greenery, fruit varieties, succulents & organic care supplies.
             </p>
 
-            <div className="flex items-start gap-2 text-xs text-muted-foreground font-semibold pt-1">
-              <MapPin className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-              <span>Niranjan Ward, Teen Puliya, Khairi Naka, Narsinghpur, Madhya Pradesh - 487001</span>
+            {/* Contact Details Bar (Phone, Email, Website) */}
+            <div className="space-y-2 pt-1 text-xs text-muted-foreground font-semibold">
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-primary shrink-0" />
+                <span>Niranjan Ward, Teen Puliya, Khairi Naka, Narsinghpur, MP - 487001</span>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 pt-1 font-bold text-foreground">
+                <a href="tel:9479480068" className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
+                  <Phone className="h-3.5 w-3.5 text-primary" />
+                  <span>9479480068</span>
+                </a>
+                <span className="text-border">|</span>
+                <a href="https://greenvatika.co" className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
+                  <Globe className="h-3.5 w-3.5 text-primary" />
+                  <span>greenvatika.co</span>
+                </a>
+                <span className="text-border">|</span>
+                <a href="mailto:greenvatikanursery2026@gmail.com" className="inline-flex items-center gap-1.5 hover:text-primary transition-colors">
+                  <Mail className="h-3.5 w-3.5 text-primary" />
+                  <span>greenvatikanursery2026@gmail.com</span>
+                </a>
+              </div>
             </div>
 
             <div className="flex items-center gap-3 pt-2">

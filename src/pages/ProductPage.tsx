@@ -23,6 +23,8 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+import { WhatsAppIcon } from '../components/WhatsAppIcon';
+
 interface ProductPageProps {
   plant: Plant;
   onBack: () => void;
@@ -77,7 +79,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
       `*Total Price:* ₹${plant.price * quantity}\n\n` +
       `Please process this order and send payment details!`
     );
-    window.open(`https://wa.me/919876543210?text=${messageText}`, '_blank');
+    window.open(`https://wa.me/919479480068?text=${messageText}`, '_blank');
   };
 
   const relatedPlants = plantsData
@@ -88,10 +90,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
     <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8">
         {/* Back & Breadcrumb Bar */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border/80 shadow-sm"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Shop
           </button>
@@ -176,27 +178,28 @@ export const ProductPage: React.FC<ProductPageProps> = ({
             </div>
 
             {/* Price & Savings */}
-            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/80 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/80 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <div className="text-xs text-muted-foreground font-semibold">Special Nursery Price</div>
-                <div className="flex items-baseline gap-3 mt-0.5">
-                  <span className="text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
+                  <span className="text-2xl sm:text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
                   {plant.originalPrice && (
-                    <span className="text-base text-muted-foreground line-through font-medium">
+                    <span className="text-sm sm:text-base text-muted-foreground line-through font-medium">
                       ₹{plant.originalPrice * quantity}
                     </span>
                   )}
                   {plant.discount && (
-                    <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/10 text-red-600">
-                      Save {plant.discount}%
+                    <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
+                      SAVE {plant.discount}%
                     </span>
                   )}
                 </div>
               </div>
 
-              <div className="text-right">
-                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400">In Stock & Healthy</div>
-                <div className="text-[11px] text-muted-foreground">Ready for Express Delivery</div>
+              <div className="text-left sm:text-right">
+                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> In Stock & Ready to Ship
+                </div>
               </div>
             </div>
 
@@ -299,9 +302,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                 onClick={handleDirectWhatsAppBuy}
                 className="py-3.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm shadow-xl shadow-[#25D366]/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] whitespace-nowrap"
               >
-                <svg className="h-5 w-5 fill-white shrink-0" viewBox="0 0 24 24">
-                  <path d="M12.031 2c-5.517 0-9.993 4.476-9.993 9.993 0 1.763.459 3.479 1.33 4.992l-1.413 5.161 5.281-1.386c1.455.794 3.1 1.222 4.795 1.222 5.517 0 9.993-4.476 9.993-9.993s-4.476-9.989-9.993-9.989zm5.787 14.175c-.244.688-1.428 1.312-1.968 1.375-.54.062-1.227.094-3.528-.844-2.775-1.129-4.547-3.953-4.688-4.141-.141-.188-1.125-1.5-1.125-2.859 0-1.359.703-2.016.953-2.281.25-.266.547-.328.734-.328.188 0 .375.004.531.008.172.004.402-.066.629.477.234.563.797 1.945.867 2.086.07.141.117.305.023.492-.094.188-.141.305-.281.469-.141.164-.297.367-.422.492-.141.141-.289.293-.125.574.164.281.727 1.2 1.562 1.941 1.074.953 1.977 1.25 2.258 1.391.281.141.445.117.609-.07.164-.188.703-.82 0.891-1.102.188-.281.375-.234.629-.141.25.094 1.594.75 1.867.891.273.141.453.211.516.328.062.117.062.688-.182 1.376z"/>
-                </svg>
+                <WhatsAppIcon className="h-5 w-5 text-white" />
                 Buy Now on WhatsApp
               </button>
 
@@ -329,33 +330,34 @@ export const ProductPage: React.FC<ProductPageProps> = ({
 
         {/* Detailed Information Tabs */}
         <div className="mt-16 bg-card rounded-3xl border border-border/80 p-6 md:p-8 shadow-xl">
-          <div className="flex items-center gap-4 border-b border-border/60 pb-4 mb-6">
+          {/* Segmented Control Tabs */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden bg-secondary/60 p-1.5 rounded-2xl border border-border/60 mb-6">
             <button
               onClick={() => setActiveTab('care')}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
                 activeTab === 'care'
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
               Expert Care Guidelines
             </button>
             <button
               onClick={() => setActiveTab('details')}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
                 activeTab === 'details'
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
               Plant Specifications
             </button>
             <button
               onClick={() => setActiveTab('reviews')}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all ${
+              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
                 activeTab === 'reviews'
-                  ? 'bg-primary text-white shadow-md'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
               Customer Reviews ({plant.reviewsCount})
@@ -436,12 +438,12 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
               {relatedPlants.map((p) => (
                 <div
                   key={p.id}
                   onClick={() => onSelectPlant(p)}
-                  className="group relative rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+                  className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
                   {/* Image Container with Badges */}
                   <div className="relative aspect-square overflow-hidden bg-muted/40">
@@ -453,10 +455,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                     />
 
                     {/* Badges Overlay Left */}
-                    <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-10">
                       {p.badge && (
                         <span
-                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md border border-white/20 ${
+                          className={`px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md border border-white/20 ${
                             p.badge === 'Bestseller'
                               ? 'bg-gradient-to-r from-amber-500 to-orange-500'
                               : p.badge === 'Sale'
@@ -471,8 +473,8 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                       )}
 
                       {p.discount && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-md border border-white/30 flex items-center gap-1">
-                          <Flame className="h-3 w-3 fill-amber-300 text-amber-200" />
+                        <span className="px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-md border border-white/30 flex items-center gap-0.5">
+                          <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-300 text-amber-200" />
                           {p.discount}% OFF
                         </span>
                       )}
@@ -480,64 +482,59 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                   </div>
 
                   {/* Card Body */}
-                  <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
                     <div>
                       {/* Category & Rating */}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
-                        <span className="font-extrabold text-primary">{p.category}</span>
-                        <div className="flex items-center gap-1 text-amber-500 font-extrabold">
-                          <Star className="h-3.5 w-3.5 fill-current" />
+                      <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1">
+                        <span className="font-extrabold text-primary truncate max-w-[80px] sm:max-w-none">{p.category}</span>
+                        <div className="flex items-center gap-0.5 sm:gap-1 text-amber-500 font-extrabold">
+                          <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
                           <span>{p.rating}</span>
                         </div>
                       </div>
 
                       {/* Title */}
-                      <h4 className="font-heading font-extrabold text-base text-foreground group-hover:text-primary transition-colors line-clamp-1">
+                      <h4 className="font-heading font-extrabold text-xs sm:text-base text-foreground group-hover:text-primary transition-colors line-clamp-1">
                         {p.name}
                       </h4>
-                      <p className="text-xs text-muted-foreground italic line-clamp-1 mb-2.5">
+                      <p className="text-[10px] sm:text-xs text-muted-foreground italic line-clamp-1 mb-2">
                         {p.botanicalName}
                       </p>
 
                       {/* Care Badges */}
-                      <div className="flex items-center gap-1.5 mb-3 flex-wrap">
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground bg-secondary/80 px-2 py-0.5 rounded-md">
-                          <Sun className="h-3 w-3 text-amber-500" /> {p.light.split(' ')[0]}
+                      <div className="flex items-center gap-1 mb-2.5 flex-wrap">
+                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 rounded-md">
+                          <Sun className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-amber-500" /> {p.light.split(' ')[0]}
                         </span>
-                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-muted-foreground bg-secondary/80 px-2 py-0.5 rounded-md">
-                          <Droplets className="h-3 w-3 text-blue-500" /> {p.water.split(' ')[0]}
+                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[10px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 rounded-md">
+                          <Droplets className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-500" /> {p.water.split(' ')[0]}
                         </span>
-                        {p.airPurifying && (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
-                            <Wind className="h-3 w-3" /> Purifier
-                          </span>
-                        )}
                       </div>
                     </div>
 
                     {/* Price & Action Buttons */}
-                    <div className="pt-2 border-t border-border/40 space-y-2.5">
+                    <div className="pt-2 border-t border-border/40 space-y-2">
                       <div className="flex items-baseline justify-between">
-                        <div className="flex items-baseline gap-1.5">
-                          <span className="text-lg font-black text-foreground">₹{p.price}</span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-base sm:text-lg font-black text-foreground">₹{p.price}</span>
                           {p.originalPrice && (
-                            <span className="text-xs text-muted-foreground line-through font-bold">
+                            <span className="text-[10px] sm:text-xs text-muted-foreground line-through font-bold">
                               ₹{p.originalPrice}
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold">
+                        <span className="text-[9px] sm:text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold hidden sm:inline">
                           In Stock
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="flex items-center gap-1.5 sm:gap-2">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             onOpenOrderPage(p, 1, '8 inch standard', 'Terracotta');
                           }}
-                          className="py-2 px-2.5 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-xs flex items-center justify-center gap-1 shadow-md transition-all whitespace-nowrap"
+                          className="flex-1 py-1.5 sm:py-2 px-2 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-[10px] sm:text-xs flex items-center justify-center gap-1 shadow-md transition-all whitespace-nowrap"
                         >
                           <Zap className="h-3 w-3 fill-amber-300 text-amber-200" /> Buy Now
                         </button>
@@ -547,9 +544,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                             e.stopPropagation();
                             onAddToCart(p, 1, '8 inch standard', 'Terracotta');
                           }}
-                          className="py-2 px-2.5 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white font-extrabold text-xs flex items-center justify-center gap-1 transition-all whitespace-nowrap"
+                          title="Add to Cart"
+                          className="p-1.5 sm:p-2 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors shrink-0 shadow-sm"
                         >
-                          <ShoppingCart className="h-3 w-3" /> Add Cart
+                          <ShoppingCart className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </div>

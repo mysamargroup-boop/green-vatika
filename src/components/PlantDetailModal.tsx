@@ -3,6 +3,8 @@ import { Plant } from '../types/nursery';
 import { X, Star, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+import { WhatsAppIcon } from './WhatsAppIcon';
+
 interface PlantDetailModalProps {
   plant: Plant | null;
   onClose: () => void;
@@ -35,7 +37,7 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
     const text = encodeURIComponent(
       `Hi Green Vatika, I would like to purchase:\n🌿 Plant: ${plant.name}\nPot Size: ${selectedSize}\nPot Color: ${selectedPotColor}\nQty: ${quantity}\nPrice: ₹${plant.price * quantity}`
     );
-    window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
+    window.open(`https://wa.me/919479480068?text=${text}`, '_blank');
   };
 
   return (
@@ -90,16 +92,16 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
             </div>
 
             {/* Price */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+              <span className="text-2xl sm:text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
               {plant.originalPrice && (
-                <span className="text-base text-muted-foreground line-through font-medium">
+                <span className="text-sm sm:text-base text-muted-foreground line-through font-medium">
                   ₹{plant.originalPrice * quantity}
                 </span>
               )}
               {plant.discount && (
-                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-red-500/10 text-red-600">
-                  Save {plant.discount}%
+                <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
+                  SAVE {plant.discount}%
                 </span>
               )}
             </div>
@@ -242,7 +244,7 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
                 onClick={handleWhatsAppBuy}
                 className="flex items-center justify-center gap-2 py-3 rounded-full bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all"
               >
-                <MessageSquare className="h-4 w-4" /> Order WhatsApp
+                <WhatsAppIcon className="h-4.5 w-4.5 text-white" /> Order WhatsApp
               </button>
             </div>
           </div>

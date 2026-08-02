@@ -3,6 +3,8 @@ import { CartItem } from '../types/nursery';
 import { X, Trash2, ShoppingBag, ArrowRight, MessageSquare, Tag, Truck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
+import { WhatsAppIcon } from './WhatsAppIcon';
+
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -31,8 +33,6 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onClearCart,
   onNavigateCheckout,
 }) => {
-  if (!isOpen) return null;
-
   const [promoCode, setPromoCode] = useState('');
   const [discountPercent, setDiscountPercent] = useState(0);
   const [promoApplied, setPromoApplied] = useState(false);
@@ -57,7 +57,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const handleWhatsAppCheckout = () => {
     if (cartItems.length === 0) return;
 
-    let itemsList = cartItems
+    const itemsList = cartItems
       .map(
         (item, i) =>
           `${i + 1}. ${item.plant.name} (${item.selectedSize || 'Standard'}, ${item.selectedPotColor || 'Terracotta'}) x${item.quantity} = ₹${
@@ -72,13 +72,28 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       }\n*Total Amount: ₹${total}*\n\nPlease confirm availability and payment details!`
     );
 
-    window.open(`https://wa.me/919876543210?text=${orderText}`, '_blank');
+    window.open(`https://wa.me/919479480068?text=${orderText}`, '_blank');
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/60 backdrop-blur-xs animate-in fade-in duration-300">
+    <div
+      className={`fixed inset-0 z-[100] overflow-hidden transition-all duration-300 ${
+        isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+      }`}
+    >
+      {/* Backdrop */}
+      <div
+        className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300"
+        onClick={onClose}
+      />
+
+      {/* Slide-over Drawer Panel */}
       <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-card border-l border-border shadow-2xl flex flex-col justify-between">
+        <div
+          className={`w-screen max-w-md bg-card border-l border-primary/20 shadow-2xl flex flex-col justify-between transform transition-transform duration-300 ease-in-out ${
+            isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
           {/* Header */}
           <div className="p-6 border-b border-border/60 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -262,7 +277,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   onClick={handleWhatsAppCheckout}
                   className="w-full py-3.5 rounded-full bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2"
                 >
-                  <MessageSquare className="h-4 w-4" /> Instant WhatsApp Checkout
+                  <WhatsAppIcon className="h-4.5 w-4.5 text-white" /> Instant WhatsApp Checkout
                 </button>
                 <button
                   onClick={() => {

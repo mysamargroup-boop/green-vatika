@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Mail, Clock, MessageSquare, Send, CheckCircle2 } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { WhatsAppIcon } from './WhatsAppIcon';
 
 export const ContactSection: React.FC = () => {
   const [formSent, setFormSent] = useState<boolean>(false);
@@ -20,11 +21,11 @@ export const ContactSection: React.FC = () => {
 
   const handleDirectWhatsApp = () => {
     const text = encodeURIComponent(`Hi Green Vatika, I have an inquiry:\nName: ${name || 'Visitor'}\nMessage: ${message || 'I would like to visit the nursery.'}`);
-    window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
+    window.open(`https://wa.me/919479480068?text=${text}`, '_blank');
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-secondary/30 relative scroll-mt-20 border-t border-border/40">
+    <section id="contact" className="py-10 md:py-14 bg-secondary/30 relative scroll-mt-20 border-t border-border/40">
       <div className="container mx-auto px-4 md:px-8">
         {/* Title */}
         <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
@@ -174,7 +175,7 @@ export const ContactSection: React.FC = () => {
                     onClick={handleDirectWhatsApp}
                     className="py-3.5 px-6 rounded-full bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2"
                   >
-                    <MessageSquare className="h-4 w-4" /> Order via WhatsApp
+                    <WhatsAppIcon className="h-5 w-5 text-white" /> Order via WhatsApp
                   </button>
                 </div>
               </form>

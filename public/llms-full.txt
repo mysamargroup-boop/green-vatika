@@ -6,7 +6,7 @@
 1. About Green Vatika Nursery
 2. Plant Product Catalog
 3. Nursery & Landscaping Services
-4. Contact & Location Information
+4. Contact, Location & Developer Details
 5. Plant Care Knowledge Base
 6. Ordering & WhatsApp Checkout System
 
@@ -57,13 +57,18 @@ Green Vatika is a 10+ year established plant nursery located in Narsinghpur, Mad
 
 ---
 
-## 4. Contact & Location Information
+## 4. Contact, Location & Developer Details
 
 - **Nursery Address**: Niranjan Ward, Near Teen Puliya, Khairi Naka, Narsinghpur, Madhya Pradesh 487001, India
 - **Phone / WhatsApp**: +91 9479480068
 - **Email**: greenvatikanursery2026@gmail.com
 - **Website**: https://greenvatika.co
 - **Cloudflare Pages**: https://green-vatika.pages.dev
+
+### Developer & Creator Credits
+- **Crafted & Developed By**: Samar / Shubham Nema
+- **Instagram Profile**: [https://instagram.com/shubham__nema](https://instagram.com/shubham__nema)
+- **GitHub Repository**: [https://github.com/mysamargroup-boop/green-vatika](https://github.com/mysamargroup-boop/green-vatika)
 
 ---
 

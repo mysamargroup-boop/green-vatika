@@ -20,6 +20,12 @@
 - **Official Website**: https://greenvatika.co
 - **Cloudflare Live App**: https://green-vatika.pages.dev
 
+## Developer & Social Media
+
+- **Designed & Developed By**: Samar / Shubham Nema ([@shubham__nema](https://instagram.com/shubham__nema))
+- **Official Instagram Profile**: [https://instagram.com/shubham__nema](https://instagram.com/shubham__nema)
+- **GitHub Repository**: [https://github.com/mysamargroup-boop/green-vatika](https://github.com/mysamargroup-boop/green-vatika)
+
 ## Gardening Guides & Care Knowledge Base
 
 - [NASA Air Purifying Indoor Plants Guide](https://greenvatika.co/#blog): Best plants to eliminate indoor toxins and boost bedroom oxygen levels.

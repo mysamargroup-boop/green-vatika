@@ -300,7 +300,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border/80">
               <button
                 onClick={handleDirectWhatsAppBuy}
-                className="py-3.5 px-6 rounded-2xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold text-sm shadow-xl shadow-[#25D366]/30 border border-emerald-300/30 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] whitespace-nowrap"
+                className="py-3.5 px-6 rounded-2xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-sm shadow-none border border-[#146934] transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] whitespace-nowrap"
               >
                 <WhatsAppIcon className="h-5 w-5 text-white" />
                 Buy Now on WhatsApp

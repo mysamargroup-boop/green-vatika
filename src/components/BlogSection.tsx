@@ -3,8 +3,20 @@ import { blogPostsData } from '../data/mockData';
 import { BlogPost } from '../types/nursery';
 import { BookOpen, Calendar, Clock, User, ArrowRight, X } from 'lucide-react';
 
-export const BlogSection: React.FC = () => {
+interface BlogSectionProps {
+  onSelectPost?: (post: BlogPost) => void;
+}
+
+export const BlogSection: React.FC<BlogSectionProps> = ({ onSelectPost }) => {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+
+  const handlePostClick = (post: BlogPost) => {
+    if (onSelectPost) {
+      onSelectPost(post);
+    } else {
+      setSelectedPost(post);
+    }
+  };
 
   return (
     <section id="blog" className="py-10 md:py-14 relative scroll-mt-20">
@@ -27,7 +39,7 @@ export const BlogSection: React.FC = () => {
           {blogPostsData.map((post) => (
             <article
               key={post.id}
-              onClick={() => setSelectedPost(post)}
+              onClick={() => handlePostClick(post)}
               className="group rounded-3xl bg-card border border-border/80 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
               <div>

@@ -50,6 +50,9 @@ const ProductPage = lazy(() =>
 const OrderPage = lazy(() =>
   import('./pages/OrderPage').then((m) => ({ default: m.OrderPage }))
 );
+const BlogPostPage = lazy(() =>
+  import('./pages/BlogPostPage').then((m) => ({ default: m.BlogPostPage }))
+);
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -61,6 +64,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [selectedPlant, setSelectedPlant] = useState<Plant | null>(null);
   const [activeProductView, setActiveProductView] = useState<Plant | null>(null);
+  const [selectedBlogPost, setSelectedBlogPost] = useState<any | null>(null);
   const [directCheckoutPlant, setDirectCheckoutPlant] = useState<{
     plant: Plant;
     quantity: number;
@@ -111,6 +115,10 @@ export default function App() {
       blog: {
         title: 'Plant Care & Gardening Blog — Green Vatika Nursery',
         desc: 'Read expert advice from senior horticulturists on houseplant care, watering tips, balcony gardening, and NASA air-purifying plants.',
+      },
+      'blog-post': {
+        title: selectedBlogPost ? `${selectedBlogPost.title} — Green Vatika Nursery Blog` : 'Gardening Guide — Green Vatika Nursery',
+        desc: selectedBlogPost ? selectedBlogPost.excerpt : 'Detailed plant care advice and gardening tips from expert horticulturists.',
       },
       contact: {
         title: 'Contact Us & Nursery Location — Green Vatika Nursery',
@@ -271,6 +279,11 @@ export default function App() {
     navigateToView('checkout');
   };
 
+  const openBlogPostPage = (post: any) => {
+    setSelectedBlogPost(post);
+    navigateToView('blog-post');
+  };
+
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const searchResults = searchQuery.trim()
@@ -364,7 +377,7 @@ export default function App() {
               <ServicesSection />
             </ScrollSkeletonContainer>
             <TestimonialsSection />
-            <BlogSection />
+            <BlogSection onSelectPost={openBlogPostPage} />
             <ContactSection />
           </>
         )}
@@ -416,7 +429,18 @@ export default function App() {
 
         {currentView === 'blog' && (
           <Suspense fallback={<PageFallbackSkeleton />}>
-            <BlogPage onBack={() => navigateToView('home')} />
+            <BlogPage onBack={() => navigateToView('home')} onSelectPost={openBlogPostPage} />
+          </Suspense>
+        )}
+
+        {currentView === 'blog-post' && selectedBlogPost && (
+          <Suspense fallback={<PageFallbackSkeleton />}>
+            <BlogPostPage
+              post={selectedBlogPost}
+              onBack={() => navigateToView('blog')}
+              onSelectPost={openBlogPostPage}
+              onSelectPlant={(plant) => openProductPage(plant)}
+            />
           </Suspense>
         )}
 

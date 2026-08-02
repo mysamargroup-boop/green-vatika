@@ -1,12 +1,14 @@
 import React from 'react';
+import { BlogPost } from '../types/nursery';
 import { BlogSection } from '../components/BlogSection';
 import { ArrowLeft, BookOpen } from 'lucide-react';
 
 interface BlogPageProps {
   onBack: () => void;
+  onSelectPost: (post: BlogPost) => void;
 }
 
-export const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
+export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
   return (
     <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8">
@@ -22,7 +24,7 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
           </span>
         </div>
 
-        <BlogSection />
+        <BlogSection onSelectPost={onSelectPost} />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Leaf, Search, ShoppingCart, Menu, X, Sun, Moon, PhoneCall, ShoppingBag } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
-export type ViewState = 'home' | 'about' | 'categories' | 'shop' | 'quiz' | 'services' | 'blog' | 'contact' | 'product' | 'checkout' | 'privacy' | 'terms';
+export type ViewState = 'home' | 'about' | 'categories' | 'shop' | 'quiz' | 'services' | 'blog' | 'blog-post' | 'contact' | 'product' | 'checkout' | 'privacy' | 'terms';
 
 interface HeaderProps {
   cartCount: number;
@@ -236,16 +236,6 @@ export const Header: React.FC<HeaderProps> = ({
             </div>
 
             {/* Direct Checkout & WhatsApp Buttons */}
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onNavigateView('checkout');
-              }}
-              className="w-full py-3 rounded-xl bg-primary text-white font-bold text-xs text-center flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
-            >
-              <ShoppingBag className="h-4 w-4" /> Order Checkout Page
-            </button>
-
             <a
               href="https://wa.me/919479480068?text=Hi%20Green%20Vatika,%20I%20want%20to%20inquire%20about%20plants"
               target="_blank"

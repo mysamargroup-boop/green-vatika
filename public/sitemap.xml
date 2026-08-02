@@ -17,12 +17,19 @@
     </image:image>
   </url>
 
-  <!-- Cloudflare Pages Mirror -->
+  <!-- AI Search Engine Context Files -->
   <url>
-    <loc>https://green-vatika.pages.dev/</loc>
+    <loc>https://greenvatika.co/llms.txt</loc>
     <lastmod>2026-08-02</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/llms-full.txt</loc>
+    <lastmod>2026-08-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
   </url>
 
   <!-- Core Pages -->

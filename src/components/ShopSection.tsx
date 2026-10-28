@@ -23,7 +23,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
   const [sortBy, setSortBy] = useState<string>('featured');
   const [wishlist, setWishlist] = useState<string[]>([]);
 
-  const categories = ['All', 'Indoor', 'Outdoor', 'Flowering', 'Fruit', 'Succulents', 'Bonsai', 'Pots', 'Tools'];
+  const categories = ['All', 'Flowering', 'Outdoor', 'Bonsai', 'Pots'];
 
   const toggleWishlist = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -242,13 +242,23 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                         {plant.botanicalName}
                       </p>
 
-                      {/* Care Badges */}
-                      <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-4">
+                      {/* Care Badges & Packaging Note */}
+                      <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
                         <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
                           <Sun className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-amber-500" /> {plant.light.split(' ')[0]}
                         </span>
                         <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
                           <Droplets className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-500" /> {plant.water.split(' ')[0]}
+                        </span>
+                      </div>
+
+                      {/* Pot Status Indicator */}
+                      <div className="flex items-center justify-between text-[10px] text-muted-foreground pb-1 border-t border-border/20 pt-1">
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400 truncate">
+                          Grower Polybag
+                        </span>
+                        <span className="font-bold text-[9px] text-amber-600 dark:text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded shrink-0">
+                          +Pot ₹60
                         </span>
                       </div>
                     </div>

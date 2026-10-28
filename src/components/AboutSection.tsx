@@ -19,7 +19,7 @@ export const AboutSection: React.FC = () => {
           <div className="relative">
             <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl border-4 border-background">
               <img
-                src="https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src="/images/green-vatika/hero/hero_green_vatika_nursery.webp"
                 alt="Green Vatika Nursery Owner caring for plants"
                 className="w-full h-full object-cover"
               />
@@ -41,8 +41,8 @@ export const AboutSection: React.FC = () => {
             {/* Overlapping Small Secondary Image */}
             <div className="absolute -top-6 -left-6 hidden md:block w-44 h-44 rounded-3xl overflow-hidden border-4 border-background shadow-xl">
               <img
-                src="https://images.pexels.com/photos/11372382/pexels-photo-11372382.jpeg?auto=compress&cs=tinysrgb&w=400"
-                alt="greenery closeup"
+                src="/images/green-vatika/categories/flowering.webp"
+                alt="Green Vatika Flowering Plants"
                 className="w-full h-full object-cover"
               />
             </div>

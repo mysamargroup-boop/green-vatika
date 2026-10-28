@@ -47,6 +47,24 @@ export interface CartItem {
   quantity: number;
   selectedSize?: string;
   selectedPotColor?: string;
+  includePot?: boolean;
+  potPrice?: number;
+}
+
+export interface BlogTableData {
+  caption?: string;
+  headers: string[];
+  rows: string[][];
+}
+
+export interface BlogSectionItem {
+  id?: string;
+  heading?: string;
+  subheading?: string;
+  paragraphs: string[];
+  table?: BlogTableData;
+  callout?: string;
+  bulletPoints?: string[];
 }
 
 export interface BlogPost {
@@ -59,6 +77,8 @@ export interface BlogPost {
   category: string;
   image: string;
   content: string[];
+  tableOfContents?: string[];
+  sections?: BlogSectionItem[];
 }
 
 export interface Testimonial {

@@ -90,19 +90,127 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
             />
           </div>
 
+          {/* Table of Contents (if available) */}
+          {post.tableOfContents && post.tableOfContents.length > 0 && (
+            <div className="p-6 rounded-3xl bg-secondary/70 border border-border/80 space-y-3 shadow-sm">
+              <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-primary">
+                <BookOpen className="h-4 w-4" /> Table of Contents &amp; Quick Navigation
+              </div>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-sm">
+                {post.tableOfContents.map((item, idx) => (
+                  <li key={idx} className="flex items-center gap-2 text-foreground/80 hover:text-primary transition-colors">
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {/* Article Excerpt Callout */}
           <div className="p-6 rounded-3xl bg-primary/10 border border-primary/30 text-foreground font-semibold text-base sm:text-lg leading-relaxed shadow-sm">
             "{post.excerpt}"
           </div>
 
-          {/* Article Body Content */}
-          <div className="space-y-6 text-base sm:text-lg text-foreground/90 leading-relaxed font-normal pt-2">
-            {post.content.map((paragraph, idx) => (
-              <p key={idx} className="bg-card p-5 sm:p-6 rounded-2xl border border-border/60 shadow-xs">
-                {paragraph}
-              </p>
-            ))}
-          </div>
+          {/* Article Body: Rich Sections or Fallback Paragraphs */}
+          {post.sections && post.sections.length > 0 ? (
+            <div className="space-y-10 pt-4">
+              {post.sections.map((section, sIdx) => (
+                <div key={sIdx} className="space-y-4">
+                  {section.heading && (
+                    <div className="space-y-1 pt-4 border-t border-border/40 first:border-t-0 first:pt-0">
+                      <h2 className="font-heading text-2xl sm:text-3xl font-black text-foreground flex items-center gap-2.5">
+                        <span className="h-6 w-1.5 rounded-full bg-primary shrink-0" />
+                        {section.heading}
+                      </h2>
+                      {section.subheading && (
+                        <p className="text-sm font-semibold text-muted-foreground pl-4">
+                          {section.subheading}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Paragraphs */}
+                  {section.paragraphs && section.paragraphs.map((para, pIdx) => (
+                    <p key={pIdx} className="text-base sm:text-lg text-foreground/90 leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+
+                  {/* Bullet Points */}
+                  {section.bulletPoints && section.bulletPoints.length > 0 && (
+                    <ul className="space-y-2 p-5 rounded-2xl bg-card border border-border/60 shadow-xs">
+                      {section.bulletPoints.map((point, ptIdx) => (
+                        <li key={ptIdx} className="flex items-start gap-2.5 text-sm sm:text-base text-foreground/90 leading-snug">
+                          <Leaf className="h-4 w-4 text-primary shrink-0 mt-1" />
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Comparison Table */}
+                  {section.table && (
+                    <div className="my-6 rounded-2xl overflow-hidden border border-border/80 shadow-md">
+                      {section.table.caption && (
+                        <div className="p-3 bg-secondary/80 font-bold text-xs uppercase tracking-wider text-muted-foreground border-b border-border/60">
+                          📊 {section.table.caption}
+                        </div>
+                      )}
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-left text-xs sm:text-sm">
+                          <thead className="bg-primary/10 text-primary font-black uppercase text-[11px] tracking-wider border-b border-border/60">
+                            <tr>
+                              {section.table.headers.map((h, hIdx) => (
+                                <th key={hIdx} className="p-3.5 sm:p-4 whitespace-nowrap">
+                                  {h}
+                                </th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border/40 bg-card">
+                            {section.table.rows.map((row, rIdx) => (
+                              <tr key={rIdx} className="hover:bg-secondary/40 transition-colors">
+                                {row.map((cell, cIdx) => (
+                                  <td
+                                    key={cIdx}
+                                    className={`p-3.5 sm:p-4 text-foreground/90 ${
+                                      cIdx === 0 ? 'font-bold text-foreground' : ''
+                                    }`}
+                                  >
+                                    {cell}
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Callout box */}
+                  {section.callout && (
+                    <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border-l-4 border-amber-500 text-foreground text-sm sm:text-base font-medium space-y-1">
+                      <span className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 block">
+                        💡 Key Takeaway
+                      </span>
+                      <p>{section.callout}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-6 text-base sm:text-lg text-foreground/90 leading-relaxed font-normal pt-2">
+              {post.content.map((paragraph, idx) => (
+                <p key={idx} className="bg-card p-5 sm:p-6 rounded-2xl border border-border/60 shadow-xs">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          )}
 
           {/* Expert Green Vatika Tip Box */}
           <div className="mt-8 p-6 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-green-950 text-white shadow-xl space-y-2 border border-emerald-500/30">

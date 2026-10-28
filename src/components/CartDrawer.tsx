@@ -275,18 +275,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               <div className="space-y-2 pt-2">
                 <button
                   onClick={handleWhatsAppCheckout}
-                  className="w-full py-3.5 rounded-full bg-emerald-600 text-white font-bold text-sm hover:bg-emerald-700 shadow-lg shadow-emerald-600/25 transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-full bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-sm shadow-xl shadow-green-900/25 transition-all flex items-center justify-center gap-2"
                 >
-                  <WhatsAppIcon className="h-4.5 w-4.5 text-white" /> Instant WhatsApp Checkout
-                </button>
-                <button
-                  onClick={() => {
-                    onClose();
-                    if (onNavigateCheckout) onNavigateCheckout();
-                  }}
-                  className="w-full py-3 rounded-full bg-primary text-white font-bold text-sm hover:bg-primary/90 shadow-md transition-all flex items-center justify-center gap-2"
-                >
-                  Proceed to Order Checkout <ArrowRight className="h-4 w-4" />
+                  <WhatsAppIcon className="h-4.5 w-4.5 text-white" /> Order Directly on WhatsApp
                 </button>
               </div>
             </div>

@@ -9,8 +9,8 @@ export const HeroSection: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-[#E8F5E9] via-background to-[#F1F8E9] dark:from-[#08140c] dark:via-background dark:to-[#0c1c11]" />
         <div className="absolute inset-0 opacity-20 dark:opacity-30">
           <img
-            src="https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=1200&q=70"
-            alt="nursery background"
+            src="/images/green-vatika/hero/hero_green_vatika_nursery.webp"
+            alt="Green Vatika Nursery background"
             className="w-full h-full object-cover mix-blend-multiply dark:mix-blend-overlay"
             loading="eager"
             fetchPriority="high"
@@ -140,26 +140,26 @@ export const HeroSection: React.FC = () => {
               {/* Main Background Image Tile */}
               <div className="absolute inset-0 rounded-[3rem] overflow-hidden shadow-2xl shadow-primary/20 rotate-2 border-4 border-background">
                 <img
-                  src="https://images.unsplash.com/photo-1520157646479-22f25713523d?auto=format&fit=crop&w=800&q=75"
+                  src="/images/green-vatika/hero/hero_green_vatika_nursery.webp"
                   alt="green vatika hero plants"
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Smaller Overlapping Image 1 */}
+              {/* Smaller Overlapping Image 1 - Desi Rose */}
               <div className="absolute -bottom-6 -left-6 w-48 h-48 rounded-3xl overflow-hidden shadow-xl border-4 border-background">
                 <img
-                  src="https://images.pexels.com/photos/9414322/pexels-photo-9414322.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="succulents"
+                  src="/images/green-vatika/flowering/Red_Rose_Gulab_Rs70.webp"
+                  alt="Desi Red Rose in Gamla"
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Smaller Overlapping Image 2 */}
+              {/* Smaller Overlapping Image 2 - Adenium Bonsai */}
               <div className="absolute -top-6 -right-6 w-40 h-40 rounded-3xl overflow-hidden shadow-xl border-4 border-background">
                 <img
-                  src="https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg?auto=compress&cs=tinysrgb&w=400"
-                  alt="monstera leaf"
+                  src="/images/green-vatika/outdoor/Adenium_Bonsai_Rs100.webp"
+                  alt="Adenium Desert Rose Bonsai"
                   className="w-full h-full object-cover"
                 />
               </div>

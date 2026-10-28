@@ -43,28 +43,35 @@ export const TestimonialsSection: React.FC = () => {
               </div>
 
               {/* Author Footer */}
-              <div className="pt-6 mt-6 border-t border-border/40 flex items-center justify-between">
+              <div className="pt-6 mt-6 border-t border-border/40 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={t.avatar}
-                    alt={t.name}
-                    className="h-12 w-12 rounded-full object-cover border-2 border-primary/20"
-                  />
+                  {t.avatar && t.avatar.length <= 3 ? (
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary via-emerald-600 to-teal-700 text-white font-extrabold text-sm flex items-center justify-center shadow-md border-2 border-white/20 shrink-0">
+                      {t.avatar}
+                    </div>
+                  ) : (
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="h-12 w-12 rounded-full object-cover border-2 border-primary/20 shrink-0"
+                    />
+                  )}
                   <div>
                     <div className="font-heading font-bold text-sm text-foreground flex items-center gap-1.5">
                       {t.name}
                       {t.verified && (
-                        <span title="Verified Buyer">
-                          <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-primary/20" />
+                        <span title="Verified Nursery Buyer" className="inline-flex items-center gap-0.5 text-xs text-primary font-bold">
+                          <CheckCircle2 className="h-4 w-4 text-primary fill-primary/20" />
+                          <span className="text-[10px] bg-primary/10 px-1.5 py-0.5 rounded text-primary font-bold hidden sm:inline">Verified Buyer</span>
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-muted-foreground">{t.role}</div>
+                    <div className="text-xs text-muted-foreground font-medium">{t.role}</div>
                   </div>
                 </div>
 
-                <span className="text-[11px] font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full hidden sm:inline-block">
-                  Purchased: {t.purchasedPlant}
+                <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full whitespace-nowrap">
+                  🌿 {t.purchasedPlant}
                 </span>
               </div>
             </div>

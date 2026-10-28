@@ -149,6 +149,17 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </h1>
         </div>
 
+        {/* Online Shipping Notice Banner */}
+        <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border-2 border-amber-500/30 flex items-center gap-3 text-amber-800 dark:text-amber-300 text-xs sm:text-sm font-semibold shadow-xs">
+          <Truck className="h-5 w-5 text-amber-500 shrink-0" />
+          <div className="leading-snug">
+            <strong className="block text-amber-900 dark:text-amber-200 font-extrabold uppercase text-xs">
+              🚚 Pan-India Online Courier Shipping Coming Soon!
+            </strong>
+            Right now, orders are confirmed for direct Nursery pickup &amp; local Narsinghpur delivery via instant WhatsApp booking.
+          </div>
+        </div>
+
         <form onSubmit={handlePlaceOrderWhatsApp} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left 2 Cols: Shipping Information Form */}
           <div className="lg:col-span-2 space-y-6">

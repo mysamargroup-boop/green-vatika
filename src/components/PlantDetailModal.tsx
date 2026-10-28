@@ -1,29 +1,38 @@
 import React, { useState } from 'react';
 import { Plant } from '../types/nursery';
-import { X, Star, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare, Heart } from 'lucide-react';
+import { X, Star, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare, Heart, AlertTriangle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
+import { ComingSoonShippingModal } from './ComingSoonShippingModal';
 
 interface PlantDetailModalProps {
   plant: Plant | null;
   onClose: () => void;
-  onAddToCart: (plant: Plant, quantity: number, selectedSize: string, selectedPotColor: string) => void;
+  onAddToCart: (plant: Plant, quantity: number, selectedSize: string, selectedPotColor: string, includePot?: boolean, potPrice?: number) => void;
 }
 
 export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClose, onAddToCart }) => {
   if (!plant) return null;
 
   const [quantity, setQuantity] = useState<number>(1);
-  const [selectedSize, setSelectedSize] = useState<string>(plant.potSize || '8 inch pot');
+  const [selectedSize, setSelectedSize] = useState<string>(plant.potSize || 'Standard Grower Bag');
   const [selectedPotColor, setSelectedPotColor] = useState<string>('Terracotta');
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
+  const [includePot, setIncludePot] = useState<boolean>(false);
+  const [isShippingModalOpen, setIsShippingModalOpen] = useState<boolean>(false);
+
+  const potPrice = 60;
+  const unitPrice = plant.price + (includePot ? potPrice : 0);
+  const originalUnitPrice = (plant.originalPrice || Math.round(plant.price * 1.6)) + (includePot ? potPrice : 0);
+  const totalPrice = unitPrice * quantity;
+  const totalOriginalPrice = originalUnitPrice * quantity;
 
   const potColors = ['Terracotta', 'Matte White', 'Forest Green', 'Charcoal'];
-  const sizeOptions = ['6 inch compact', '8 inch standard', '10 inch luxury'];
+  const sizeOptions = ['Standard Grower Bag', 'Medium (1.5-2 ft)', 'Large (2.5+ ft)'];
 
   const handleAdd = () => {
-    onAddToCart(plant, quantity, selectedSize, selectedPotColor);
+    onAddToCart(plant, quantity, selectedSize, selectedPotColor, includePot, potPrice);
     confetti({
       particleCount: 40,
       spread: 70,
@@ -35,7 +44,13 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
 
   const handleWhatsAppBuy = () => {
     const text = encodeURIComponent(
-      `Hi Green Vatika, I would like to purchase:\n🌿 Plant: ${plant.name}\nPot Size: ${selectedSize}\nPot Color: ${selectedPotColor}\nQty: ${quantity}\nPrice: ₹${plant.price * quantity}`
+      `🌿 *GREEN VATIKA ORDER INQUIRY*\n\n` +
+      `*Plant:* ${plant.name}\n` +
+      `*Botanical:* ${plant.botanicalName}\n` +
+      `*Planter:* ${includePot ? `Add Handcrafted Terracotta Pot (+₹${potPrice})` : 'Nursery Grower Polybag (No Pot)'}\n` +
+      `*Quantity:* ${quantity}\n` +
+      `*Total Price:* ₹${totalPrice}\n\n` +
+      `Please let me know how to pick up or arrange delivery!`
     );
     window.open(`https://wa.me/919479480068?text=${text}`, '_blank');
   };
@@ -92,18 +107,72 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
             </div>
 
             {/* Price */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              <span className="text-2xl sm:text-3xl font-extrabold text-foreground">₹{plant.price * quantity}</span>
-              {plant.originalPrice && (
-                <span className="text-sm sm:text-base text-muted-foreground line-through font-medium">
-                  ₹{plant.originalPrice * quantity}
-                </span>
+            <div>
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                <span className="text-2xl sm:text-3xl font-extrabold text-foreground">₹{totalPrice}</span>
+                {totalOriginalPrice && (
+                  <span className="text-sm sm:text-base text-muted-foreground line-through font-medium">
+                    ₹{totalOriginalPrice}
+                  </span>
+                )}
+                {plant.discount && (
+                  <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
+                    SAVE {plant.discount}%
+                  </span>
+                )}
+              </div>
+              {includePot && (
+                <div className="text-[11px] text-primary font-bold mt-1">
+                  ✓ Includes ₹{potPrice * quantity} for {quantity} handcrafted planter(s)
+                </div>
               )}
-              {plant.discount && (
-                <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
-                  SAVE {plant.discount}%
+            </div>
+
+            {/* Red Warning Note: Pot is NOT included */}
+            <div className="p-3 rounded-2xl bg-red-500/10 border-2 border-red-500/30 text-red-600 dark:text-red-400 text-xs font-semibold flex items-start gap-2.5 shadow-xs">
+              <AlertTriangle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
+              <div className="space-y-0.5">
+                <span className="font-extrabold uppercase tracking-wide block text-xs">
+                  ⚠️ Note: Pot is NOT Included with Plant
                 </span>
-              )}
+                <p className="text-foreground/80 dark:text-foreground/90 font-medium text-[11px] leading-tight">
+                  Plant comes in a nursery grower bag. Check option below if you'd like to add a pot.
+                </p>
+              </div>
+            </div>
+
+            {/* Interactive Pot Add-on Option Card */}
+            <div
+              onClick={() => setIncludePot(!includePot)}
+              className={`p-3 rounded-2xl border-2 flex items-center gap-3 cursor-pointer transition-all ${
+                includePot
+                  ? 'bg-primary/10 border-primary ring-2 ring-primary/20 shadow-sm'
+                  : 'bg-secondary/40 border-border hover:border-primary/40'
+              }`}
+            >
+              <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-border/80 shrink-0 bg-background">
+                <img
+                  src="/images/green-vatika/pots/terracotta_pot_preview.webp"
+                  alt="Handcrafted Terracotta Pot"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-1">
+                  <h4 className="text-xs font-extrabold text-foreground truncate">
+                    Add Handcrafted Terracotta Pot (+₹{potPrice})
+                  </h4>
+                  <div className={`h-4 w-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                    includePot ? 'border-primary bg-primary text-white' : 'border-muted-foreground'
+                  }`}>
+                    {includePot && <Check className="h-2.5 w-2.5 stroke-[3]" />}
+                  </div>
+                </div>
+                <p className="text-[10px] text-muted-foreground mt-0.5 truncate">
+                  {includePot ? '✓ Planter added to this order' : 'Natural clay gamla with drainage hole'}
+                </p>
+              </div>
             </div>
 
             <p className="text-sm text-muted-foreground leading-relaxed">{plant.description}</p>

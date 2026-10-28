@@ -12,6 +12,7 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { BlogSection } from './components/BlogSection';
 import { ContactSection } from './components/ContactSection';
 import { CartDrawer } from './components/CartDrawer';
+import { ComingSoonShippingModal } from './components/ComingSoonShippingModal';
 import { Footer } from './components/Footer';
 import { Skeleton } from './components/Skeleton';
 import { ScrollSkeletonContainer } from './components/ScrollSkeletonContainer';
@@ -71,6 +72,9 @@ export default function App() {
     size: string;
     color: string;
   } | null>(null);
+
+  const [comingSoonPlant, setComingSoonPlant] = useState<Plant | null>(null);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState<boolean>(false);
 
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -203,23 +207,31 @@ export default function App() {
     plant: Plant,
     quantity: number = 1,
     selectedSize: string = '8 inch standard',
-    selectedPotColor: string = 'Terracotta'
+    selectedPotColor: string = 'Terracotta',
+    includePot: boolean = false,
+    potPrice: number = 60
   ) => {
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
         (item) =>
           item.plant.id === plant.id &&
           (item.selectedSize || '8 inch standard') === selectedSize &&
-          (item.selectedPotColor || 'Terracotta') === selectedPotColor
+          (item.selectedPotColor || 'Terracotta') === selectedPotColor &&
+          !!item.includePot === includePot
       );
       if (existingIndex > -1) {
         const updated = [...prev];
         updated[existingIndex].quantity += quantity;
         return updated;
       }
-      return [...prev, { plant, quantity, selectedSize, selectedPotColor }];
+      return [...prev, { plant, quantity, selectedSize, selectedPotColor, includePot, potPrice }];
     });
-    showToast(`Added ${plant.name} to your garden cart! 🌿`);
+    showToast(`Added ${plant.name}${includePot ? ' (+Planter)' : ''} to your garden cart! 🌿`);
+  };
+
+  const handleBuyNowDirect = (plant: Plant) => {
+    setComingSoonPlant(plant);
+    setIsComingSoonOpen(true);
   };
 
   const handleUpdateQuantity = (
@@ -363,7 +375,7 @@ export default function App() {
               <ShopSection
                 onSelectPlant={(plant) => openProductPage(plant)}
                 onAddToCart={(plant) => handleAddToCart(plant)}
-                onBuyNowDirect={(plant) => openOrderPageWithPlant(plant)}
+                onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
                 selectedCategoryFilter={selectedCategory}
               />
             </ScrollSkeletonContainer>
@@ -406,7 +418,7 @@ export default function App() {
               onBack={() => navigateToView('home')}
               onSelectPlant={(plant) => openProductPage(plant)}
               onAddToCart={(plant) => handleAddToCart(plant)}
-              onBuyNowDirect={(plant) => openOrderPageWithPlant(plant)}
+              onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
               selectedCategoryFilter={selectedCategory}
             />
           </Suspense>
@@ -505,6 +517,16 @@ export default function App() {
         plant={selectedPlant}
         onClose={() => setSelectedPlant(null)}
         onAddToCart={handleAddToCart}
+      />
+
+      {/* Online Direct Courier Shipping Coming Soon Modal */}
+      <ComingSoonShippingModal
+        isOpen={isComingSoonOpen}
+        onClose={() => setIsComingSoonOpen(false)}
+        plant={comingSoonPlant}
+        quantity={1}
+        includePot={false}
+        potPrice={60}
       />
 
       {/* Search Overlay Modal */}

@@ -14,6 +14,8 @@ import { ContactSection } from './components/ContactSection';
 import { CartDrawer } from './components/CartDrawer';
 import { ComingSoonShippingModal } from './components/ComingSoonShippingModal';
 import { Footer } from './components/Footer';
+import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
+import { NurseryChatbot } from './components/NurseryChatbot';
 import { Skeleton } from './components/Skeleton';
 import { ScrollSkeletonContainer } from './components/ScrollSkeletonContainer';
 import { Plant, CartItem } from './types/nursery';
@@ -321,21 +323,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-sans relative">
-      {/* Initial Page Load Overlay with Small Brand Logo */}
+      {/* Initial Page Load with Remotion Botanical Orbital Loader */}
       {initialLoading && (
-        <div className="fixed inset-0 z-50 bg-background flex items-center justify-center p-6 space-y-4">
-          <div className="text-center space-y-3 max-w-md w-full flex flex-col items-center justify-center animate-in fade-in duration-300">
-            <img
-              src="/logo.png"
-              alt="Green Vatika Logo"
-              className="h-14 w-auto object-contain animate-pulse pointer-events-none drop-shadow-md"
-            />
-            <div className="font-heading font-extrabold text-lg text-foreground tracking-tight">
-              Green Vatika
-            </div>
-            <div className="h-1 w-24 rounded-full bg-gradient-to-r from-primary via-emerald-400 to-accent animate-pulse" />
-          </div>
-        </div>
+        <RemotionBotanicalLoader
+          size="fullscreen"
+          label="Green Vatika"
+          subtext="Nurturing Authentic Indian Flora"
+        />
       )}
 
       {/* Top Page Transition Loader Bar */}
@@ -652,9 +646,12 @@ export default function App() {
         </div>
       )}
 
+      {/* Floating Nursery Knowledge Chatbot (Right-Side, Working Heuristic & Catalog Q&A) */}
+      <NurseryChatbot />
+
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background shadow-2xl border border-primary/30 animate-in slide-in-from-bottom duration-300">
+        <div className="fixed bottom-24 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background shadow-2xl border border-primary/30 animate-in slide-in-from-bottom duration-300">
           <CheckCircle className="h-5 w-5 text-primary shrink-0" />
           <span className="text-sm font-extrabold">{toastMessage}</span>
         </div>

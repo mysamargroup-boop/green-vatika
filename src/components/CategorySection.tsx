@@ -38,16 +38,16 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
           </p>
         </div>
 
-        {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        {/* Categories Grid - 3 Columns on Mobile (Strictly Clean: Only Name & Image), 6 Columns on Desktop */}
+        <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 md:gap-5">
           {categoriesData.map((cat) => {
             const IconComponent = getCategoryIcon(cat.iconName);
             return (
               <a
                 key={cat.id}
                 href="#featured"
-                onClick={() => onSelectCategory(cat.name.replace(' Plants', '').replace(' & Planters', ''))}
-                className="group relative overflow-hidden rounded-3xl bg-card border border-border/60 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-500 block"
+                onClick={() => onSelectCategory(cat.name.replace(' Plants', '').replace(' & Planters', '').replace(' & Vines', ''))}
+                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/20 transition-all duration-500 block"
               >
                 {/* Aspect Square Image Container with Lazy Loading */}
                 <div className="aspect-square overflow-hidden relative">
@@ -57,27 +57,31 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
                     aspectRatio="aspect-square"
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+                  {/* Smooth Dark Gradient for Legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
                 </div>
 
-                {/* Top Corner Variety Badge */}
-                <div className="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 flex items-center gap-1.5 z-10">
+                {/* Top Corner Variety Badge - Desktop/Tablet Only */}
+                <div className="hidden sm:flex absolute top-2.5 right-2.5 sm:top-3 sm:right-3 items-center gap-1.5 z-10">
                   <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 shadow-md border border-emerald-400/30">
                     {cat.count}+ Varieties
                   </span>
                 </div>
 
-                {/* Category Details & Icon Overlay */}
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-5 text-white z-10 space-y-1">
-                  {/* Category Lucide Icon Badge */}
-                  <div className="h-7 w-7 sm:h-9 sm:w-9 rounded-xl bg-emerald-500/25 backdrop-blur-md border border-emerald-300/40 text-emerald-300 flex items-center justify-center mb-1 shadow-md">
-                    <IconComponent className="h-4 w-4 sm:h-5 sm:w-5" />
+                {/* Category Details & Bottom Name */}
+                <div className="absolute inset-x-0 bottom-0 p-2 sm:p-4 text-white z-10 flex flex-col justify-end">
+                  {/* Category Lucide Icon Badge - Desktop Only */}
+                  <div className="hidden sm:flex h-8 w-8 rounded-xl bg-emerald-500/25 backdrop-blur-md border border-emerald-300/40 text-emerald-300 items-center justify-center mb-1.5 shadow-md">
+                    <IconComponent className="h-4 w-4" />
                   </div>
 
-                  <div className="font-heading font-extrabold text-sm sm:text-lg leading-tight text-white drop-shadow-sm">
+                  {/* Clean Category Name (Only Name Visible on Mobile at Bottom) */}
+                  <div className="font-heading font-extrabold text-[11px] sm:text-base leading-tight text-white drop-shadow-md text-center sm:text-left line-clamp-1">
                     {cat.name}
                   </div>
-                  <div className="text-[11px] sm:text-xs text-white/80 font-medium line-clamp-1">
+
+                  {/* Description - Desktop Only */}
+                  <div className="hidden sm:block text-[11px] text-white/80 font-medium line-clamp-1 mt-0.5">
                     {cat.description}
                   </div>
                 </div>

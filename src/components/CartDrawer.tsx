@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CartItem } from '../types/nursery';
-import { X, Trash2, ShoppingBag, ArrowRight, MessageSquare, Tag, Truck } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ShoppingCart, ArrowRight, MessageSquare, Tag, Truck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
@@ -67,7 +67,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       .join('\n');
 
     const orderText = encodeURIComponent(
-      `🌿 *NEW ORDER FROM GREEN VATIKA WEBSITE*\n\n*Items Ordered:*\n${itemsList}\n\n*Summary:*\nSubtotal: ₹${subtotal}\nDiscount: -₹${discountAmount}\nShipping: ${
+      `*NEW ORDER FROM GREEN VATIKA WEBSITE*\n\n*Items Ordered:*\n${itemsList}\n\n*Summary:*\nSubtotal: ₹${subtotal}\nDiscount: -₹${discountAmount}\nShipping: ${
         shippingFee === 0 ? 'FREE' : `₹${shippingFee}`
       }\n*Total Amount: ₹${total}*\n\nPlease confirm availability and payment details!`
     );
@@ -119,7 +119,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </span>
               <span>
                 {subtotal >= shippingThreshold
-                  ? 'Unlocked 🎉'
+                  ? 'Unlocked (Free)'
                   : `Add ₹${shippingThreshold - subtotal} more`}
               </span>
             </div>
@@ -135,7 +135,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {cartItems.length === 0 ? (
               <div className="text-center py-16 space-y-3">
-                <div className="text-5xl">🪴</div>
+                <div className="h-16 w-16 mx-auto rounded-3xl bg-secondary/80 text-muted-foreground flex items-center justify-center border border-border/60">
+                  <ShoppingCart className="h-8 w-8 text-primary" />
+                </div>
                 <h3 className="font-heading text-lg font-bold text-foreground">Your cart is empty</h3>
                 <p className="text-xs text-muted-foreground">
                   Explore our nursery collection and add fresh greenery to your cart.
@@ -245,7 +247,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
               {promoApplied && (
                 <div className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-                  ✓ Coupon GREEN10 applied (10% Discount)!
+                  Coupon GREEN10 applied (10% Discount)!
                 </div>
               )}
 

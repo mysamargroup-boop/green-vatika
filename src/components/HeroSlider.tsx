@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Sparkles, ShoppingBag, ArrowRight, ShieldCheck, Flame, Tag } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Leaf, ShoppingBag, ArrowRight, ShieldCheck, Flame, Tag } from 'lucide-react';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
 
@@ -48,7 +48,7 @@ export const HeroSlider: React.FC = () => {
     {
       id: 3,
       badge: 'TERRACE BONSAI',
-      badgeIcon: <Sparkles className="h-3.5 w-3.5 text-amber-300" />,
+      badgeIcon: <Leaf className="h-3.5 w-3.5 text-emerald-300" />,
       title: 'Adenium Bonsai (Desert Rose) & Terracotta Planters',
       subtitle: 'Sculptural fat caudex succulents that thrive under direct Indian sun with minimal watering.',
       discountText: 'STARTS @ ₹100',
@@ -187,7 +187,7 @@ export const HeroSlider: React.FC = () => {
                         href={slide.ctaLink}
                         className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-primary hover:bg-primary/90 text-white font-extrabold text-xs sm:text-sm shadow-xl shadow-primary/30 transition-all hover:scale-105"
                       >
-                        <Sparkles className="h-4 w-4 text-amber-300" /> {slide.ctaText} <ArrowRight className="h-4 w-4" />
+                        <ShoppingBag className="h-4 w-4 text-white" /> {slide.ctaText} <ArrowRight className="h-4 w-4" />
                       </a>
                     )}
                   </div>

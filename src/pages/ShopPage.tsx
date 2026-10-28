@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShopSection } from '../components/ShopSection';
 import { Plant } from '../types/nursery';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { ArrowLeft, Leaf } from 'lucide-react';
 
 interface ShopPageProps {
   onBack: () => void;
@@ -29,7 +29,7 @@ export const ShopPage: React.FC<ShopPageProps> = ({
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </button>
           <span className="text-[11px] sm:text-xs font-extrabold text-primary bg-primary/10 px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-            <Sparkles className="h-3.5 w-3.5" /> Full Plant Catalog
+            <Leaf className="h-3.5 w-3.5" /> Full Plant Catalog
           </span>
         </div>
 

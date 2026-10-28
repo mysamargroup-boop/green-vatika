@@ -25,7 +25,7 @@ export interface Plant {
 export interface Category {
   id: string;
   name: string;
-  emoji: string;
+  emoji?: string;
   iconName?: string;
   description: string;
   image: string;

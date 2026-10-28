@@ -149,7 +149,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
 
             {subscribed ? (
               <div className="text-xs font-bold text-emerald-600 bg-emerald-500/10 p-3 rounded-xl">
-                ✓ Thank you for subscribing! Check your inbox.
+                Thank you for subscribing! Check your inbox.
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="space-y-2">

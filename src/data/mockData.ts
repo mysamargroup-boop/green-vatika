@@ -4,7 +4,6 @@ export const categoriesData: Category[] = [
   {
     id: 'flowering',
     name: 'Flowering Plants',
-    emoji: '🌸',
     iconName: 'Flower2',
     description: 'Fragrant and vibrant year-round blooming outdoor plants',
     image: '/images/green-vatika/categories/flowering.webp',
@@ -13,7 +12,6 @@ export const categoriesData: Category[] = [
   {
     id: 'outdoor',
     name: 'Outdoor Plants',
-    emoji: '🌿',
     iconName: 'Trees',
     description: 'Heat-hardy sun-loving plants to beautify terraces & balconies',
     image: '/images/green-vatika/categories/outdoor.webp',
@@ -22,7 +20,6 @@ export const categoriesData: Category[] = [
   {
     id: 'bonsai',
     name: 'Bonsai & Caudex',
-    emoji: '🪴',
     iconName: 'Sprout',
     description: 'Aged Adenium desert roses & sculpted succulent bonsai',
     image: '/images/green-vatika/categories/bonsai.webp',
@@ -31,7 +28,6 @@ export const categoriesData: Category[] = [
   {
     id: 'pots',
     name: 'Pots & Planters',
-    emoji: '🏺',
     iconName: 'Package',
     description: 'Handcrafted baked terracotta clay gamlas & artisan pots',
     image: '/images/green-vatika/categories/pots.webp',
@@ -40,7 +36,6 @@ export const categoriesData: Category[] = [
   {
     id: 'fragrant',
     name: 'Fragrant Plants',
-    emoji: '🌺',
     iconName: 'Flower2',
     description: 'Intoxicating native desi gulab, mogra & star chandani',
     image: '/images/green-vatika/categories/fragrant.webp',
@@ -49,7 +44,6 @@ export const categoriesData: Category[] = [
   {
     id: 'climbers',
     name: 'Climbers & Vines',
-    emoji: '🌱',
     iconName: 'Trees',
     description: 'Vigorous blooming bougainvillea, aparajita & krishna kamal',
     image: '/images/green-vatika/categories/climbers.webp',

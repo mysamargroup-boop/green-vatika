@@ -102,19 +102,19 @@ export const OrderPage: React.FC<OrderPageProps> = ({
     const finalDeliverySchedule = `${getDateLabel()} — ${selectedTimeSlot}`;
 
     const whatsappMessage = encodeURIComponent(
-      `🌿 *GREEN VATIKA — NEW NURSERY ORDER*\n` +
+      `*GREEN VATIKA — NEW NURSERY ORDER*\n` +
       `----------------------------------------\n` +
-      `👤 *CUSTOMER DETAILS:*\n` +
+      `*CUSTOMER DETAILS:*\n` +
       `Name: ${fullName}\n` +
       `Phone: ${phone}\n` +
       `Address: ${address}, ${city} - ${pincode}\n` +
-      `📅 *Delivery Schedule:* ${finalDeliverySchedule}\n` +
+      `*Delivery Schedule:* ${finalDeliverySchedule}\n` +
       `${orderNotes ? `Notes: ${orderNotes}\n` : ''}` +
       `----------------------------------------\n` +
-      `🪴 *ITEMS ORDERED:*\n` +
+      `*ITEMS ORDERED:*\n` +
       `${itemsFormatted}\n` +
       `----------------------------------------\n` +
-      `💰 *BILLING SUMMARY:*\n` +
+      `*BILLING SUMMARY:*\n` +
       `Subtotal: ₹${subtotal}\n` +
       `${discountAmount > 0 ? `Discount: -₹${discountAmount}\n` : ''}` +
       `Shipping: ${shippingFee === 0 ? 'FREE' : `₹${shippingFee}`}\n` +
@@ -154,7 +154,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           <Truck className="h-5 w-5 text-amber-500 shrink-0" />
           <div className="leading-snug">
             <strong className="block text-amber-900 dark:text-amber-200 font-extrabold uppercase text-xs">
-              🚚 Pan-India Online Courier Shipping Coming Soon!
+              Pan-India Online Courier Shipping Coming Soon
             </strong>
             Right now, orders are confirmed for direct Nursery pickup &amp; local Narsinghpur delivery via instant WhatsApp booking.
           </div>
@@ -269,7 +269,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               <div>
                 <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground mb-3 flex items-center justify-between">
                   <span>Select Delivery Date</span>
-                  <span className="text-[11px] text-primary font-bold">✨ Fast Nursery Slot Dispatch</span>
+                  <span className="text-[11px] text-primary font-bold">Fast Nursery Slot Dispatch</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {[

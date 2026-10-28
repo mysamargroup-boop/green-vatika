@@ -1,6 +1,6 @@
 import React from 'react';
 import { Plant, CartItem } from '../types/nursery';
-import { X, Truck, Phone, MapPin, Sparkles, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { X, Truck, Phone, MapPin, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 interface ComingSoonShippingModalProps {
@@ -35,7 +35,7 @@ export const ComingSoonShippingModal: React.FC<ComingSoonShippingModalProps> = (
     let messageText = '';
     if (plant) {
       messageText =
-        `🌿 *GREEN VATIKA - PLANT PURCHASE INQUIRY*\n\n` +
+        `*GREEN VATIKA - PLANT PURCHASE INQUIRY*\n\n` +
         `Hello Green Vatika Team,\n` +
         `I would like to inquire about purchasing:\n` +
         `• *Plant:* ${plant.name}\n` +
@@ -54,14 +54,14 @@ export const ComingSoonShippingModal: React.FC<ComingSoonShippingModalProps> = (
         )
         .join('\n');
       messageText =
-        `🌿 *GREEN VATIKA - BULK CART INQUIRY*\n\n` +
+        `*GREEN VATIKA - BULK CART INQUIRY*\n\n` +
         `Hello Green Vatika Team,\n` +
         `I have selected the following plants on your website:\n\n${itemsSummary}\n\n` +
         `*Total Cart Value:* ₹${totalAmount || 'Enquire'}\n\n` +
         `Please share availability and how I can collect or receive them in Narsinghpur.`;
     } else {
       messageText =
-        `🌿 *GREEN VATIKA - DIRECT INQUIRY*\n\n` +
+        `*GREEN VATIKA - DIRECT INQUIRY*\n\n` +
         `Hello Green Vatika Team,\n` +
         `I am visiting your website and would like to order healthy plants. Please let me know how I can pick up or arrange delivery!`;
     }
@@ -94,7 +94,7 @@ export const ComingSoonShippingModal: React.FC<ComingSoonShippingModalProps> = (
 
         {/* Modal Title */}
         <h3 className="font-heading text-2xl sm:text-3xl font-black text-foreground leading-tight">
-          Pan-India Direct Courier Shipping Starting Soon 🌿
+          Pan-India Direct Courier Shipping Starting Soon
         </h3>
 
         <p className="text-xs sm:text-sm text-muted-foreground mt-2 leading-relaxed">

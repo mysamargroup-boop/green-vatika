@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plant } from '../types/nursery';
-import { X, Star, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare, Heart, AlertTriangle } from 'lucide-react';
+import { StarRating } from './StarRating';
+import { X, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare, Heart, PackageCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
@@ -44,7 +45,7 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
 
   const handleWhatsAppBuy = () => {
     const text = encodeURIComponent(
-      `🌿 *GREEN VATIKA ORDER INQUIRY*\n\n` +
+      `*GREEN VATIKA ORDER INQUIRY*\n\n` +
       `*Plant:* ${plant.name}\n` +
       `*Botanical:* ${plant.botanicalName}\n` +
       `*Planter:* ${includePot ? `Add Handcrafted Terracotta Pot (+₹${potPrice})` : 'Nursery Grower Polybag (No Pot)'}\n` +
@@ -93,11 +94,7 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
             <div>
               <div className="flex items-center justify-between text-xs text-primary font-bold mb-1">
                 <span>{plant.category} Plant</span>
-                <div className="flex items-center gap-1 text-amber-500 font-bold">
-                  <Star className="h-4 w-4 fill-current" />
-                  <span>{plant.rating}</span>
-                  <span className="text-muted-foreground font-normal">({plant.reviewsCount} reviews)</span>
-                </div>
+                <StarRating rating={plant.rating} size="xs" showNumeric={true} reviewsCount={plant.reviewsCount} />
               </div>
 
               <h2 className="font-heading text-2xl md:text-3xl font-extrabold text-foreground leading-tight">
@@ -123,38 +120,47 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
               </div>
               {includePot && (
                 <div className="text-[11px] text-primary font-bold mt-1">
-                  ✓ Includes ₹{potPrice * quantity} for {quantity} handcrafted planter(s)
+                  Includes ₹{potPrice * quantity} for {quantity} handcrafted planter(s)
                 </div>
               )}
             </div>
 
-            {/* Red Warning Note: Pot is NOT included */}
-            <div className="p-3 rounded-2xl bg-red-500/10 border-2 border-red-500/30 text-red-600 dark:text-red-400 text-xs font-semibold flex items-start gap-2.5 shadow-xs">
-              <AlertTriangle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
-              <div className="space-y-0.5">
+            {/* Refined Packaging Note */}
+            <div className="p-3 rounded-2xl bg-secondary/50 border border-border/80 text-foreground text-xs font-semibold flex items-start gap-2.5 shadow-2xs">
+              <PackageCheck className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+              <div className="space-y-0.5 min-w-0">
                 <span className="font-extrabold uppercase tracking-wide block text-xs">
-                  ⚠️ Note: Pot is NOT Included with Plant
+                  Packaging &amp; Planter Notice
                 </span>
-                <p className="text-foreground/80 dark:text-foreground/90 font-medium text-[11px] leading-tight">
-                  Plant comes in a nursery grower bag. Check option below if you'd like to add a pot.
+                <p className="text-muted-foreground font-medium text-[11px] leading-relaxed">
+                  Delivered in an eco-friendly nursery grower polybag with an enriched root-ball. Handcrafted terracotta gamla optional below.
                 </p>
               </div>
             </div>
 
             {/* Interactive Pot Add-on Option Card */}
             <div
+              role="checkbox"
+              aria-checked={includePot}
+              tabIndex={0}
               onClick={() => setIncludePot(!includePot)}
-              className={`p-3 rounded-2xl border-2 flex items-center gap-3 cursor-pointer transition-all ${
+              onKeyDown={(e) => {
+                if (e.key === ' ' || e.key === 'Enter') {
+                  e.preventDefault();
+                  setIncludePot(!includePot);
+                }
+              }}
+              className={`p-3 rounded-2xl border flex items-center gap-3 cursor-pointer transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                 includePot
-                  ? 'bg-primary/10 border-primary ring-2 ring-primary/20 shadow-sm'
-                  : 'bg-secondary/40 border-border hover:border-primary/40'
+                  ? 'bg-muted/80 border-border/90 shadow-2xs'
+                  : 'bg-secondary/40 border-border/70 hover:bg-secondary/60'
               }`}
             >
-              <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-border/80 shrink-0 bg-background">
+              <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-border/80 shrink-0 bg-background flex items-center justify-center p-1">
                 <img
                   src="/images/green-vatika/pots/terracotta_pot_preview.webp"
                   alt="Handcrafted Terracotta Pot"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
 
@@ -163,14 +169,18 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
                   <h4 className="text-xs font-extrabold text-foreground truncate">
                     Add Handcrafted Terracotta Pot (+₹{potPrice})
                   </h4>
-                  <div className={`h-4 w-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
-                    includePot ? 'border-primary bg-primary text-white' : 'border-muted-foreground'
-                  }`}>
+                  <div
+                    className={`h-4.5 w-4.5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
+                      includePot
+                        ? 'border-foreground bg-foreground text-background'
+                        : 'border-muted-foreground/60 bg-transparent'
+                    }`}
+                  >
                     {includePot && <Check className="h-2.5 w-2.5 stroke-[3]" />}
                   </div>
                 </div>
                 <p className="text-[10px] text-muted-foreground mt-0.5 truncate">
-                  {includePot ? '✓ Planter added to this order' : 'Natural clay gamla with drainage hole'}
+                  {includePot ? 'Planter added to this order' : 'Natural clay gamla with drainage hole'}
                 </p>
               </div>
             </div>

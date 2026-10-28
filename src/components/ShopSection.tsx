@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { Plant } from '../types/nursery';
 import { plantsData } from '../data/mockData';
 import { LazyImage } from './LazyImage';
-import { Star, Heart, Eye, ShoppingCart, Search, Filter, Sun, Droplets, Wind, Sparkles, MessageSquare, Flame, Zap } from 'lucide-react';
+import { StarRating } from './StarRating';
+import { Heart, Eye, ShoppingCart, Search, Filter, Sun, Droplets, Wind, Leaf, MessageSquare, Flame, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ShopSectionProps {
@@ -74,7 +75,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 font-bold uppercase tracking-widest text-xs mb-3">
-              <Sparkles className="h-3.5 w-3.5" /> Handpicked Collection
+              <Leaf className="h-3.5 w-3.5" /> Handpicked Collection
             </div>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
               Featured Plants & Supplies
@@ -108,7 +109,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                 <option value="featured">Sort: Featured</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated ★</option>
+                <option value="rating">Top Rated</option>
               </select>
               <Filter className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
             </div>
@@ -135,7 +136,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
         {/* Plant Cards Grid */}
         {filteredPlants.length === 0 ? (
           <div className="text-center py-16 bg-card rounded-3xl border border-dashed border-border p-8">
-            <div className="text-4xl mb-3">🪴</div>
+            <Leaf className="h-10 w-10 mx-auto text-muted-foreground/50 mb-3" />
             <h3 className="font-heading text-xl font-bold text-foreground">No plants found matching your query</h3>
             <p className="text-muted-foreground mt-1 text-sm">Try clearing your search or switching categories.</p>
             <button
@@ -158,13 +159,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                   onClick={() => onSelectPlant(plant)}
                   className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
-                  {/* Image Container with Lazy Loading */}
-                  <div className="relative aspect-square overflow-hidden bg-muted/40">
+                  {/* Image Container: Clean Neutral Background with Centered Product Only */}
+                  <div className="relative aspect-square overflow-hidden bg-secondary/30 p-3 sm:p-4 flex items-center justify-center">
                     <LazyImage
                       src={plant.image}
                       alt={plant.name}
                       aspectRatio="aspect-square"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />
 
                     {/* Badges Overlay Left */}
@@ -227,11 +228,7 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                       {/* Category & Rating */}
                       <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1">
                         <span className="font-extrabold text-primary truncate max-w-[80px] sm:max-w-none">{plant.category}</span>
-                        <div className="flex items-center gap-0.5 sm:gap-1 text-amber-500 font-extrabold">
-                          <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-                          <span>{plant.rating}</span>
-                          <span className="text-muted-foreground font-normal hidden sm:inline">({plant.reviewsCount})</span>
-                        </div>
+                        <StarRating rating={plant.rating} size="xs" showNumeric={true} reviewsCount={plant.reviewsCount} />
                       </div>
 
                       {/* Title */}

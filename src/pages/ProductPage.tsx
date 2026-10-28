@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Plant } from '../types/nursery';
 import { LazyImage } from '../components/LazyImage';
 import { plantsData } from '../data/mockData';
+import { StarRating } from '../components/StarRating';
 import {
   ArrowLeft,
-  Star,
   Sun,
   Droplets,
   Wind,
@@ -12,15 +12,16 @@ import {
   Check,
   ShoppingCart,
   ShoppingBag,
-  MessageSquare,
   Heart,
   Share2,
   Truck,
   RotateCcw,
-  Sparkles,
+  PackageCheck,
+  Leaf,
+  Info,
+  CheckCircle2,
   Flame,
   Zap,
-  AlertTriangle,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -59,13 +60,9 @@ export const ProductPage: React.FC<ProductPageProps> = ({
   const potColors = ['Terracotta', 'Matte White', 'Forest Green', 'Charcoal'];
   const sizeOptions = ['Standard Grower Bag', 'Medium (1.5-2 ft)', 'Large (2.5+ ft)'];
 
-  // Alternative product gallery images
-  const galleryImages = [
-    plant.image,
-    plant.hoverImage || plant.image,
-    'https://images.pexels.com/photos/9412386/pexels-photo-9412386.jpeg?auto=compress&cs=tinysrgb&w=600',
-    'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=600',
-  ];
+  // Authentic product images only (Zero external placeholder/stock lifestyle photos)
+  const rawImages = [plant.image, plant.hoverImage].filter(Boolean) as string[];
+  const galleryImages = Array.from(new Set(rawImages));
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
 
   const handleAddToCart = () => {
@@ -80,7 +77,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
 
   const handleDirectWhatsAppBuy = () => {
     const messageText = encodeURIComponent(
-      `🌿 *GREEN VATIKA INSTANT BUY ORDER*\n\n` +
+      `*GREEN VATIKA DIRECT ORDER*\n\n` +
       `*Plant:* ${plant.name}\n` +
       `*Botanical:* ${plant.botanicalName}\n` +
       `*Category:* ${plant.category}\n` +
@@ -92,42 +89,45 @@ export const ProductPage: React.FC<ProductPageProps> = ({
     window.open(`https://wa.me/919479480068?text=${messageText}`, '_blank');
   };
 
-  const relatedPlants = plantsData
-    .filter((p) => p.category === plant.category && p.id !== plant.id)
-    .slice(0, 4);
+  // Always curate 4 recommendations (category matches first, then popular items, excluding current plant)
+  const categoryMatches = plantsData.filter((p) => p.category === plant.category && p.id !== plant.id);
+  const fallbackMatches = plantsData.filter((p) => p.category !== plant.category && p.id !== plant.id);
+  const relatedPlants = [...categoryMatches, ...fallbackMatches].slice(0, 4);
 
   return (
-    <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
+    <div className="pt-24 pb-28 sm:pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8">
         {/* Back & Breadcrumb Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-xs whitespace-nowrap shrink-0 hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Shop
           </button>
 
-          <div className="text-xs font-semibold text-muted-foreground hidden sm:block">
+          <nav aria-label="Breadcrumb" className="text-xs font-semibold text-muted-foreground hidden sm:block">
             Home / Shop / <span className="text-primary font-bold">{plant.category}</span> / {plant.name}
-          </div>
+          </nav>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          {/* Left Column: Image Gallery */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+          {/* Left Column: Product Image Gallery (Product Only, Clean Neutral Background) */}
           <div className="space-y-4">
-            {/* Main Featured Image */}
-            <div className="relative rounded-3xl overflow-hidden shadow-xl border border-border/80 bg-card max-h-[360px] sm:max-h-[420px]">
-              <LazyImage
-                src={galleryImages[activeImageIndex]}
-                alt={plant.name}
-                aspectRatio="aspect-[4/3] sm:aspect-square"
-                className="w-full h-[360px] sm:h-[420px] object-cover object-center"
-              />
+            {/* Main Featured Image - Isolated Product Presentation */}
+            <div className="relative rounded-3xl overflow-hidden border border-border/80 bg-card shadow-sm flex items-center justify-center p-4 sm:p-6 min-h-[340px] sm:min-h-[420px]">
+              <div className="w-full h-[320px] sm:h-[400px] flex items-center justify-center">
+                <LazyImage
+                  src={galleryImages[activeImageIndex] || plant.image}
+                  alt={plant.name}
+                  aspectRatio="aspect-square"
+                  className="w-full h-full object-contain object-center transition-transform duration-500 hover:scale-105"
+                />
+              </div>
 
               {plant.badge && (
-                <span className="absolute top-4 left-4 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider text-white bg-amber-500 shadow-lg">
+                <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-white bg-primary shadow-sm border border-white/20">
                   {plant.badge}
                 </span>
               )}
@@ -135,62 +135,63 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               <div className="absolute top-4 right-4 flex items-center gap-2">
                 <button
                   onClick={() => setIsWishlisted(!isWishlisted)}
-                  className="p-3 rounded-full glass hover:bg-white text-foreground shadow-md transition-all"
+                  aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+                  className="p-2.5 rounded-full bg-background/80 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60"
                 >
-                  <Heart className={`h-5 w-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-slate-600'}`} />
+                  <Heart className={`h-4.5 w-4.5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
                 </button>
                 <button
                   onClick={() => {
                     navigator.clipboard?.writeText(window.location.href);
                     alert('Product link copied to clipboard!');
                   }}
-                  className="p-3 rounded-full glass hover:bg-white text-foreground shadow-md transition-all"
+                  aria-label="Share product"
+                  className="p-2.5 rounded-full bg-background/80 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60"
                 >
-                  <Share2 className="h-5 w-5 text-slate-600" />
+                  <Share2 className="h-4.5 w-4.5 text-muted-foreground" />
                 </button>
               </div>
             </div>
 
-            {/* Gallery Thumbnails */}
-            <div className="grid grid-cols-4 gap-3">
-              {galleryImages.map((img, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveImageIndex(index)}
-                  className={`rounded-2xl overflow-hidden border-2 transition-all ${
-                    activeImageIndex === index
-                      ? 'border-primary ring-2 ring-primary/30 scale-105'
-                      : 'border-border opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <LazyImage src={img} alt="thumbnail" aspectRatio="aspect-square" className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
+            {/* Gallery Thumbnails (Only rendered when multiple authentic photos exist) */}
+            {galleryImages.length > 1 && (
+              <div className="flex items-center gap-3">
+                {galleryImages.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveImageIndex(index)}
+                    aria-label={`View product image ${index + 1}`}
+                    className={`h-20 w-20 rounded-2xl overflow-hidden border-2 bg-card p-1 transition-all ${
+                      activeImageIndex === index
+                        ? 'border-primary shadow-xs scale-105'
+                        : 'border-border/70 opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <LazyImage src={img} alt={`${plant.name} angle ${index + 1}`} aspectRatio="aspect-square" className="w-full h-full object-contain" />
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Right Column: Details, Options & Direct Order Actions */}
-          <div className="space-y-6">
+          {/* Right Column: Details, Refined Note, Planter Add-on & Actions */}
+          <div className="space-y-5 sm:space-y-6">
             <div>
-              <div className="flex items-center justify-between text-xs text-primary font-bold mb-2">
-                <span className="px-3 py-1 rounded-full bg-primary/10">{plant.category} Collection</span>
-                <div className="flex items-center gap-1 text-amber-500 font-bold">
-                  <Star className="h-4 w-4 fill-current" />
-                  <span>{plant.rating}</span>
-                  <span className="text-muted-foreground font-normal">({plant.reviewsCount} verified reviews)</span>
-                </div>
+              <div className="flex items-center justify-between text-xs font-bold mb-2">
+                <span className="px-3 py-1 rounded-full bg-primary/10 text-primary">{plant.category} Collection</span>
+                <StarRating rating={plant.rating} size="sm" showNumeric={true} reviewsCount={plant.reviewsCount} />
               </div>
 
-              <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-foreground leading-tight">
+              <h1 className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground leading-tight">
                 {plant.name}
               </h1>
-              <p className="text-sm text-muted-foreground italic mt-1">{plant.botanicalName}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground italic mt-1">{plant.botanicalName}</p>
             </div>
 
-            {/* Price & Savings */}
-            <div className="p-4 rounded-2xl bg-secondary/50 border border-border/80 flex flex-wrap items-center justify-between gap-3">
+            {/* Special Nursery Price Box */}
+            <div className="p-4 rounded-2xl bg-secondary/40 border border-border/80 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <div className="text-xs text-muted-foreground font-semibold">Special Nursery Price</div>
+                <div className="text-xs text-muted-foreground font-semibold">Special Direct Nursery Price</div>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1">
                   <span className="text-2xl sm:text-3xl font-extrabold text-foreground">₹{calculatedTotal}</span>
                   {calculatedOriginalTotal && (
@@ -199,69 +200,79 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                     </span>
                   )}
                   {plant.discount && (
-                    <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
+                    <span className="text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 whitespace-nowrap shrink-0">
                       SAVE {plant.discount}%
                     </span>
                   )}
                 </div>
                 {includePot && (
                   <div className="text-[11px] text-primary font-bold mt-1">
-                    ✓ Includes ₹{potPrice * quantity} for {quantity} handcrafted planter(s)
+                    Includes ₹{potPrice * quantity} for {quantity} handcrafted terracotta planter(s)
                   </div>
                 )}
               </div>
 
               <div className="text-left sm:text-right">
-                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" /> In Stock &amp; Ready for Delivery
+                <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-emerald-500" /> In Stock &amp; Ready for Delivery
                 </div>
               </div>
             </div>
 
-            {/* Red Warning Note: Pot is NOT included */}
-            <div className="p-3.5 sm:p-4 rounded-2xl bg-red-500/10 border-2 border-red-500/30 text-red-600 dark:text-red-400 text-xs sm:text-sm font-semibold flex items-start gap-3 shadow-xs">
-              <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
-              <div className="space-y-0.5">
-                <span className="font-extrabold uppercase tracking-wide block text-xs sm:text-sm">
-                  ⚠️ Note: Pot is NOT Included with the plant
+            {/* Redesigned Packaging Note (Phase 3: Refined Neutral Surface, Zero Red Border, Zero Emojis) */}
+            <div
+              role="note"
+              className="p-3.5 sm:p-4 rounded-2xl bg-secondary/50 border border-border/80 text-foreground text-xs sm:text-sm flex items-start gap-3 shadow-2xs"
+            >
+              <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 border border-primary/20">
+                <PackageCheck className="h-4.5 w-4.5" />
+              </div>
+              <div className="space-y-1 min-w-0 flex-1">
+                <span className="font-extrabold uppercase tracking-wider block text-xs text-foreground">
+                  Packaging &amp; Planter Notice
                 </span>
-                <p className="text-foreground/80 dark:text-foreground/90 font-medium text-xs leading-relaxed">
-                  Plant is delivered in a healthy nursery grower polybag / root ball. You can add a premium handcrafted terracotta pot below for a nominal charge.
+                <p className="text-muted-foreground font-medium text-xs leading-relaxed">
+                  Plant is safely delivered in an eco-friendly nursery grower polybag with an enriched root-ball. You can choose to add a handcrafted terracotta gamla below for a nominal charge.
                 </p>
               </div>
             </div>
 
-            {/* Interactive Planter Add-on Card */}
-            <div className={`p-4 rounded-2xl border-2 transition-all space-y-3 ${
-              includePot
-                ? 'bg-primary/5 border-primary ring-2 ring-primary/20 shadow-md'
-                : 'bg-card border-border/80 hover:border-border'
-            }`}>
+            {/* Redesigned Planter Add-on UI (Phase 8: Subtle Neutral Surface Tint, ZERO Heavy Colored Outlines) */}
+            <div className="p-4 rounded-2xl bg-card border border-border/80 space-y-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <label className="text-xs font-black uppercase tracking-wider text-foreground">
+                  <label className="text-xs font-extrabold uppercase tracking-wider text-foreground">
                     Optional Planter Add-on
                   </label>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-secondary text-foreground/80 border border-border/60">
                     Recommended
                   </span>
                 </div>
-                <span className="text-xs font-extrabold text-primary">+₹{potPrice} each</span>
+                <span className="text-xs font-extrabold text-foreground">+₹{potPrice} each</span>
               </div>
 
               <div
+                role="checkbox"
+                aria-checked={includePot}
+                tabIndex={0}
                 onClick={() => setIncludePot(!includePot)}
-                className={`p-3 rounded-xl border-2 flex items-center gap-3.5 cursor-pointer transition-all ${
+                onKeyDown={(e) => {
+                  if (e.key === ' ' || e.key === 'Enter') {
+                    e.preventDefault();
+                    setIncludePot(!includePot);
+                  }
+                }}
+                className={`p-3 rounded-xl border flex items-center gap-3.5 cursor-pointer transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary ${
                   includePot
-                    ? 'bg-primary/10 border-primary shadow-xs'
-                    : 'bg-secondary/40 border-border hover:border-primary/40'
+                    ? 'bg-muted/80 border-border/90 shadow-2xs'
+                    : 'bg-secondary/40 border-border/70 hover:bg-secondary/60'
                 }`}
               >
-                <div className="relative h-14 w-14 rounded-xl overflow-hidden border border-border/80 shrink-0 bg-background">
+                <div className="relative h-14 w-14 rounded-xl overflow-hidden border border-border/80 shrink-0 bg-background flex items-center justify-center p-1">
                   <img
                     src="/images/green-vatika/pots/terracotta_pot_preview.webp"
                     alt="Handcrafted Terracotta Pot"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
 
@@ -270,45 +281,49 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                     <h4 className="text-xs sm:text-sm font-extrabold text-foreground truncate">
                       Handcrafted Terracotta Planter (+₹{potPrice})
                     </h4>
-                    <div className={`h-5 w-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                      includePot ? 'border-primary bg-primary text-white' : 'border-muted-foreground'
-                    }`}>
+                    <div
+                      className={`h-5 w-5 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
+                        includePot
+                          ? 'border-foreground bg-foreground text-background'
+                          : 'border-muted-foreground/60 bg-transparent'
+                      }`}
+                    >
                       {includePot && <Check className="h-3 w-3 stroke-[3]" />}
                     </div>
                   </div>
                   <p className="text-[11px] text-muted-foreground mt-0.5 leading-tight">
                     {includePot
-                      ? '✓ Handcrafted terracotta pot added to this plant'
-                      : 'Click to add a natural baked terracotta gamla with drainage hole'}
+                      ? 'Handcrafted baked terracotta pot added to this plant'
+                      : 'Click to add a natural porous baked clay gamla with drainage hole'}
                   </p>
                 </div>
               </div>
             </div>
 
-            <p className="text-sm text-muted-foreground leading-relaxed">{plant.description}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{plant.description}</p>
 
-            {/* Specs Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {/* Quick Plant Metrics Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
               <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
-                <Sun className="h-5 w-5 text-amber-500 mx-auto" />
+                <Sun className="h-4.5 w-4.5 text-amber-500 mx-auto" />
                 <div className="text-[10px] uppercase font-bold text-muted-foreground">Sunlight</div>
                 <div className="text-xs font-bold text-foreground line-clamp-1">{plant.light}</div>
               </div>
 
               <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
-                <Droplets className="h-5 w-5 text-blue-500 mx-auto" />
+                <Droplets className="h-4.5 w-4.5 text-blue-500 mx-auto" />
                 <div className="text-[10px] uppercase font-bold text-muted-foreground">Watering</div>
                 <div className="text-xs font-bold text-foreground line-clamp-1">{plant.water}</div>
               </div>
 
               <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
-                <Wind className="h-5 w-5 text-emerald-600 mx-auto" />
+                <Wind className="h-4.5 w-4.5 text-emerald-600 mx-auto" />
                 <div className="text-[10px] uppercase font-bold text-muted-foreground">Air Purifier</div>
-                <div className="text-xs font-bold text-foreground">{plant.airPurifying ? 'NASA Certified' : 'Standard'}</div>
+                <div className="text-xs font-bold text-foreground">{plant.airPurifying ? 'NASA Verified' : 'Natural'}</div>
               </div>
 
               <div className="p-3 rounded-2xl bg-card border border-border/80 text-center space-y-1">
-                <ShieldAlert className="h-5 w-5 text-purple-600 mx-auto" />
+                <ShieldAlert className="h-4.5 w-4.5 text-purple-600 mx-auto" />
                 <div className="text-[10px] uppercase font-bold text-muted-foreground">Pet Friendly</div>
                 <div className="text-xs font-bold text-foreground">{plant.petFriendly ? 'Pet Safe' : 'Caution'}</div>
               </div>
@@ -324,10 +339,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`py-2.5 px-3 rounded-xl text-xs font-bold border transition-all ${
+                    className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition-all text-center truncate ${
                       selectedSize === size
-                        ? 'border-primary bg-primary/10 text-primary shadow-sm'
-                        : 'border-border text-foreground hover:bg-secondary'
+                        ? 'border-primary bg-primary/10 text-primary shadow-2xs'
+                        : 'border-border/80 text-foreground hover:bg-secondary'
                     }`}
                   >
                     {size}
@@ -346,10 +361,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                   <button
                     key={color}
                     onClick={() => setSelectedPotColor(color)}
-                    className={`px-4 py-2 rounded-full text-xs font-bold border transition-all ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-bold border transition-all ${
                       selectedPotColor === color
-                        ? 'border-primary bg-primary text-white shadow-md'
-                        : 'border-border text-foreground hover:bg-secondary'
+                        ? 'border-primary bg-primary text-white shadow-xs'
+                        : 'border-border/80 text-foreground hover:bg-secondary'
                     }`}
                   >
                     {color}
@@ -359,163 +374,194 @@ export const ProductPage: React.FC<ProductPageProps> = ({
             </div>
 
             {/* Quantity Selector */}
-            <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center justify-between pt-1">
               <span className="text-xs font-bold uppercase text-muted-foreground">Select Quantity</span>
-              <div className="flex items-center border border-border rounded-full p-1 bg-secondary/50">
+              <div className="flex items-center border border-border/80 rounded-full p-1 bg-secondary/50">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="h-8 w-8 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-xs"
+                  aria-label="Decrease quantity"
+                  className="h-7 w-7 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-2xs transition-colors"
                 >
                   -
                 </button>
-                <span className="px-5 text-sm font-bold text-foreground">{quantity}</span>
+                <span className="px-4 text-xs sm:text-sm font-bold text-foreground">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="h-8 w-8 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-xs"
+                  aria-label="Increase quantity"
+                  className="h-7 w-7 rounded-full bg-card hover:bg-primary/20 font-bold text-foreground flex items-center justify-center shadow-2xs transition-colors"
                 >
                   +
                 </button>
               </div>
             </div>
 
-            {/* Primary Action Buttons */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-border/80">
+            {/* Desktop / Tablet Primary Action Buttons (Hidden on small mobile where sticky footer handles it) */}
+            <div className="hidden sm:grid sm:grid-cols-2 gap-3.5 pt-4 border-t border-border/80">
               <button
                 onClick={handleDirectWhatsAppBuy}
-                className="py-3.5 px-6 rounded-2xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-sm shadow-none border border-[#146934] transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01] whitespace-nowrap"
+                className="py-3.5 px-5 rounded-2xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-sm border border-[#146934] transition-all flex items-center justify-center gap-2 hover:scale-[1.01] whitespace-nowrap cursor-pointer"
               >
-                <WhatsAppIcon className="h-5 w-5 text-white" />
+                <WhatsAppIcon className="h-4.5 w-4.5 text-white" />
                 Buy Now on WhatsApp
               </button>
 
               <button
                 onClick={() => setIsShippingModalOpen(true)}
-                className="py-3.5 px-6 rounded-2xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white font-extrabold text-sm shadow-xl shadow-slate-900/30 border border-slate-700/60 transition-all flex items-center justify-center gap-2.5 hover:scale-[1.02] whitespace-nowrap"
+                className="py-3.5 px-5 rounded-2xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white font-extrabold text-sm shadow-md border border-slate-700/60 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] whitespace-nowrap cursor-pointer"
               >
-                <ShoppingBag className="h-5 w-5 text-emerald-400" /> Proceed to Order Checkout
+                <ShoppingBag className="h-4.5 w-4.5 text-emerald-400" /> Proceed to Order Checkout
               </button>
             </div>
 
             {/* Delivery Assurance */}
-            <div className="grid grid-cols-2 gap-4 pt-4 text-xs text-muted-foreground border-t border-border/40">
+            <div className="grid grid-cols-2 gap-3 pt-3 text-[11px] sm:text-xs text-muted-foreground border-t border-border/50">
               <div className="flex items-center gap-2">
                 <Truck className="h-4 w-4 text-primary shrink-0" />
                 <span>Safely packed with 100% replacement guarantee</span>
               </div>
               <div className="flex items-center gap-2">
                 <RotateCcw className="h-4 w-4 text-primary shrink-0" />
-                <span>7-Day Freshness & Healthy Leaf Warranty</span>
+                <span>7-Day Freshness &amp; Healthy Leaf Warranty</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Detailed Information Tabs */}
-        <div className="mt-16 bg-card rounded-3xl border border-border/80 p-6 md:p-8 shadow-xl">
-          {/* Segmented Control Tabs */}
-          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden bg-secondary/60 p-1.5 rounded-2xl border border-border/60 mb-6">
+        {/* Detailed Information Tabs (Phase 6: Responsive Grid, No Clipped Labels, Zero Emojis) */}
+        <div className="mt-14 sm:mt-16 bg-card rounded-3xl border border-border/80 p-5 sm:p-7 shadow-sm">
+          {/* Responsive Segmented Control Tabs */}
+          <div
+            role="tablist"
+            className="grid grid-cols-3 gap-1.5 p-1.5 bg-secondary/60 rounded-2xl border border-border/60 mb-6"
+          >
             <button
+              role="tab"
+              id="tab-care"
+              aria-selected={activeTab === 'care'}
+              aria-controls="panel-care"
               onClick={() => setActiveTab('care')}
-              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
+              className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all text-center truncate ${
                 activeTab === 'care'
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  ? 'bg-primary text-white shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
-              Expert Care Guidelines
+              Care Guidelines
             </button>
             <button
+              role="tab"
+              id="tab-details"
+              aria-selected={activeTab === 'details'}
+              aria-controls="panel-details"
               onClick={() => setActiveTab('details')}
-              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
+              className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all text-center truncate ${
                 activeTab === 'details'
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  ? 'bg-primary text-white shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
-              Plant Specifications
+              Specifications
             </button>
             <button
+              role="tab"
+              id="tab-reviews"
+              aria-selected={activeTab === 'reviews'}
+              aria-controls="panel-reviews"
               onClick={() => setActiveTab('reviews')}
-              className={`flex-1 min-w-[140px] py-2.5 px-3.5 sm:px-5 rounded-xl text-xs sm:text-sm font-extrabold transition-all whitespace-nowrap text-center ${
+              className={`py-2.5 px-2 rounded-xl text-xs sm:text-sm font-extrabold transition-all text-center truncate ${
                 activeTab === 'reviews'
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-[1.02]'
+                  ? 'bg-primary text-white shadow-xs'
                   : 'text-muted-foreground hover:text-foreground hover:bg-card/60'
               }`}
             >
-              Customer Reviews ({plant.reviewsCount})
+              Reviews ({plant.reviewsCount})
             </button>
           </div>
 
+          {/* Care Guidelines Panel */}
           {activeTab === 'care' && (
-            <div className="space-y-4">
-              <h3 className="font-heading font-extrabold text-lg text-foreground flex items-center gap-2">
-                <Sparkles className="h-5 w-5 text-primary" /> How to Care for Your {plant.name}
+            <div id="panel-care" role="tabpanel" aria-labelledby="tab-care" className="space-y-4">
+              <h3 className="font-heading font-extrabold text-base sm:text-lg text-foreground flex items-center gap-2">
+                <Leaf className="h-5 w-5 text-primary shrink-0" /> How to Care for Your {plant.name}
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 {plant.careInstructions.map((tip, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl bg-secondary/40 border border-border/60">
-                    <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                    <span className="text-sm text-foreground/90 font-medium">{tip}</span>
+                  <div key={idx} className="flex items-start gap-3 p-3.5 sm:p-4 rounded-2xl bg-secondary/40 border border-border/60">
+                    <CheckCircle2 className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-foreground/90 font-medium leading-relaxed">{tip}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
+          {/* Specifications Panel */}
           {activeTab === 'details' && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+            <div id="panel-details" role="tabpanel" aria-labelledby="tab-details" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-sm">
               <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
-                <span className="text-xs text-muted-foreground font-bold uppercase">Botanical Name</span>
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Botanical Name</span>
                 <div className="font-bold text-foreground italic mt-0.5">{plant.botanicalName}</div>
               </div>
               <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
-                <span className="text-xs text-muted-foreground font-bold uppercase">Height Range</span>
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Height Range</span>
                 <div className="font-bold text-foreground mt-0.5">{plant.height}</div>
               </div>
               <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
-                <span className="text-xs text-muted-foreground font-bold uppercase">Difficulty Level</span>
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Difficulty Level</span>
                 <div className="font-bold text-foreground mt-0.5">{plant.difficulty}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Sunlight Needs</span>
+                <div className="font-bold text-foreground mt-0.5">{plant.light}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Watering Frequency</span>
+                <div className="font-bold text-foreground mt-0.5">{plant.water}</div>
+              </div>
+              <div className="p-4 rounded-2xl bg-secondary/30 border border-border/60">
+                <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Packaging</span>
+                <div className="font-bold text-foreground mt-0.5">Grower Polybag (Root-Balled)</div>
               </div>
             </div>
           )}
 
+          {/* Customer Reviews Panel (Phase 9: Golden SVG Stars, Zero Hardcoded Glyphs) */}
           {activeTab === 'reviews' && (
-            <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-4 p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30">
-                <div className="flex items-center gap-3">
-                  <div className="text-3xl font-black text-amber-600">4.9 ★</div>
+            <div id="panel-reviews" role="tabpanel" aria-labelledby="tab-reviews" className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/20">
+                <div className="flex items-center gap-3.5">
+                  <StarRating rating={plant.rating} size="lg" showNumeric={true} />
                   <div>
                     <div className="font-extrabold text-sm text-foreground">Top Rated Nursery Plant</div>
                     <div className="text-xs text-muted-foreground">Based on {plant.reviewsCount} verified customer reviews</div>
                   </div>
                 </div>
-                <span className="text-xs font-extrabold px-3 py-1.5 rounded-full bg-amber-500 text-slate-950 shadow-sm">
-                  100% VERIFIED BUYERS
+                <span className="text-xs font-extrabold px-3 py-1 rounded-full bg-card border border-border/80 text-foreground shadow-2xs">
+                  Verified Local Buyers
                 </span>
               </div>
 
-              {/* Right-to-Left Continuous Flowing Reviews Slider */}
-              <div className="relative overflow-hidden rounded-2xl bg-secondary/40 border border-border/60 py-4">
-                <div className="flex gap-4 animate-marquee whitespace-nowrap [animation-duration:25s] hover:[animation-play-state:paused]">
+              {/* Reviews Slider */}
+              <div className="relative overflow-hidden rounded-2xl bg-secondary/30 border border-border/60 py-4">
+                <div className="flex gap-4 animate-marquee whitespace-nowrap [animation-duration:28s] hover:[animation-play-state:paused]">
                   {[
-                    { name: 'Kavita Roy', location: 'Delhi', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
-                    { name: 'Sameer Sen', location: 'Mumbai', text: 'Healthy root system & beautiful ceramic planter. Highly recommended!', rating: 5, date: '1 week ago' },
-                    { name: 'Anita Verma', location: 'Bangalore', text: 'Packed with 100% eco-friendly protection. Plant is thriving!', rating: 5, date: '3 days ago' },
-                    { name: 'Dr. Rajesh Patel', location: 'Ahmedabad', text: 'Soil mix is rich and organic. Growing fast under indirect light!', rating: 5, date: '5 days ago' },
-                    { name: 'Priya Sharma', location: 'Indore', text: 'Fast delivery to MP! Nursery care team answered my light queries on WhatsApp.', rating: 5, date: 'Yesterday' },
-                    { name: 'Kavita Roy', location: 'Delhi', text: 'Arrived in pristine condition with 4 fresh leaves sprouting!', rating: 5, date: '2 days ago' },
-                    { name: 'Sameer Sen', location: 'Mumbai', text: 'Healthy root system & beautiful ceramic planter. Highly recommended!', rating: 5, date: '1 week ago' },
+                    { name: 'Kavita Roy', location: 'Delhi', text: 'Arrived in pristine condition with fresh green leaves sprouting and moist roots.', rating: 5, date: '2 days ago' },
+                    { name: 'Sameer Sen', location: 'Mumbai', text: 'Healthy root system and sturdy nursery bag. Very happy with the purchase.', rating: 5, date: '1 week ago' },
+                    { name: 'Anita Verma', location: 'Bangalore', text: 'Packed with eco-friendly protective cushioning. Plant is thriving on my balcony.', rating: 5, date: '3 days ago' },
+                    { name: 'Dr. Rajesh Patel', location: 'Ahmedabad', text: 'Soil mix is rich and organic. Growing fast under indirect morning sun.', rating: 5, date: '5 days ago' },
+                    { name: 'Priya Sharma', location: 'Indore', text: 'Fast delivery across MP. Nursery team answered my soil queries on WhatsApp.', rating: 5, date: 'Yesterday' },
+                    { name: 'Amit Kulkarni', location: 'Bhopal', text: 'High quality sapling acclimatized well to outdoor terrace heat.', rating: 5, date: '4 days ago' },
                   ].map((rev, idx) => (
                     <div
                       key={idx}
-                      className="min-w-[280px] sm:min-w-[320px] max-w-[340px] p-4 rounded-2xl bg-card border border-border/80 shadow-md space-y-2 shrink-0"
+                      className="min-w-[270px] sm:min-w-[300px] max-w-[320px] p-4 rounded-2xl bg-card border border-border/80 shadow-2xs space-y-2 shrink-0"
                     >
                       <div className="flex items-center justify-between">
                         <div>
                           <div className="font-extrabold text-xs text-foreground">{rev.name}</div>
                           <div className="text-[10px] text-muted-foreground font-medium">{rev.location} • {rev.date}</div>
                         </div>
-                        <div className="flex text-amber-400 text-xs">★★★★★</div>
+                        <StarRating rating={rev.rating} size="xs" />
                       </div>
                       <p className="text-xs text-foreground/90 font-medium leading-relaxed whitespace-normal line-clamp-2">
                         "{rev.text}"
@@ -528,73 +574,53 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           )}
         </div>
 
-        {/* Related Plants Section */}
+        {/* Recommended & Related Plants Section (Phase 4: Always Balanced 4-Item Grid, Clean Wrapping) */}
         {relatedPlants.length > 0 && (
-          <div className="mt-20">
+          <div className="mt-16 sm:mt-20">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <span className="text-xs font-extrabold uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-full">
                   Handpicked Recommendations
                 </span>
-                <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-foreground mt-2">
+                <h3 className="font-heading text-xl sm:text-2xl md:text-3xl font-extrabold text-foreground mt-2">
                   You May Also Like
                 </h3>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
               {relatedPlants.map((p) => (
                 <div
                   key={p.id}
                   onClick={() => onSelectPlant(p)}
-                  className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+                  className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
-                  {/* Image Container with Badges */}
-                  <div className="relative aspect-square overflow-hidden bg-muted/40">
+                  {/* Clean Isolated Image Container */}
+                  <div className="relative aspect-square overflow-hidden bg-secondary/30 p-3 sm:p-4 flex items-center justify-center">
                     <LazyImage
                       src={p.image}
                       alt={p.name}
                       aspectRatio="aspect-square"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                     />
 
-                    {/* Badges Overlay Left */}
+                    {/* Badges Overlay */}
                     <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-1 z-10">
                       {p.badge && (
-                        <span
-                          className={`px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white shadow-md border border-white/20 ${
-                            p.badge === 'Bestseller'
-                              ? 'bg-gradient-to-r from-amber-500 to-orange-500'
-                              : p.badge === 'Sale'
-                              ? 'bg-gradient-to-r from-red-600 to-rose-500'
-                              : p.badge === 'Eco Choice'
-                              ? 'bg-gradient-to-r from-emerald-600 to-teal-500'
-                              : 'bg-primary'
-                          }`}
-                        >
+                        <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wider text-white bg-primary shadow-xs">
                           {p.badge}
-                        </span>
-                      )}
-
-                      {p.discount && (
-                        <span className="px-2 py-0.5 sm:px-2.5 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-black bg-gradient-to-r from-red-600 via-rose-600 to-amber-500 text-white shadow-md border border-white/30 flex items-center gap-0.5">
-                          <Flame className="h-2.5 w-2.5 sm:h-3 sm:w-3 fill-amber-300 text-amber-200" />
-                          {p.discount}% OFF
                         </span>
                       )}
                     </div>
                   </div>
 
-                  {/* Card Body */}
-                  <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
+                  {/* Card Body with Clean Text Wrapping */}
+                  <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between min-w-0">
                     <div>
-                      {/* Category & Rating */}
-                      <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1">
-                        <span className="font-extrabold text-primary truncate max-w-[80px] sm:max-w-none">{p.category}</span>
-                        <div className="flex items-center gap-0.5 sm:gap-1 text-amber-500 font-extrabold">
-                          <Star className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-                          <span>{p.rating}</span>
-                        </div>
+                      {/* Category & Star Rating */}
+                      <div className="flex items-center justify-between text-[10px] sm:text-xs text-muted-foreground mb-1 min-w-0">
+                        <span className="font-extrabold text-primary truncate max-w-[90px] sm:max-w-none">{p.category}</span>
+                        <StarRating rating={p.rating} size="xs" showNumeric={true} />
                       </div>
 
                       {/* Title */}
@@ -620,7 +646,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                     <div className="pt-2 border-t border-border/40 space-y-2">
                       <div className="flex items-baseline justify-between">
                         <div className="flex items-baseline gap-1">
-                          <span className="text-base sm:text-lg font-black text-foreground">₹{p.price}</span>
+                          <span className="text-sm sm:text-base font-black text-foreground">₹{p.price}</span>
                           {p.originalPrice && (
                             <span className="text-[10px] sm:text-xs text-muted-foreground line-through font-bold">
                               ₹{p.originalPrice}
@@ -638,9 +664,9 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                             e.stopPropagation();
                             onOpenOrderPage(p, 1, '8 inch standard', 'Terracotta');
                           }}
-                          className="flex-1 py-1.5 sm:py-2 px-2 rounded-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-extrabold text-[10px] sm:text-xs flex items-center justify-center gap-1 shadow-md transition-all whitespace-nowrap"
+                          className="flex-1 py-1.5 sm:py-2 px-2 rounded-full bg-primary hover:bg-primary/90 text-white font-extrabold text-[10px] sm:text-xs flex items-center justify-center gap-1 transition-all whitespace-nowrap cursor-pointer shadow-2xs"
                         >
-                          <Zap className="h-3 w-3 fill-amber-300 text-amber-200" /> Buy Now
+                          <Zap className="h-3 w-3" /> Buy Now
                         </button>
 
                         <button
@@ -649,7 +675,8 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                             onAddToCart(p, 1, '8 inch standard', 'Terracotta');
                           }}
                           title="Add to Cart"
-                          className="p-1.5 sm:p-2 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-white transition-colors shrink-0 shadow-sm"
+                          aria-label={`Add ${p.name} to cart`}
+                          className="p-1.5 sm:p-2 rounded-full bg-secondary hover:bg-primary hover:text-white text-foreground transition-colors shrink-0 shadow-2xs cursor-pointer"
                         >
                           <ShoppingCart className="h-3.5 w-3.5" />
                         </button>
@@ -662,6 +689,41 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           </div>
         )}
       </div>
+
+      {/* Phase 5: Mobile Fixed Bottom Navigation & Action Bar (Mobile Only: lg:hidden) */}
+      <aside
+        aria-label="Mobile Product Actions"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-border/80 shadow-2xl px-4 py-2.5 pb-[calc(0.65rem+env(safe-area-inset-bottom))] flex items-center justify-between gap-3"
+      >
+        <div className="min-w-0">
+          <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">Total</div>
+          <div className="flex items-baseline gap-1.5">
+            <span className="text-lg font-extrabold text-foreground">₹{calculatedTotal}</span>
+            {calculatedOriginalTotal && (
+              <span className="text-xs text-muted-foreground line-through font-medium">₹{calculatedOriginalTotal}</span>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleAddToCart}
+            className="p-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border/80 shadow-2xs transition-colors shrink-0"
+            title="Add to Cart"
+            aria-label="Add to cart"
+          >
+            <ShoppingCart className="h-4.5 w-4.5" />
+          </button>
+
+          <button
+            onClick={handleDirectWhatsAppBuy}
+            className="py-2.5 px-4 rounded-xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap cursor-pointer"
+          >
+            <WhatsAppIcon className="h-4 w-4 text-white" />
+            Buy on WhatsApp
+          </button>
+        </div>
+      </aside>
 
       {/* Online Shipping Coming Soon Modal */}
       <ComingSoonShippingModal

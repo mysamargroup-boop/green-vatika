@@ -169,9 +169,22 @@ export default function App() {
   // URL Hash Path Routing & Browser History listener
   useEffect(() => {
     const syncViewFromHash = () => {
-      const hash = window.location.hash.replace('#', '').toLowerCase();
-      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(hash)) {
-        setCurrentView(hash as ViewState);
+      const rawHash = window.location.hash.replace('#', '');
+      const [hashView, hashQuery] = rawHash.split('?');
+      const cleanView = (hashView || '').toLowerCase();
+      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
+        setCurrentView(cleanView as ViewState);
+        if (cleanView === 'product') {
+          const params = new URLSearchParams(hashQuery || '');
+          const plantId = params.get('id');
+          if (plantId) {
+            const found = plantsData.find((p) => p.id === plantId);
+            if (found) setActiveProductView(found);
+            else setActiveProductView((prev) => prev || plantsData[0]);
+          } else {
+            setActiveProductView((prev) => prev || plantsData[0]);
+          }
+        }
       } else {
         setCurrentView('home');
       }
@@ -190,7 +203,14 @@ export default function App() {
       setDirectCheckoutPlant(null);
     }
     setIsNavigating(true);
-    window.location.hash = view === 'home' ? '' : view;
+    if (view === 'home') {
+      window.location.hash = '';
+    } else if (view === 'product') {
+      const id = activeProductView ? activeProductView.id : plantsData[0].id;
+      window.location.hash = `product?id=${id}`;
+    } else {
+      window.location.hash = view;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
       setCurrentView(view);
@@ -228,7 +248,7 @@ export default function App() {
       }
       return [...prev, { plant, quantity, selectedSize, selectedPotColor, includePot, potPrice }];
     });
-    showToast(`Added ${plant.name}${includePot ? ' (+Planter)' : ''} to your garden cart! 🌿`);
+    showToast(`Added ${plant.name}${includePot ? ' (+Planter)' : ''} to your garden cart.`);
   };
 
   const handleBuyNowDirect = (plant: Plant) => {
@@ -468,10 +488,10 @@ export default function App() {
           </Suspense>
         )}
 
-        {currentView === 'product' && activeProductView && (
+        {currentView === 'product' && (
           <Suspense fallback={<PageFallbackSkeleton />}>
             <ProductPage
-              plant={activeProductView}
+              plant={activeProductView || plantsData[0]}
               onBack={() => navigateToView('shop')}
               onAddToCart={handleAddToCart}
               onSelectPlant={(plant) => openProductPage(plant)}
@@ -598,7 +618,7 @@ export default function App() {
                 </div>
                 {searchResults.length === 0 ? (
                   <div className="text-center py-10 bg-secondary/30 rounded-2xl border border-dashed border-border p-4">
-                    <div className="text-3xl mb-2">🪴</div>
+                    <Search className="h-8 w-8 mx-auto text-muted-foreground/50 mb-2" />
                     <div className="font-bold text-sm text-foreground">No plants found for "{searchQuery}"</div>
                     <div className="text-xs text-muted-foreground mt-1">Try searching for Indoor, Snake Plant, or Bonsai.</div>
                   </div>

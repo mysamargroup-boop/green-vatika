@@ -1,6 +1,6 @@
 import React from 'react';
 import { BlogPost, Plant } from '../types/nursery';
-import { ArrowLeft, Calendar, Clock, User, Share2, BookOpen, Sparkles, Leaf } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Share2, BookOpen, Leaf, Table, Lightbulb } from 'lucide-react';
 import { blogPostsData, plantsData } from '../data/mockData';
 
 interface BlogPostPageProps {
@@ -154,8 +154,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                   {section.table && (
                     <div className="my-6 rounded-2xl overflow-hidden border border-border/80 shadow-md">
                       {section.table.caption && (
-                        <div className="p-3 bg-secondary/80 font-bold text-xs uppercase tracking-wider text-muted-foreground border-b border-border/60">
-                          📊 {section.table.caption}
+                        <div className="p-3 bg-secondary/80 font-bold text-xs uppercase tracking-wider text-muted-foreground border-b border-border/60 flex items-center gap-1.5">
+                          <Table className="h-3.5 w-3.5 text-primary" /> {section.table.caption}
                         </div>
                       )}
                       <div className="overflow-x-auto">
@@ -193,8 +193,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                   {/* Callout box */}
                   {section.callout && (
                     <div className="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border-l-4 border-amber-500 text-foreground text-sm sm:text-base font-medium space-y-1">
-                      <span className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 block">
-                        💡 Key Takeaway
+                      <span className="text-xs font-black uppercase tracking-wider text-amber-600 dark:text-amber-400 flex items-center gap-1.5">
+                        <Lightbulb className="h-3.5 w-3.5" /> Key Takeaway
                       </span>
                       <p>{section.callout}</p>
                     </div>
@@ -215,7 +215,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
           {/* Expert Green Vatika Tip Box */}
           <div className="mt-8 p-6 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-900 to-green-950 text-white shadow-xl space-y-2 border border-emerald-500/30">
             <div className="flex items-center gap-2 text-amber-300 font-extrabold text-sm uppercase tracking-wider">
-              <Sparkles className="h-4 w-4" /> Green Vatika Expert Horticulturist Tip
+              <Leaf className="h-4 w-4" /> Green Vatika Expert Horticulturist Tip
             </div>
             <p className="text-sm sm:text-base text-emerald-100 font-medium leading-relaxed">
               Have specific questions about plant light levels, soil ratios, or pest management? Get free 1-on-1 advice from senior horticulturists via our WhatsApp support helpline (+91 9479480068).

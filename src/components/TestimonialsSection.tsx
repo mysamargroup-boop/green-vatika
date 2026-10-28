@@ -1,6 +1,7 @@
 import React from 'react';
 import { testimonialsData } from '../data/mockData';
-import { Star, Quote, CheckCircle2 } from 'lucide-react';
+import { StarRating } from './StarRating';
+import { Quote, CheckCircle2, Leaf } from 'lucide-react';
 
 export const TestimonialsSection: React.FC = () => {
   return (
@@ -8,8 +9,8 @@ export const TestimonialsSection: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8">
         {/* Title */}
         <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">
-            ★ ★ ★ ★ ★ Customer Stories
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+            <Leaf className="h-3.5 w-3.5" /> Customer Stories &amp; Reviews
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Loved by 5000+ Plant Enthusiasts
@@ -29,12 +30,8 @@ export const TestimonialsSection: React.FC = () => {
               <Quote className="absolute top-6 right-6 h-10 w-10 text-primary/10 pointer-events-none" />
 
               <div className="space-y-4">
-                {/* Rating Stars */}
-                <div className="flex items-center gap-1 text-amber-500">
-                  {[...Array(t.rating)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
-                  ))}
-                </div>
+                {/* Rating Stars: Functional Golden SVG Stars */}
+                <StarRating rating={t.rating} size="md" />
 
                 {/* Comment */}
                 <p className="text-foreground/90 text-sm md:text-base leading-relaxed italic">
@@ -70,8 +67,8 @@ export const TestimonialsSection: React.FC = () => {
                   </div>
                 </div>
 
-                <span className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1 rounded-full whitespace-nowrap">
-                  🌿 {t.purchasedPlant}
+                <span className="text-[11px] font-bold text-foreground/80 bg-secondary border border-border/60 px-3 py-1 rounded-full whitespace-nowrap">
+                  {t.purchasedPlant}
                 </span>
               </div>
             </div>

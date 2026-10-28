@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Plant } from '../types/nursery';
 import { plantsData } from '../data/mockData';
-import { Sparkles, ArrowRight, RotateCcw, CheckCircle2, Sun, Home, Shield, ShoppingCart } from 'lucide-react';
+import { Leaf, ArrowRight, RotateCcw, CheckCircle2, Sun, Home, Shield, ShoppingCart } from 'lucide-react';
 
 interface PlantQuizProps {
   onSelectPlant: (plant: Plant) => void;
@@ -42,7 +42,7 @@ export const PlantQuiz: React.FC<PlantQuizProps> = ({ onSelectPlant, onAddToCart
         {/* Header */}
         <div className="text-center mb-12 space-y-4">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            <Sparkles className="h-3.5 w-3.5" /> Interactive Matcher
+            <Leaf className="h-3.5 w-3.5" /> Interactive Matcher
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Find Your Perfect Plant Match

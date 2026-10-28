@@ -48,7 +48,7 @@ export const HeroSection: React.FC = () => {
             <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-2 shadow-sm border border-primary/20">
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-sm shadow-emerald-500/50 shrink-0" />
               <span className="text-xs font-bold tracking-wider uppercase text-primary">
-                Rated 4.9 ★ • 5000+ Happy Customers
+                Rated 4.9/5 by 5000+ Plant Parents
               </span>
             </div>
 

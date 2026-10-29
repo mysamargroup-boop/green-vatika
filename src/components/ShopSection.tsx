@@ -188,13 +188,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                   onClick={() => onSelectPlant(plant)}
                   className="group relative rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
                 >
-                  {/* Image Container: Clean Neutral Background with Centered Product Only */}
-                  <div className="relative aspect-square overflow-hidden bg-secondary/30 p-3 sm:p-4 flex items-center justify-center">
+                  {/* Image Container: 3:4 Aspect Fill Edge-to-Edge */}
+                  <div className="relative aspect-[3/4] overflow-hidden bg-secondary/30 flex items-center justify-center">
                     <LazyImage
                       src={plant.image}
                       alt={plant.name}
-                      aspectRatio="aspect-square"
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                      aspectRatio="aspect-[3/4]"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
 
                     {/* Badges Overlay Left */}

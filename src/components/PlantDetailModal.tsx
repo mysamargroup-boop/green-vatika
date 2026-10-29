@@ -67,15 +67,13 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
           <X className="h-5 w-5" />
         </button>
 
-        {/* Left: Product Image - Symmetrical Neutral Frame & Object Contain */}
-        <div className="w-full md:w-1/2 relative bg-gradient-to-b from-secondary/50 via-card to-secondary/30 aspect-square md:aspect-auto flex items-center justify-center p-6 sm:p-8">
-          <div className="w-full h-full max-h-[360px] flex items-center justify-center">
-            <img
-              src={plant.image}
-              alt={plant.name}
-              className="w-full h-full object-contain object-center rounded-2xl"
-            />
-          </div>
+        {/* Left: Product Image - Full 3:4 Fill Edge-to-Edge Zero Whitespace */}
+        <div className="w-full md:w-1/2 relative bg-secondary/30 aspect-[3/4] md:aspect-auto overflow-hidden">
+          <img
+            src={plant.image}
+            alt={plant.name}
+            className="w-full h-full object-cover object-center"
+          />
           {plant.badge && (
             <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white bg-primary shadow-md">
               {plant.badge}

@@ -258,13 +258,13 @@ export const ShopPage: React.FC<ShopPageProps> = ({
                 onClick={() => onSelectPlant(plant)}
                 className="group relative bg-card rounded-2xl border border-border/80 hover:border-primary/50 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
               >
-                {/* Product Image Stage (Product-Only Isolated Neutral Frame) */}
-                <div className="relative aspect-square w-full bg-[#fafaf9] dark:bg-[#18181b] p-4 flex items-center justify-center overflow-hidden border-b border-border/40">
+                {/* Product Image Stage (3:4 Full Fill Frame, Zero Whitespace) */}
+                <div className="relative aspect-[3/4] w-full bg-secondary/30 flex items-center justify-center overflow-hidden border-b border-border/40">
                   <LazyImage
                     src={plant.image}
                     alt={plant.name}
-                    aspectRatio="aspect-square"
-                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    aspectRatio="aspect-[3/4]"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
                   {/* Discount / Badge */}

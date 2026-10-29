@@ -49,9 +49,7 @@ const PrivacyPage = lazy(() =>
 const TermsPage = lazy(() =>
   import('./pages/TermsPage').then((m) => ({ default: m.TermsPage }))
 );
-const ProductPage = lazy(() =>
-  import('./pages/ProductPage').then((m) => ({ default: m.ProductPage }))
-);
+import { ProductPage } from './pages/ProductPage';
 const OrderPage = lazy(() =>
   import('./pages/OrderPage').then((m) => ({ default: m.OrderPage }))
 );
@@ -188,84 +186,78 @@ export default function App() {
     }
   }, [isDarkMode]);
 
-  // URL Path & Hash Routing listener (Supports both clean URLs /shop and hash URLs #shop)
+  // Clean URL Path & Hash Routing listener (Instant sync, clean paths /shop, /product?id=...)
   useEffect(() => {
-    const syncViewFromHash = () => {
-      const rawPath = window.location.pathname.replace(/^\//, '').split('/')[0];
+    const syncViewFromUrl = () => {
+      const pathSegments = window.location.pathname.replace(/^\//, '').split('/');
+      const rawPath = pathSegments[0] ? pathSegments[0].toLowerCase() : '';
       const rawHash = window.location.hash.replace('#', '');
       const [hashView, hashQuery] = rawHash.split('?');
       const cleanView = (rawPath || hashView || '').toLowerCase();
-      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'blog-post', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
-        setCurrentView(cleanView as ViewState);
-        if (cleanView === 'product') {
-          const params = new URLSearchParams(hashQuery || window.location.search || '');
-          const plantId = params.get('id');
-          if (plantId) {
-            const found = plantsData.find((p) => p.id === plantId);
-            if (found) setActiveProductView(found);
-            else setActiveProductView((prev) => prev || plantsData[0]);
-          } else {
-            setActiveProductView((prev) => prev || plantsData[0]);
-          }
-        } else if (cleanView === 'blog-post') {
-          const params = new URLSearchParams(hashQuery || window.location.search || '');
-          const postId = params.get('id');
-          if (postId) {
-            const found = blogPostsData.find((b) => b.id === postId);
-            if (found) setSelectedBlogPost(found);
-            else setSelectedBlogPost((prev: any) => prev || blogPostsData[0]);
-          } else {
-            setSelectedBlogPost((prev: any) => prev || blogPostsData[0]);
-          }
+      const searchParams = new URLSearchParams(window.location.search || (hashQuery ? `?${hashQuery}` : ''));
+
+      if (cleanView === 'product') {
+        const plantId = searchParams.get('id') || pathSegments[1];
+        if (plantId) {
+          const found = plantsData.find((p) => p.id === plantId);
+          if (found) setActiveProductView(found);
+          else setActiveProductView(plantsData[0]);
+        } else {
+          setActiveProductView((prev) => prev || plantsData[0]);
         }
+        setCurrentView('product');
+      } else if (cleanView === 'blog' || cleanView === 'blog-post') {
+        const postId = searchParams.get('id') || pathSegments[1];
+        if (postId) {
+          const found = blogPostsData.find((b) => b.id === postId);
+          if (found) {
+            setSelectedBlogPost(found);
+            setCurrentView('blog-post');
+          } else {
+            setCurrentView('blog');
+          }
+        } else {
+          setCurrentView(cleanView === 'blog-post' ? 'blog-post' : 'blog');
+        }
+      } else if (['about', 'categories', 'shop', 'quiz', 'services', 'contact', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
+        setCurrentView(cleanView as ViewState);
       } else {
         setCurrentView('home');
       }
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
 
-    // Initial check
-    syncViewFromHash();
-
-    window.addEventListener('hashchange', syncViewFromHash);
-    window.addEventListener('popstate', syncViewFromHash);
+    syncViewFromUrl();
+    window.addEventListener('hashchange', syncViewFromUrl);
+    window.addEventListener('popstate', syncViewFromUrl);
     return () => {
-      window.removeEventListener('hashchange', syncViewFromHash);
-      window.removeEventListener('popstate', syncViewFromHash);
+      window.removeEventListener('hashchange', syncViewFromUrl);
+      window.removeEventListener('popstate', syncViewFromUrl);
     };
   }, []);
 
-  // Smooth scroll & transition on view change with distinct URL hash + Remotion loader
+  // Lightning-fast clean URL router (Instant 0ms transition, clean paths)
   const navigateToView = (view: ViewState) => {
     if (view !== 'checkout') {
       setDirectCheckoutPlant(null);
     }
-    setIsNavigating(true);
-    let targetHash = '';
+    let targetPath = '';
     if (view === 'home') {
-      targetHash = '';
+      targetPath = '/';
     } else if (view === 'product') {
       const id = activeProductView ? activeProductView.id : plantsData[0].id;
-      targetHash = `product?id=${id}`;
+      targetPath = `/product?id=${id}`;
     } else if (view === 'blog-post' && selectedBlogPost) {
-      targetHash = `blog-post?id=${selectedBlogPost.id}`;
+      targetPath = `/blog?id=${selectedBlogPost.id}`;
     } else {
-      targetHash = view;
+      targetPath = `/${view}`;
     }
 
-    if (window.location.hash !== (targetHash ? `#${targetHash}` : '')) {
-      window.history.pushState(null, '', targetHash ? `#${targetHash}` : window.location.pathname + window.location.search);
+    if (window.location.pathname + window.location.search !== targetPath) {
+      window.history.pushState(null, '', targetPath);
     }
+    setCurrentView(view);
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-
-    setTimeout(() => {
-      setCurrentView(view);
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      setTimeout(() => {
-        setIsNavigating(false);
-        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      }, 150);
-    }, 280);
   };
 
   const showToast = (msg: string) => {
@@ -545,15 +537,13 @@ export default function App() {
         )}
 
         {currentView === 'product' && (
-          <Suspense fallback={<PageFallbackSkeleton />}>
-            <ProductPage
-              plant={activeProductView || plantsData[0]}
-              onBack={() => navigateToView('shop')}
-              onAddToCart={handleAddToCart}
-              onSelectPlant={(plant) => openProductPage(plant)}
-              onOpenOrderPage={(plant, qty, size, color) => openOrderPageWithPlant(plant, qty, size, color)}
-            />
-          </Suspense>
+          <ProductPage
+            plant={activeProductView || plantsData[0]}
+            onBack={() => navigateToView('shop')}
+            onAddToCart={handleAddToCart}
+            onSelectPlant={(plant) => openProductPage(plant)}
+            onOpenOrderPage={(plant, qty, size, color) => openOrderPageWithPlant(plant, qty, size, color)}
+          />
         )}
 
         {currentView === 'checkout' && (

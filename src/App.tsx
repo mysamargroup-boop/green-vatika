@@ -19,7 +19,7 @@ import { NurseryChatbot } from './components/NurseryChatbot';
 import { Skeleton } from './components/Skeleton';
 import { ScrollSkeletonContainer } from './components/ScrollSkeletonContainer';
 import { Plant, CartItem } from './types/nursery';
-import { plantsData } from './data/mockData';
+import { plantsData, blogPostsData } from './data/mockData';
 import { Search, X, CheckCircle, ShoppingCart } from 'lucide-react';
 
 // Dedicated Page View Imports
@@ -83,13 +83,23 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Initial page load grey skeleton overlay
+  // Initial page load & manual scroll restoration guarantee
   useEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
     const timer = setTimeout(() => {
       setInitialLoading(false);
-    }, 300);
+    }, 350);
     return () => clearTimeout(timer);
   }, []);
+
+  // Ensure scroll is anchored to top (0, 0) on every view change
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, [currentView]);
 
   // Dynamic Document Title & Meta Description updater based on currentView & active product
   useEffect(() => {
@@ -166,13 +176,13 @@ export default function App() {
     }
   }, [isDarkMode]);
 
-  // URL Hash Path Routing & Browser History listener
+  // URL Hash Path Routing & Browser History listener (All Distinct URL Paths)
   useEffect(() => {
     const syncViewFromHash = () => {
       const rawHash = window.location.hash.replace('#', '');
       const [hashView, hashQuery] = rawHash.split('?');
       const cleanView = (hashView || '').toLowerCase();
-      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
+      if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'blog-post', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
         setCurrentView(cleanView as ViewState);
         if (cleanView === 'product') {
           const params = new URLSearchParams(hashQuery || '');
@@ -184,38 +194,65 @@ export default function App() {
           } else {
             setActiveProductView((prev) => prev || plantsData[0]);
           }
+        } else if (cleanView === 'blog-post') {
+          const params = new URLSearchParams(hashQuery || '');
+          const postId = params.get('id');
+          if (postId) {
+            const found = blogPostsData.find((b) => b.id === postId);
+            if (found) setSelectedBlogPost(found);
+            else setSelectedBlogPost((prev: any) => prev || blogPostsData[0]);
+          } else {
+            setSelectedBlogPost((prev: any) => prev || blogPostsData[0]);
+          }
         }
       } else {
         setCurrentView('home');
       }
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     };
 
     // Initial check
     syncViewFromHash();
 
     window.addEventListener('hashchange', syncViewFromHash);
-    return () => window.removeEventListener('hashchange', syncViewFromHash);
+    window.addEventListener('popstate', syncViewFromHash);
+    return () => {
+      window.removeEventListener('hashchange', syncViewFromHash);
+      window.removeEventListener('popstate', syncViewFromHash);
+    };
   }, []);
 
-  // Smooth scroll & transition on view change + update URL hash
+  // Smooth scroll & transition on view change with distinct URL hash + Remotion loader
   const navigateToView = (view: ViewState) => {
     if (view !== 'checkout') {
       setDirectCheckoutPlant(null);
     }
     setIsNavigating(true);
+    let targetHash = '';
     if (view === 'home') {
-      window.location.hash = '';
+      targetHash = '';
     } else if (view === 'product') {
       const id = activeProductView ? activeProductView.id : plantsData[0].id;
-      window.location.hash = `product?id=${id}`;
+      targetHash = `product?id=${id}`;
+    } else if (view === 'blog-post' && selectedBlogPost) {
+      targetHash = `blog-post?id=${selectedBlogPost.id}`;
     } else {
-      window.location.hash = view;
+      targetHash = view;
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (window.location.hash !== (targetHash ? `#${targetHash}` : '')) {
+      window.history.pushState(null, '', targetHash ? `#${targetHash}` : window.location.pathname + window.location.search);
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
     setTimeout(() => {
       setCurrentView(view);
-      setIsNavigating(false);
-    }, 200);
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      setTimeout(() => {
+        setIsNavigating(false);
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      }, 150);
+    }, 280);
   };
 
   const showToast = (msg: string) => {
@@ -343,12 +380,12 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300 font-sans relative">
-      {/* Initial Page Load with Remotion Botanical Orbital Loader */}
-      {initialLoading && (
+      {/* Remotion Botanical Orbital Loader on Initial Load & View Navigation */}
+      {(initialLoading || isNavigating) && (
         <RemotionBotanicalLoader
           size="fullscreen"
           label="Green Vatika"
-          subtext="Nurturing Authentic Indian Flora"
+          subtext={initialLoading ? "Nurturing Authentic Indian Flora" : "Loading Botanical Selection..."}
         />
       )}
 

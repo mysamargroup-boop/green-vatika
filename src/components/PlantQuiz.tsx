@@ -37,7 +37,7 @@ export const PlantQuiz: React.FC<PlantQuizProps> = ({ onSelectPlant, onAddToCart
   };
 
   return (
-    <section id="quiz" className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-background to-accent/5 relative scroll-mt-20 border-y border-border/40">
+    <section id="section-quiz" className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-background to-accent/5 relative scroll-mt-20 border-y border-border/40">
       <div className="container mx-auto px-4 md:px-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12 space-y-4">

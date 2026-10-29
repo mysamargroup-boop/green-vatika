@@ -19,7 +19,7 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ onSelectPost }) => {
   };
 
   return (
-    <section id="blog" className="py-10 md:py-14 relative scroll-mt-20">
+    <section id="section-blog" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Title */}
         <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">

@@ -12,7 +12,7 @@ export const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 md:py-32 relative scroll-mt-20">
+    <section id="section-about" className="py-24 md:py-32 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           {/* Left Column: Image Stack */}

@@ -30,7 +30,7 @@ export const ServicesSection: React.FC = () => {
   };
 
   return (
-    <section id="services" className="py-10 md:py-14 relative scroll-mt-20">
+    <section id="section-services" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Section Title */}
         <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-4">

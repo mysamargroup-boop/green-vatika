@@ -20,6 +20,46 @@ const removeEmojis = (text: string): string => {
     .trim();
 };
 
+// Pure Web Audio API Synthesizer for Bot Response Chime (Zero External Asset Dependency)
+const playBotChime = () => {
+  try {
+    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = new AudioContextClass();
+    if (ctx.state === 'suspended') {
+      ctx.resume().catch(() => {});
+    }
+
+    const now = ctx.currentTime;
+
+    // Harmonic Note 1: E5 (659.25 Hz)
+    const osc1 = ctx.createOscillator();
+    const gain1 = ctx.createGain();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(659.25, now);
+    gain1.gain.setValueAtTime(0.12, now);
+    gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+    osc1.connect(gain1);
+    gain1.connect(ctx.destination);
+    osc1.start(now);
+    osc1.stop(now + 0.22);
+
+    // Harmonic Note 2: B5 (987.77 Hz) slightly offset for a bright notification chime
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(987.77, now + 0.07);
+    gain2.gain.setValueAtTime(0.1, now + 0.07);
+    gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+    osc2.connect(gain2);
+    gain2.connect(ctx.destination);
+    osc2.start(now + 0.07);
+    osc2.stop(now + 0.35);
+  } catch (e) {
+    console.debug('Audio chime playback ignored:', e);
+  }
+};
+
 const SUGGESTED_QUERIES = [
   'Plant Prices & Catalog',
   'Is Pot Included?',
@@ -207,6 +247,7 @@ export const NurseryChatbot: React.FC = () => {
       };
       setMessages((prev) => [...prev, botMsg]);
       setIsTyping(false);
+      playBotChime();
     }, 450);
   };
 
@@ -219,25 +260,22 @@ export const NurseryChatbot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Trigger Button on Bottom-Right - Strictly NO Green Dot */}
+      {/* Floating Trigger Button on Bottom-Right - Strictly Icon Only, NO Text, NO Green Dot */}
       <div className="fixed bottom-6 right-6 z-40">
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
             aria-label="Open Green Vatika Plant Assistant"
-            className="group flex items-center gap-2.5 bg-primary hover:bg-primary/95 text-primary-foreground px-4 sm:px-5 py-3.5 rounded-full shadow-2xl hover:shadow-primary/40 border border-emerald-400/30 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            className="group flex items-center justify-center h-14 w-14 rounded-full bg-primary hover:bg-primary/95 text-primary-foreground shadow-2xl hover:shadow-primary/40 border border-emerald-400/30 transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
           >
-            <MessageSquare className="h-5 w-5 shrink-0 text-white" />
-            <span className="font-heading font-extrabold text-xs sm:text-sm tracking-wide text-white uppercase">
-              Ask Green Vatika
-            </span>
+            <MessageSquare className="h-6 w-6 text-white" />
           </button>
         )}
       </div>
 
-      {/* Floating Chat Modal Box - Positioned on Bottom Right */}
+      {/* Floating Chat Modal Box - Centered Horizontally on Mobile, Bottom-Right on Desktop */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 w-[360px] sm:w-[420px] max-w-[calc(100vw-2rem)] h-[540px] max-h-[calc(100vh-5rem)] bg-card border border-border/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed bottom-4 inset-x-3 sm:inset-x-auto sm:right-6 sm:bottom-6 z-50 w-auto sm:w-[420px] max-w-[420px] mx-auto sm:mx-0 h-[540px] max-h-[calc(100vh-5rem)] bg-card border border-border/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           {/* Header - Clean, Professional, Strictly NO Green Dot & NO Emojis */}
           <div className="bg-primary text-primary-foreground px-4 py-3.5 flex items-center justify-between border-b border-emerald-600/40 shrink-0">
             <div className="flex items-center gap-2.5">
@@ -272,8 +310,8 @@ export const NurseryChatbot: React.FC = () => {
             </div>
           </div>
 
-          {/* Quick Query Pills */}
-          <div className="bg-muted/40 border-b border-border/50 px-3 py-2 overflow-x-auto scrollbar-none flex items-center gap-1.5 shrink-0">
+          {/* Quick Query Pills - Refined Thin Horizontal Scrollbar */}
+          <div className="bg-muted/40 border-b border-border/50 px-3 py-2.5 overflow-x-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:bg-muted/30 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border/80 hover:[&::-webkit-scrollbar-thumb]:bg-primary/50 flex items-center gap-1.5 shrink-0">
             {SUGGESTED_QUERIES.map((query, i) => (
               <button
                 key={i}

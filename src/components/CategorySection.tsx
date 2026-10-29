@@ -23,7 +23,7 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
   };
 
   return (
-    <section id="categories" className="py-10 md:py-14 bg-background border-b border-border/40 scroll-mt-20">
+    <section id="section-categories" className="py-10 md:py-14 bg-background border-b border-border/40 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-4">
@@ -75,8 +75,8 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
                     <IconComponent className="h-4 w-4" />
                   </div>
 
-                  {/* Clean Category Name (Only Name Visible on Mobile at Bottom) */}
-                  <div className="font-heading font-extrabold text-[11px] sm:text-base leading-tight text-white drop-shadow-md text-center sm:text-left line-clamp-1">
+                  {/* Clean Category Name (Never Truncated, Refined Weight) */}
+                  <div className="font-heading font-semibold sm:font-bold text-[11px] sm:text-sm md:text-base leading-tight text-white drop-shadow-md text-center sm:text-left break-words">
                     {cat.name}
                   </div>
 

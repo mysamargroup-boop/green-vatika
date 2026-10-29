@@ -11,6 +11,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Green Vatika" />
     
+    <!-- Immediate Manual Scroll Restoration to Guarantee Page Starts at Top (0,0) on Refresh & Load -->
+    <script>
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      window.scrollTo(0, 0);
+    </script>
+    
     <!-- Primary SEO Meta Tags -->
     <title>Green Vatika — Premium Plant Nursery | Indoor, Outdoor & Flowering Plants</title>
     <meta name="title" content="Green Vatika — Premium Plant Nursery | Indoor, Outdoor & Flowering Plants" />

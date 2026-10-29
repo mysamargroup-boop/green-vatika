@@ -99,10 +99,17 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Ensure scroll is anchored to top (0, 0) on every view change
+  // Ensure scroll is anchored to top (0, 0) and dispatch GA4 pageview on view change
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [currentView]);
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: window.location.pathname + (window.location.hash || ''),
+      });
+    }
+  }, [currentView, activeProductView]);
 
   // Dynamic Document Title & Meta Description updater based on currentView & active product
   useEffect(() => {
@@ -179,16 +186,17 @@ export default function App() {
     }
   }, [isDarkMode]);
 
-  // URL Hash Path Routing & Browser History listener (All Distinct URL Paths)
+  // URL Path & Hash Routing listener (Supports both clean URLs /shop and hash URLs #shop)
   useEffect(() => {
     const syncViewFromHash = () => {
+      const rawPath = window.location.pathname.replace(/^\//, '').split('/')[0];
       const rawHash = window.location.hash.replace('#', '');
       const [hashView, hashQuery] = rawHash.split('?');
-      const cleanView = (hashView || '').toLowerCase();
+      const cleanView = (rawPath || hashView || '').toLowerCase();
       if (['about', 'categories', 'shop', 'quiz', 'services', 'blog', 'blog-post', 'contact', 'product', 'checkout', 'privacy', 'terms'].includes(cleanView)) {
         setCurrentView(cleanView as ViewState);
         if (cleanView === 'product') {
-          const params = new URLSearchParams(hashQuery || '');
+          const params = new URLSearchParams(hashQuery || window.location.search || '');
           const plantId = params.get('id');
           if (plantId) {
             const found = plantsData.find((p) => p.id === plantId);
@@ -198,7 +206,7 @@ export default function App() {
             setActiveProductView((prev) => prev || plantsData[0]);
           }
         } else if (cleanView === 'blog-post') {
-          const params = new URLSearchParams(hashQuery || '');
+          const params = new URLSearchParams(hashQuery || window.location.search || '');
           const postId = params.get('id');
           if (postId) {
             const found = blogPostsData.find((b) => b.id === postId);

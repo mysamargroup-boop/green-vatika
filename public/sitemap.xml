@@ -8,7 +8,7 @@
   <!-- Main Homepage -->
   <url>
     <loc>https://greenvatika.co/</loc>
-    <lastmod>2026-08-02</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -17,126 +17,157 @@
     </image:image>
   </url>
 
-  <!-- AI Search Engine Context Files -->
+  <!-- Core Standalone Pages -->
   <url>
-    <loc>https://greenvatika.co/llms.txt</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-  </url>
-
-  <url>
-    <loc>https://greenvatika.co/llms-full.txt</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
-
-  <!-- Core Pages -->
-  <url>
-    <loc>https://greenvatika.co/#shop</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/shop</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#categories</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/categories</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.90</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#about</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/about</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#services</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/services</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#blog</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/blog</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
 
-  <!-- Blog Articles -->
   <url>
-    <loc>https://greenvatika.co/#blog-post-nasa-air-purifying-plants</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/contact</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/quiz</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Key Plant Products -->
+  <url>
+    <loc>https://greenvatika.co/product?id=adenium-bonsai-desert-rose</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/plants/adenium_bonsai.webp</image:loc>
+      <image:title>Adenium Bonsai Desert Rose - Green Vatika Nursery</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/product?id=bougainvillea-spectabilis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/plants/bougainvillea.webp</image:loc>
+      <image:title>Bougainvillea Spectabilis - Green Vatika Nursery</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/product?id=desi-red-rose</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/plants/desi_gulab.webp</image:loc>
+      <image:title>Desi Red Rose Fragrant - Green Vatika Nursery</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/product?id=yellow-marigold-genda</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/plants/yellow_marigold.webp</image:loc>
+      <image:title>Yellow Marigold Genda - Green Vatika Nursery</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/product?id=handcrafted-terracotta-pot-8inch</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/categories/pots.webp</image:loc>
+      <image:title>8-Inch Baked Clay Terracotta Gamla - Green Vatika</image:title>
+    </image:image>
+  </url>
+
+  <!-- Blog Care Articles -->
+  <url>
+    <loc>https://greenvatika.co/blog-post?id=1</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://greenvatika.co/images/green-vatika/categories/flowering.webp</image:loc>
+      <image:title>Top 10 Outdoor Flowering Plants for Indian Balconies</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://greenvatika.co/blog-post?id=2</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#blog-post-never-overwater-houseplants</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/blog-post?id=3</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#blog-post-balcony-meyer-lemon-gardening</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/blog-post?id=4</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
   <url>
-    <loc>https://greenvatika.co/#blog-post-monsoon-plant-care-guide</loc>
-    <lastmod>2026-08-02</lastmod>
+    <loc>https://greenvatika.co/blog-post?id=5</loc>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.80</priority>
   </url>
 
+  <!-- AI LLMs Knowledge Files -->
   <url>
-    <loc>https://greenvatika.co/#blog-post-organic-potting-mix-masterclass</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <url>
-    <loc>https://greenvatika.co/#blog-post-monstera-deliciosa-split-leaves</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.80</priority>
-  </url>
-
-  <!-- Contact & Legal Pages -->
-  <url>
-    <loc>https://greenvatika.co/#contact</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.75</priority>
-  </url>
-
-  <url>
-    <loc>https://greenvatika.co/#checkout</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.50</priority>
-  </url>
-
-  <url>
-    <loc>https://greenvatika.co/#privacy</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.30</priority>
-  </url>
-
-  <url>
-    <loc>https://greenvatika.co/#terms</loc>
-    <lastmod>2026-08-02</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.30</priority>
+    <loc>https://greenvatika.co/llms.txt</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
   </url>
 </urlset>

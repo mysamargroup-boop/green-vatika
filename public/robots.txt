@@ -1,13 +1,15 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /*?*
-Crawl-delay: 1
 
 User-agent: Googlebot
 Allow: /
 
+User-agent: Googlebot-Image
+Allow: /images/
+
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://www.greenvatika.co/sitemap.xml
+Sitemap: https://greenvatika.co/sitemap.xml
+Sitemap: https://green-vatika.pages.dev/sitemap.xml

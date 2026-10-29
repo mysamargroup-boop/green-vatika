@@ -26,7 +26,6 @@ import {
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
-import { ComingSoonShippingModal } from '../components/ComingSoonShippingModal';
 
 interface ProductPageProps {
   plant: Plant;
@@ -49,7 +48,6 @@ export const ProductPage: React.FC<ProductPageProps> = ({
   const [activeTab, setActiveTab] = useState<'care' | 'details' | 'reviews'>('care');
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [includePot, setIncludePot] = useState<boolean>(false);
-  const [isShippingModalOpen, setIsShippingModalOpen] = useState<boolean>(false);
 
   const potPrice = 60;
   const unitPrice = plant.price + (includePot ? potPrice : 0);
@@ -404,10 +402,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               </button>
 
               <button
-                onClick={() => setIsShippingModalOpen(true)}
-                className="py-3.5 px-5 rounded-2xl bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 text-white font-extrabold text-sm shadow-md border border-slate-700/60 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] whitespace-nowrap cursor-pointer"
+                onClick={() => onOpenOrderPage(plant, quantity, selectedSize, selectedPotColor)}
+                className="py-3.5 px-5 rounded-2xl bg-primary hover:bg-primary-dark text-white font-extrabold text-sm shadow-md transition-all flex items-center justify-center gap-2 hover:scale-[1.01] whitespace-nowrap cursor-pointer"
               >
-                <ShoppingBag className="h-4.5 w-4.5 text-emerald-400" /> Proceed to Order Checkout
+                <ShoppingBag className="h-4.5 w-4.5 text-white" /> Proceed to Checkout
               </button>
             </div>
 
@@ -706,7 +704,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={handleAddToCart}
-            className="p-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border/80 shadow-2xs transition-colors shrink-0"
+            className="p-2.5 rounded-xl bg-secondary hover:bg-secondary/80 text-foreground border border-border/80 shadow-2xs transition-colors shrink-0 cursor-pointer"
             title="Add to Cart"
             aria-label="Add to cart"
           >
@@ -714,25 +712,23 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           </button>
 
           <button
+            onClick={() => onOpenOrderPage(plant, quantity, selectedSize, selectedPotColor)}
+            className="py-2.5 px-3.5 rounded-xl bg-primary hover:bg-primary-dark text-white font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap cursor-pointer"
+          >
+            <ShoppingBag className="h-4 w-4" />
+            Checkout
+          </button>
+
+          <button
             onClick={handleDirectWhatsAppBuy}
-            className="py-2.5 px-4 rounded-xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-xs flex items-center gap-1.5 shadow-sm transition-all whitespace-nowrap cursor-pointer"
+            className="p-2.5 rounded-xl bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-xs flex items-center justify-center shadow-sm transition-all shrink-0 cursor-pointer"
+            title="Buy on WhatsApp"
+            aria-label="Buy on WhatsApp"
           >
             <WhatsAppIcon className="h-4 w-4 text-white" />
-            Buy on WhatsApp
           </button>
         </div>
       </aside>
-
-      {/* Online Shipping Coming Soon Modal */}
-      <ComingSoonShippingModal
-        isOpen={isShippingModalOpen}
-        onClose={() => setIsShippingModalOpen(false)}
-        plant={plant}
-        quantity={quantity}
-        includePot={includePot}
-        potPrice={potPrice}
-        totalAmount={calculatedTotal}
-      />
     </div>
   );
 };

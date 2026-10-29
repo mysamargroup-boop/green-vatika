@@ -5,7 +5,6 @@ import { X, Sun, Droplets, Wind, ShieldAlert, Check, ShoppingCart, MessageSquare
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
-import { ComingSoonShippingModal } from './ComingSoonShippingModal';
 
 interface PlantDetailModalProps {
   plant: Plant | null;
@@ -21,7 +20,6 @@ export const PlantDetailModal: React.FC<PlantDetailModalProps> = ({ plant, onClo
   const [selectedPotColor, setSelectedPotColor] = useState<string>('Terracotta');
   const [isWishlisted, setIsWishlisted] = useState<boolean>(false);
   const [includePot, setIncludePot] = useState<boolean>(false);
-  const [isShippingModalOpen, setIsShippingModalOpen] = useState<boolean>(false);
 
   const potPrice = 60;
   const unitPrice = plant.price + (includePot ? potPrice : 0);

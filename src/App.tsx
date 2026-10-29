@@ -12,7 +12,6 @@ import { TestimonialsSection } from './components/TestimonialsSection';
 import { BlogSection } from './components/BlogSection';
 import { ContactSection } from './components/ContactSection';
 import { CartDrawer } from './components/CartDrawer';
-import { ComingSoonShippingModal } from './components/ComingSoonShippingModal';
 import { TrustValueStrip } from './components/TrustValueStrip';
 import { InspirationGallery } from './components/InspirationGallery';
 import { Footer } from './components/Footer';
@@ -50,9 +49,7 @@ const TermsPage = lazy(() =>
   import('./pages/TermsPage').then((m) => ({ default: m.TermsPage }))
 );
 import { ProductPage } from './pages/ProductPage';
-const OrderPage = lazy(() =>
-  import('./pages/OrderPage').then((m) => ({ default: m.OrderPage }))
-);
+import { OrderPage } from './pages/OrderPage';
 const BlogPostPage = lazy(() =>
   import('./pages/BlogPostPage').then((m) => ({ default: m.BlogPostPage }))
 );
@@ -294,8 +291,13 @@ export default function App() {
   };
 
   const handleBuyNowDirect = (plant: Plant) => {
-    setComingSoonPlant(plant);
-    setIsComingSoonOpen(true);
+    setDirectCheckoutPlant({
+      plant,
+      quantity: 1,
+      size: plant.potSize || '8 inch standard',
+      color: 'Terracotta',
+    });
+    navigateToView('checkout');
   };
 
   const handleUpdateQuantity = (
@@ -547,14 +549,17 @@ export default function App() {
         )}
 
         {currentView === 'checkout' && (
-          <Suspense fallback={<PageFallbackSkeleton />}>
-            <OrderPage
-              cartItems={cartItems}
-              directPlant={directCheckoutPlant}
-              onBack={() => navigateToView('home')}
-              onClearCart={handleClearCart}
-            />
-          </Suspense>
+          <OrderPage
+            cartItems={cartItems}
+            directPlant={directCheckoutPlant}
+            onBack={() => navigateToView('shop')}
+            onClearCart={() => {
+              handleClearCart();
+              setDirectCheckoutPlant(null);
+            }}
+            onUpdateQuantity={handleUpdateQuantity}
+            onRemoveItem={handleRemoveItem}
+          />
         )}
       </main>
 
@@ -577,16 +582,6 @@ export default function App() {
         plant={selectedPlant}
         onClose={() => setSelectedPlant(null)}
         onAddToCart={handleAddToCart}
-      />
-
-      {/* Online Direct Courier Shipping Coming Soon Modal */}
-      <ComingSoonShippingModal
-        isOpen={isComingSoonOpen}
-        onClose={() => setIsComingSoonOpen(false)}
-        plant={comingSoonPlant}
-        quantity={1}
-        includePot={false}
-        potPrice={60}
       />
 
       {/* Search Overlay Modal */}

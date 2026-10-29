@@ -35,7 +35,7 @@ export default {
         border: 'hsl(var(--border))',
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Outfit"', '"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
         heading: ['"Playfair Display"', 'Georgia', 'serif'],
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         serif: ['"Playfair Display"', 'Georgia', 'serif'],

@@ -273,13 +273,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                 </div>
               </div>
 
-              {/* Checkout Buttons */}
+              {/* Dedicated Separate Checkout Page Button (Primary) & WhatsApp (Secondary) */}
               <div className="space-y-2 pt-2">
                 <button
-                  onClick={handleWhatsAppCheckout}
-                  className="w-full py-3.5 rounded-full bg-[#146934] hover:bg-[#10562b] text-white font-extrabold text-sm shadow-xl shadow-green-900/25 transition-all flex items-center justify-center gap-2"
+                  onClick={() => {
+                    onClose();
+                    if (onNavigateCheckout) {
+                      onNavigateCheckout();
+                    }
+                  }}
+                  className="w-full py-3.5 rounded-full bg-primary hover:bg-primary-dark text-white font-extrabold text-sm shadow-xl shadow-green-900/20 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.01]"
                 >
-                  <WhatsAppIcon className="h-4.5 w-4.5 text-white" /> Order Directly on WhatsApp
+                  <ShoppingBag className="h-4.5 w-4.5 text-white" /> Proceed to Checkout
+                </button>
+
+                <button
+                  onClick={handleWhatsAppCheckout}
+                  className="w-full py-2.5 rounded-full bg-[#146934]/10 hover:bg-[#146934]/20 text-[#146934] dark:text-emerald-400 font-extrabold text-xs transition-all flex items-center justify-center gap-2 border border-[#146934]/30 cursor-pointer"
+                >
+                  <WhatsAppIcon className="h-4 w-4 text-[#146934]" /> Quick Order via WhatsApp
                 </button>
               </div>
             </div>

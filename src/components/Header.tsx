@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Leaf, Search, ShoppingCart, Menu, X, Sun, Moon, PhoneCall, ShoppingBag } from 'lucide-react';
+import { Leaf, Search, ShoppingCart, Menu, X, Sun, Moon, PhoneCall, ShoppingBag, Truck, ShieldCheck } from 'lucide-react';
 import { WhatsAppIcon } from './WhatsAppIcon';
 
 export type ViewState = 'home' | 'about' | 'categories' | 'shop' | 'quiz' | 'services' | 'blog' | 'blog-post' | 'contact' | 'product' | 'checkout' | 'privacy' | 'terms';
@@ -63,11 +63,31 @@ export const Header: React.FC<HeaderProps> = ({
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled || currentView !== 'home'
-            ? 'glass shadow-lg py-3 border-b border-primary/10'
-            : 'bg-transparent py-5'
+            ? 'glass shadow-lg border-b border-primary/10'
+            : 'bg-background/90 dark:bg-background/90 backdrop-blur-md border-b border-border/40'
         }`}
       >
-        <div className="container mx-auto px-4 md:px-8">
+        {/* Top Botanical Announcement Strip (Ugaoo Theme Pattern - Pure SVG Icons, Zero Emojis) */}
+        <div className="bg-[#0A4C36] text-white text-[10px] sm:text-xs font-semibold py-1.5 px-4 text-center tracking-wide">
+          <div className="container mx-auto flex items-center justify-center gap-3 sm:gap-6 flex-wrap">
+            <span className="inline-flex items-center gap-1.5">
+              <Truck className="h-3.5 w-3.5 text-emerald-300" />
+              <span>FREE Delivery on Orders Above ₹499</span>
+            </span>
+            <span className="hidden sm:inline text-white/40">•</span>
+            <span className="hidden sm:inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" />
+              <span>100% Transit Safe Ventilated Packaging</span>
+            </span>
+            <span className="hidden md:inline text-white/40">•</span>
+            <span className="hidden md:inline-flex items-center gap-1.5">
+              <Leaf className="h-3.5 w-3.5 text-emerald-300" />
+              <span>7-Day Fresh Plant Replacement Warranty</span>
+            </span>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 md:px-8 py-2.5 sm:py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <button onClick={() => onNavigateView('home')} className="flex items-center gap-3 group text-left focus:outline-none">

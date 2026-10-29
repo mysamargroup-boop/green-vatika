@@ -14,27 +14,27 @@
 
 @layer base {
   :root {
-    --background: 138 30% 98%;
-    --foreground: 150 50% 10%;
+    --background: 41 45% 97%;
+    --foreground: 216 7% 14%;
     --card: 0 0% 100%;
-    --card-foreground: 150 50% 10%;
-    --secondary: 138 20% 95%;
-    --secondary-foreground: 150 50% 15%;
-    --muted: 140 15% 92%;
-    --muted-foreground: 140 15% 40%;
-    --border: 140 20% 88%;
+    --card-foreground: 216 7% 14%;
+    --secondary: 41 35% 93%;
+    --secondary-foreground: 161 85% 17%;
+    --muted: 41 25% 91%;
+    --muted-foreground: 216 10% 45%;
+    --border: 38 22% 88%;
   }
 
   .dark {
-    --background: 150 40% 6%;
-    --foreground: 140 20% 96%;
-    --card: 150 35% 9%;
-    --card-foreground: 140 20% 96%;
-    --secondary: 150 30% 12%;
-    --secondary-foreground: 140 20% 96%;
-    --muted: 150 25% 15%;
-    --muted-foreground: 140 15% 65%;
-    --border: 150 25% 18%;
+    --background: 155 35% 7%;
+    --foreground: 41 20% 96%;
+    --card: 155 30% 10%;
+    --card-foreground: 41 20% 96%;
+    --secondary: 155 25% 13%;
+    --secondary-foreground: 41 20% 96%;
+    --muted: 155 20% 16%;
+    --muted-foreground: 150 15% 65%;
+    --border: 155 20% 18%;
   }
 }
 
@@ -98,19 +98,40 @@ body {
   border: 1px solid rgba(34, 197, 94, 0.15);
 }
 
-/* Custom scrollbar */
+/* Universal Ultra-Thin Scrollbars for All Horizontal & Vertical Containers */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(10, 76, 54, 0.35) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
+  height: 4px;
 }
+
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #16a34a;
-  border-radius: 4px;
+  background: rgba(10, 76, 54, 0.3);
+  border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #15803d;
+  background: rgba(10, 76, 54, 0.65);
+}
+
+.dark * {
+  scrollbar-color: rgba(52, 211, 153, 0.35) transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(52, 211, 153, 0.3);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(52, 211, 153, 0.65);
 }
 
 /* Remotion Video Engine Keyframes & Orbital Utilities */

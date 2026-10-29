@@ -95,50 +95,66 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
           </div>
         </div>
 
-        {/* Featured Cover Story Article (Different from Home page 3 cards) */}
+        {/* Featured Editorial Cover Story (Redesigned with High-End Botanical Magazine Layout) */}
         {featuredPost && selectedCategory === 'All' && !searchQuery && (
-          <div className="bg-card rounded-3xl border border-border/80 overflow-hidden shadow-xl hover:border-primary/40 transition-all duration-300 grid grid-cols-1 lg:grid-cols-12">
-            <div className="lg:col-span-6 relative min-h-[280px] sm:min-h-[360px] overflow-hidden">
+          <div
+            onClick={() => onSelectPost(featuredPost)}
+            className="group relative rounded-[2.5rem] border border-border/80 bg-card overflow-hidden shadow-xl hover:shadow-2xl hover:border-primary/40 transition-all duration-500 grid grid-cols-1 lg:grid-cols-12 cursor-pointer"
+          >
+            {/* Visual Column (7 Cols on large displays for cinematic photography impact) */}
+            <div className="lg:col-span-7 relative min-h-[300px] sm:min-h-[400px] lg:min-h-[460px] overflow-hidden bg-secondary/30">
               <LazyImage
                 src={featuredPost.image}
                 alt={featuredPost.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
-              <div className="absolute top-4 left-4 z-10">
-                <span className="text-xs font-bold px-3 py-1.5 rounded-full bg-primary text-white shadow-md">
-                  Featured Cover Story
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20 pointer-events-none" />
+              
+              {/* Badges on Visual */}
+              <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#0A4C36] text-white text-xs font-black uppercase tracking-wider shadow-lg border border-white/20">
+                  <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                  <span>Featured Editorial Guide</span>
+                </span>
+              </div>
+
+              <div className="absolute bottom-4 left-4 z-10 hidden sm:flex items-center gap-2">
+                <span className="glass px-3.5 py-1.5 rounded-full text-xs font-bold text-foreground backdrop-blur-md border border-white/30 shadow-md">
+                  {featuredPost.category}
+                </span>
+                <span className="glass px-3.5 py-1.5 rounded-full text-xs font-bold text-foreground backdrop-blur-md border border-white/30 shadow-md flex items-center gap-1">
+                  <Clock className="h-3 w-3 text-primary" /> {featuredPost.readTime}
                 </span>
               </div>
             </div>
 
-            <div className="lg:col-span-6 p-6 sm:p-10 flex flex-col justify-between space-y-6">
+            {/* Editorial Content Column (5 Cols) */}
+            <div className="lg:col-span-5 p-6 sm:p-10 lg:p-12 flex flex-col justify-between space-y-6 bg-card">
               <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground font-medium">
-                  <span className="text-primary font-bold bg-primary/10 px-2.5 py-1 rounded-md">
+                <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-semibold">
+                  <span className="text-primary font-black uppercase tracking-wider bg-primary/10 px-2.5 py-1 rounded-md">
                     {featuredPost.category}
                   </span>
+                  <span>•</span>
                   <span className="flex items-center gap-1">
-                    <Clock className="h-3.5 w-3.5" /> {featuredPost.readTime}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar className="h-3.5 w-3.5" /> {featuredPost.date}
+                    <Calendar className="h-3.5 w-3.5 text-primary" /> {featuredPost.date}
                   </span>
                 </div>
 
-                <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-foreground leading-tight hover:text-primary transition-colors cursor-pointer" onClick={() => onSelectPost(featuredPost)}>
+                <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-black text-foreground leading-[1.2] group-hover:text-primary transition-colors">
                   {featuredPost.title}
                 </h2>
 
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed line-clamp-3 font-normal">
                   {featuredPost.excerpt}
                 </p>
 
                 {featuredPost.tags && featuredPost.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-1">
-                    {featuredPost.tags.slice(0, 4).map((tag: string, i: number) => (
+                    {featuredPost.tags.slice(0, 3).map((tag: string, i: number) => (
                       <span
                         key={i}
-                        className="text-[11px] font-medium bg-secondary px-2.5 py-0.5 rounded-md text-foreground"
+                        className="text-[11px] font-bold bg-secondary/60 hover:bg-secondary px-3 py-1 rounded-full text-foreground/80 border border-border/50 transition-colors"
                       >
                         #{tag}
                       </span>
@@ -147,21 +163,26 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
                 )}
               </div>
 
-              <div className="pt-4 border-t border-border/60 flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
-                  <div className="h-7 w-7 rounded-full bg-primary/15 text-primary flex items-center justify-center font-bold text-[10px]">
-                    GV
+              {/* Author & Action Row */}
+              <div className="pt-5 border-t border-border/60 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="h-10 w-10 rounded-full bg-primary/15 text-primary flex items-center justify-center font-extrabold text-xs border border-primary/20 shrink-0">
+                    <User className="h-4.5 w-4.5 text-primary" />
                   </div>
-                  <span>{featuredPost.author}</span>
+                  <div className="min-w-0">
+                    <div className="font-extrabold text-xs sm:text-sm text-foreground truncate">
+                      {featuredPost.author}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground truncate">
+                      Senior Nursery Propagator
+                    </div>
+                  </div>
                 </div>
 
-                <button
-                  onClick={() => onSelectPost(featuredPost)}
-                  className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-primary hover:text-primary/80 transition-colors"
-                >
-                  <span>Read Complete Guide</span>
-                  <ArrowRight className="h-4 w-4" />
-                </button>
+                <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white font-extrabold text-xs sm:text-sm shadow-md transition-all shrink-0 group-hover:scale-102">
+                  <span>Read Guide</span>
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </span>
               </div>
             </div>
           </div>

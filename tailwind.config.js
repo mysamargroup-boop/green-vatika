@@ -15,14 +15,16 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
         primary: {
-          DEFAULT: '#15803d', // rich forest green
+          DEFAULT: '#0A4C36', // Ugaoo signature rich botanical forest green
           foreground: '#ffffff',
-          light: '#22c55e',
-          dark: '#166534',
+          light: '#13674b',
+          dark: '#073626',
         },
         accent: {
-          DEFAULT: '#10b981', // emerald green
+          DEFAULT: '#93113A', // Ugaoo festive berry wine
           foreground: '#ffffff',
+          light: '#b01948',
+          dark: '#730d2d',
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',

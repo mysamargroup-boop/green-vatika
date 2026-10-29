@@ -57,6 +57,14 @@ const QuizPage = lazy(() =>
   import('./pages/QuizPage').then((m) => ({ default: m.QuizPage }))
 );
 
+const getCategorySlug = (category: string) => {
+  return (category || 'plants')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^\w-]/g, '');
+};
+
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [currentView, setCurrentView] = useState<ViewState>('home');
@@ -194,7 +202,16 @@ export default function App() {
       const searchParams = new URLSearchParams(window.location.search || (hashQuery ? `?${hashQuery}` : ''));
 
       if (cleanView === 'product') {
-        const plantId = searchParams.get('id') || pathSegments[1];
+        const queryId = searchParams.get('id');
+        let plantId = queryId;
+        if (!plantId) {
+          if (pathSegments.length >= 3 && pathSegments[2]) {
+            plantId = pathSegments[2];
+          } else if (pathSegments.length >= 2 && pathSegments[1]) {
+            plantId = pathSegments[1];
+          }
+        }
+
         if (plantId) {
           const found = plantsData.find((p) => p.id === plantId);
           if (found) setActiveProductView(found);
@@ -242,8 +259,9 @@ export default function App() {
     if (view === 'home') {
       targetPath = '/';
     } else if (view === 'product') {
-      const id = activeProductView ? activeProductView.id : plantsData[0].id;
-      targetPath = `/product?id=${id}`;
+      const plant = activeProductView || plantsData[0];
+      const catSlug = getCategorySlug(plant.category);
+      targetPath = `/product/${catSlug}/${plant.id}`;
     } else if (view === 'blog-post' && selectedBlogPost) {
       targetPath = `/blog?id=${selectedBlogPost.id}`;
     } else {
@@ -344,7 +362,13 @@ export default function App() {
 
   const openProductPage = (plant: Plant) => {
     setActiveProductView(plant);
-    navigateToView('product');
+    const catSlug = getCategorySlug(plant.category);
+    const targetPath = `/product/${catSlug}/${plant.id}`;
+    if (window.location.pathname + window.location.search !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
+    setCurrentView('product');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   };
 
   const openOrderPageWithPlant = (

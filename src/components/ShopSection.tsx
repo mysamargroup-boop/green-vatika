@@ -24,7 +24,20 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
   const [sortBy, setSortBy] = useState<string>('featured');
   const [wishlist, setWishlist] = useState<string[]>([]);
 
-  const categories = ['All', 'Flowering', 'Outdoor', 'Bonsai', 'Pots'];
+  const categories = [
+    { label: 'All Plants', key: 'All' },
+    { label: 'Flowering & Roses', key: 'Flowering' },
+    { label: 'Outdoor & Bonsai', key: 'Outdoor' },
+    { label: 'Bonsai Collection', key: 'Bonsai' },
+    { label: 'Under ₹100', key: 'Budget' },
+  ];
+
+  const getCategoryCount = (key: string) => {
+    if (key === 'All') return plantsData.length;
+    if (key === 'Budget') return plantsData.filter((p) => p.price <= 100).length;
+    if (key === 'Outdoor') return plantsData.filter((p) => p.category.toLowerCase().includes('outdoor') || p.category.toLowerCase().includes('bonsai')).length;
+    return plantsData.filter((p) => p.category.toLowerCase().includes(key.toLowerCase())).length;
+  };
 
   const toggleWishlist = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,7 +66,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
     return plantsData
       .filter((plant) => {
         const matchesCategory =
-          activeTab === 'All' || plant.category.toLowerCase().includes(activeTab.toLowerCase());
+          activeTab === 'All'
+            ? true
+            : activeTab === 'Budget'
+            ? plant.price <= 100
+            : activeTab === 'Outdoor'
+            ? plant.category.toLowerCase().includes('outdoor') || plant.category.toLowerCase().includes('bonsai')
+            : plant.category.toLowerCase().includes(activeTab.toLowerCase());
         const matchesSearch =
           plant.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
           plant.botanicalName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -116,21 +135,31 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
           </div>
         </div>
 
-        {/* Category Tabs Bar */}
+        {/* Category Tabs Bar - Dribbble Aesthetic Pill Ribbon with Counts */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none mb-10 border-b border-border/40">
-          {categories.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all ${
-                activeTab === tab
-                  ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-105'
-                  : 'bg-card text-foreground/80 hover:bg-primary/10 hover:text-primary border border-border/60'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+          {categories.map((tab) => {
+            const isSelected = activeTab === tab.key;
+            return (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${
+                  isSelected
+                    ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-105'
+                    : 'bg-card text-foreground/80 hover:bg-primary/10 hover:text-primary border border-border/60'
+                }`}
+              >
+                <span>{tab.label}</span>
+                <span
+                  className={`text-[10px] sm:text-xs font-black px-1.5 py-0.5 rounded-full transition-colors ${
+                    isSelected ? 'bg-white/20 text-white' : 'bg-secondary text-muted-foreground'
+                  }`}
+                >
+                  {getCategoryCount(tab.key)}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         {/* Plant Cards Grid */}

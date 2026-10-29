@@ -13,6 +13,8 @@ import { BlogSection } from './components/BlogSection';
 import { ContactSection } from './components/ContactSection';
 import { CartDrawer } from './components/CartDrawer';
 import { ComingSoonShippingModal } from './components/ComingSoonShippingModal';
+import { TrustValueStrip } from './components/TrustValueStrip';
+import { InspirationGallery } from './components/InspirationGallery';
 import { Footer } from './components/Footer';
 import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
 import { NurseryChatbot } from './components/NurseryChatbot';
@@ -420,11 +422,11 @@ export default function App() {
       <main className={`transition-opacity duration-300 ${isNavigating ? 'opacity-40' : 'opacity-100'}`}>
         {currentView === 'home' && (
           <>
-            <HeroSection />
-            <HeroSlider />
-            <ScrollSkeletonContainer height="h-80">
-              <AboutSection />
-            </ScrollSkeletonContainer>
+            <HeroSection
+              onShopClick={() => navigateToView('shop')}
+              onVisitClick={() => navigateToView('contact')}
+            />
+            <TrustValueStrip />
             <ScrollSkeletonContainer height="h-96">
               <CategorySection
                 onSelectCategory={(cat) => {
@@ -433,6 +435,7 @@ export default function App() {
                 }}
               />
             </ScrollSkeletonContainer>
+            <HeroSlider />
             <ScrollSkeletonContainer height="h-[600px]">
               <ShopSection
                 onSelectPlant={(plant) => openProductPage(plant)}
@@ -440,6 +443,10 @@ export default function App() {
                 onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
                 selectedCategoryFilter={selectedCategory}
               />
+            </ScrollSkeletonContainer>
+            <InspirationGallery onSelectPlant={(plant) => openProductPage(plant)} />
+            <ScrollSkeletonContainer height="h-80">
+              <AboutSection />
             </ScrollSkeletonContainer>
             <ScrollSkeletonContainer height="h-96">
               <PlantQuiz

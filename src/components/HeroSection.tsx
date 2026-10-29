@@ -1,7 +1,12 @@
 import React from 'react';
-import { ShoppingCart, MapPin, ChevronRight, Star, Leaf, IndianRupee, GraduationCap, Recycle, Sprout } from 'lucide-react';
+import { ShoppingCart, MapPin, ChevronRight, Star, Leaf } from 'lucide-react';
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  onShopClick?: () => void;
+  onVisitClick?: () => void;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitClick }) => {
   return (
     <section id="home" className="relative min-h-[100vh] flex items-center pt-28 pb-16 overflow-hidden">
       {/* Background Gradients & Overlay */}
@@ -78,6 +83,12 @@ export const HeroSection: React.FC = () => {
             <div className="flex flex-wrap gap-4 pt-2">
               <a
                 href="#featured"
+                onClick={(e) => {
+                  if (onShopClick) {
+                    e.preventDefault();
+                    onShopClick();
+                  }
+                }}
                 className="inline-flex items-center justify-center gap-2 text-base font-bold text-white rounded-full h-14 px-8 bg-primary hover:bg-primary/90 shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all hover:scale-105 group"
               >
                 <ShoppingCart className="h-5 w-5" /> Shop Plants
@@ -86,6 +97,12 @@ export const HeroSection: React.FC = () => {
 
               <a
                 href="#contact"
+                onClick={(e) => {
+                  if (onVisitClick) {
+                    e.preventDefault();
+                    onVisitClick();
+                  }
+                }}
                 className="inline-flex items-center justify-center gap-2 text-base font-semibold rounded-full h-14 px-8 bg-background/80 hover:bg-primary/10 text-foreground border-2 border-primary/30 backdrop-blur shadow-sm transition-all hover:border-primary"
               >
                 <MapPin className="h-5 w-5 text-primary" /> Visit Nursery
@@ -179,51 +196,6 @@ export const HeroSection: React.FC = () => {
                 <div className="text-xs font-semibold text-muted-foreground">Plant Varieties</div>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Quick Highlights Bar (6 Feature Badges) */}
-        <div className="mt-16 md:mt-20 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 glass rounded-3xl p-4 shadow-lg border border-primary/10">
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <Leaf className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Healthy Plants</div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <IndianRupee className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Affordable Prices</div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <GraduationCap className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Expert Guidance</div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <Recycle className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Eco Friendly</div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <Sprout className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Organic Care</div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl px-3 py-2 hover:bg-primary/5 transition-colors">
-            <div className="h-10 w-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center shrink-0">
-              <MapPin className="h-5 w-5" />
-            </div>
-            <div className="text-xs sm:text-sm font-bold text-foreground">Local Nursery</div>
           </div>
         </div>
       </div>

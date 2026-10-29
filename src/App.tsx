@@ -56,6 +56,9 @@ const OrderPage = lazy(() =>
 const BlogPostPage = lazy(() =>
   import('./pages/BlogPostPage').then((m) => ({ default: m.BlogPostPage }))
 );
+const QuizPage = lazy(() =>
+  import('./pages/QuizPage').then((m) => ({ default: m.QuizPage }))
+);
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -476,12 +479,13 @@ export default function App() {
         )}
 
         {currentView === 'quiz' && (
-          <div className="pt-24 pb-16">
-            <PlantQuiz
+          <Suspense fallback={<PageFallbackSkeleton />}>
+            <QuizPage
+              onBack={() => navigateToView('home')}
               onSelectPlant={(plant) => openProductPage(plant)}
               onAddToCart={(plant) => handleAddToCart(plant)}
             />
-          </div>
+          </Suspense>
         )}
 
         {currentView === 'services' && (

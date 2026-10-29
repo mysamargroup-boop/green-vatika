@@ -78,6 +78,7 @@ export interface BlogPost {
   image: string;
   content: string[];
   tableOfContents?: string[];
+  tags?: string[];
   sections?: BlogSectionItem[];
 }
 

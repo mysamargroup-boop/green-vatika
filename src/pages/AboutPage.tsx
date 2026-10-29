@@ -1,7 +1,5 @@
 import React from 'react';
-import { AboutSection } from '../components/AboutSection';
-import { TestimonialsSection } from '../components/TestimonialsSection';
-import { ArrowLeft, Sprout, ShieldCheck, MapPin, Users, Heart } from 'lucide-react';
+import { ArrowLeft, Sprout, ShieldCheck, MapPin, Users, Heart, Award, Sparkles, CheckCircle2, Trees, Sun, Clock, Phone, ChevronRight } from 'lucide-react';
 
 interface AboutPageProps {
   onBack: () => void;
@@ -9,96 +7,333 @@ interface AboutPageProps {
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onBack, onNavigateContact }) => {
+  const milestones = [
+    {
+      year: '2016',
+      title: 'Humble Beginnings in Narsinghpur',
+      description: 'Founded with a modest 1-acre plot near Teen Puliya, Khairi Naka, propagating native desi gulab and marigold with natural compost.',
+    },
+    {
+      year: '2019',
+      title: 'Expansion to 15-Acre Organic Polyhouses',
+      description: 'Expanded production to large-scale shade net polyhouses, establishing dedicated mother beds for Adenium bonsai and Bougainvillea grafting.',
+    },
+    {
+      year: '2022',
+      title: 'Terracotta Kiln Partnership',
+      description: 'Partnered directly with local clay artisans to introduce porous terracotta gamlas tailored specifically to prevent Indian summer root rot.',
+    },
+    {
+      year: '2024',
+      title: '5,000+ Gardeners Landmark',
+      description: 'Reached over 5,000 active balcony and terrace gardeners across Madhya Pradesh with personalized WhatsApp care support.',
+    },
+    {
+      year: '2026',
+      title: 'Direct Nursery Digital Platform',
+      description: 'Launched our direct digital presence offering transparent rates, authentic botanical specifications, and honest nursery packaging.',
+    },
+  ];
+
+  const pillars = [
+    {
+      icon: Sun,
+      title: 'Natural Sun Acclimatization',
+      description: 'Our plants are grown under open central Indian weather (tested up to 47°C summer heat). They never suffer transition shock when moved to your sunny balcony.',
+    },
+    {
+      icon: Sprout,
+      title: 'Living Organic Microbial Soil',
+      description: 'Every sapling is potted with our signature mix of aged cow dung vermicompost, river loam, and neem cake, ensuring vigorous root microbial health.',
+    },
+    {
+      icon: Trees,
+      title: 'Bonsai & Grafting Excellence',
+      description: 'Decade-old grafting expertise in Adenium caudex sculpting and multi-color Bougainvilleas that deliver dense, continuous flower clusters.',
+    },
+    {
+      icon: ShieldCheck,
+      title: '100% Honest Nursery Transparency',
+      description: 'No hidden packaging tricks. We clearly state pot inclusions, provide exact live rates, and ship in protective nursery grower bags or clay pots.',
+    },
+  ];
+
+  const team = [
+    {
+      name: 'Shubham Nema',
+      role: 'Founder & Master Horticulturist',
+      experience: '10+ Years in Flora Cultivation',
+      specialty: 'Specimen Adenium Bonsai & Landscaping Architecture',
+    },
+    {
+      name: 'Ramesh Patel',
+      role: 'Greenhouse & Propagation Head',
+      experience: '12+ Years Nursery Operations',
+      specialty: 'Desi Gulab Grafting & Organic Vermicomposting',
+    },
+    {
+      name: 'Kavita Verma',
+      role: 'Plant Health & Soil Nutrition Specialist',
+      experience: '8+ Years Botanical Research',
+      specialty: 'Organic Pest Protection & Plant Doctor Consultations',
+    },
+  ];
+
   return (
     <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8">
+      <div className="container mx-auto px-4 md:px-8 space-y-16">
+        {/* Navigation Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-foreground hover:text-primary transition-colors bg-card px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full border border-border/80 shadow-sm whitespace-nowrap shrink-0 hover:scale-105"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border shadow-xs hover:scale-105"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </button>
-          <span className="text-[11px] sm:text-xs font-extrabold text-primary bg-primary/10 px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-            About Green Vatika Nursery
-          </span>
-        </div>
-
-        {/* Dedicated Hero Banner */}
-        <div className="relative rounded-3xl overflow-hidden p-8 md:p-14 bg-gradient-to-r from-emerald-900 via-primary to-green-800 text-white shadow-2xl mb-16">
-          <div className="max-w-2xl space-y-4 relative z-10">
-            <span className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs font-black uppercase tracking-widest text-emerald-300 border border-emerald-400/30">
-              <Sprout className="h-3.5 w-3.5" /> Our 10-Year Legacy
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 border border-primary/20">
+              <Sprout className="h-3.5 w-3.5" /> 10+ Years Nursery Legacy
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+          </div>
+        </div>
+
+        {/* Hero Editorial Showcase Banner */}
+        <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 md:p-16 bg-gradient-to-br from-emerald-950 via-emerald-900 to-primary text-white shadow-2xl border border-emerald-800/40">
+          <div className="absolute -right-20 -bottom-20 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 max-w-3xl space-y-5">
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-300 bg-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md inline-block border border-white/15">
               Rooted in Passion, Growing Green Homes
+            </span>
+            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+              About Green Vatika Nursery
             </h1>
-            <p className="text-sm sm:text-base text-emerald-100/90 leading-relaxed font-medium">
-              Established in 2016, Green Vatika has grown into one of India’s most trusted plant nurseries spanning 15+ acres of organic greenhouses, serving 5000+ satisfied plant lovers.
+            <p className="text-sm sm:text-base md:text-lg text-emerald-100/90 leading-relaxed font-normal">
+              Based in Niranjan Ward, Teen Puliya, Narsinghpur, Green Vatika is dedicated to growing hardy, authentic Indian flora that brings nature, fragrance, and serenity directly into everyday Indian homes.
             </p>
+
+            {/* Impact Metric Counters */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4">
+              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-white/15">
+                <div className="font-heading font-black text-2xl sm:text-3xl text-emerald-300">10+</div>
+                <div className="text-xs text-white/80 font-medium mt-0.5">Years Heritage</div>
+              </div>
+              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-white/15">
+                <div className="font-heading font-black text-2xl sm:text-3xl text-amber-300">15+</div>
+                <div className="text-xs text-white/80 font-medium mt-0.5">Acres Greenhouses</div>
+              </div>
+              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-white/15">
+                <div className="font-heading font-black text-2xl sm:text-3xl text-teal-300">50K+</div>
+                <div className="text-xs text-white/80 font-medium mt-0.5">Saplings Grown</div>
+              </div>
+              <div className="bg-black/30 backdrop-blur-md rounded-2xl p-4 border border-white/15">
+                <div className="font-heading font-black text-2xl sm:text-3xl text-lime-300">5,000+</div>
+                <div className="text-xs text-white/80 font-medium mt-0.5">Happy Gardeners</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* About Component Section */}
-        <AboutSection />
+        {/* Narrative & Philosophy Grid */}
+        <div className="grid lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-5 relative">
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-2 border-border/80">
+              <img
+                src="/images/green-vatika/hero/hero_green_vatika_nursery.webp"
+                alt="Green Vatika Greenhouse in Narsinghpur"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="absolute -bottom-5 -right-5 bg-card border border-border p-5 rounded-2xl shadow-xl max-w-[240px] hidden sm:block">
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
+                  <Award className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="font-heading font-extrabold text-sm text-foreground">Verified Local Nursery</div>
+                  <div className="text-[11px] text-muted-foreground">Khairi Naka, Narsinghpur</div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        {/* Core Values Grid */}
-        <div className="mt-16 bg-card rounded-3xl border border-border/80 p-8 shadow-xl space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="font-heading text-2xl md:text-3xl font-extrabold text-foreground">
-              Why Plant Lovers Choose Green Vatika
+          <div className="lg:col-span-7 space-y-6">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-wider">
+              Our Story & Ground Reality
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl md:text-4xl font-extrabold text-foreground leading-tight">
+              Why Commercial Nursery Plants Die, and How We Do It Differently
             </h2>
-            <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-              Every plant is hand-reared by senior horticulturists using 100% organic vermicompost and eco-friendly soil mixes.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-2xl bg-secondary/40 border border-border/60 space-y-3">
-              <div className="h-12 w-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
-                <Sprout className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">100% Organic Soil</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                No chemical sprays or synthetic boosters. Only natural neem cakes and seaweed bio-fertilizer.
+            <div className="space-y-4 text-sm sm:text-base text-muted-foreground leading-relaxed">
+              <p>
+                Most commercially sold decorative plants come from artificial, climate-controlled greenhouses where they are fed synthetic liquid fertilizers and packed into dense clay soil. The moment they are placed on an Indian balcony under 42°C heat, the leaves scorch, buds drop, and the plant perishes within weeks.
+              </p>
+              <p>
+                At <strong className="text-foreground">Green Vatika</strong>, every single mother plant and sapling is cultivated in open polyhouses exposed to the genuine seasons of Madhya Pradesh. We use natural organic vermicompost, seasoned mustard cake (sarson khali), and well-aerated sandy loam soil.
+              </p>
+              <p>
+                When you buy from us, you get a robust, sun-hardened plant with an active root network that thrives from Day 1 in your garden.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-secondary/40 border border-border/60 space-y-3">
-              <div className="h-12 w-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
-                <ShieldCheck className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">Replacement Guarantee</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                7-day leaf freshness warranty. If a plant gets damaged during transit, we replace it free of cost.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-secondary/40 border border-border/60 space-y-3">
-              <div className="h-12 w-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
-                <Users className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">Free Plant Doctors</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                Lifetime consultation support via WhatsApp for light, watering, or leaf care advice.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-secondary/40 border border-border/60 space-y-3">
-              <div className="h-12 w-12 rounded-2xl bg-primary/20 text-primary flex items-center justify-center">
-                <Heart className="h-6 w-6" />
-              </div>
-              <h3 className="font-bold text-base text-foreground">Eco Packaging</h3>
-              <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                Plastic-free jute wrapping and recyclable cardboard transit boxes engineered for airflow.
-              </p>
+            <div className="pt-2 flex flex-wrap gap-4">
+              <button
+                onClick={onNavigateContact}
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-3 rounded-xl transition-all shadow-md text-xs sm:text-sm cursor-pointer"
+              >
+                <span>Visit Us in Person</span>
+                <ChevronRight className="h-4 w-4" />
+              </button>
+              <a
+                href="https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20I%20want%20to%20know%20more%20about%20your%20nursery."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-secondary hover:bg-secondary/80 text-foreground font-bold px-6 py-3 rounded-xl transition-all border border-border text-xs sm:text-sm"
+              >
+                Chat on WhatsApp
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Testimonials */}
-        <div className="mt-16">
-          <TestimonialsSection />
+        {/* The 4 Core Pillars */}
+        <div className="space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-wider">
+              Core Principles
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-foreground">
+              The Green Vatika Philosophy
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Horticultural standards that ensure healthy growth in every garden.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {pillars.map((pillar, i) => {
+              const IconComp = pillar.icon;
+              return (
+                <div
+                  key={i}
+                  className="bg-card rounded-2xl border border-border/80 p-6 space-y-4 hover:border-primary/40 hover:shadow-lg transition-all"
+                >
+                  <div className="h-12 w-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+                    <IconComp className="h-6 w-6" />
+                  </div>
+                  <h3 className="font-heading font-extrabold text-base text-foreground">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Nursery Heritage Milestones Timeline */}
+        <div className="bg-card rounded-3xl border border-border/80 p-8 sm:p-12 space-y-10 shadow-lg">
+          <div className="max-w-2xl space-y-2">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-wider">
+              Chronicle
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-foreground">
+              Our Journey Over the Past Decade
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              How a small local nursery blossomed into a trusted botanical sanctuary.
+            </p>
+          </div>
+
+          <div className="relative border-l-2 border-primary/30 ml-4 sm:ml-6 space-y-8">
+            {milestones.map((item, i) => (
+              <div key={i} className="relative pl-6 sm:pl-8 group">
+                {/* Timeline Node */}
+                <div className="absolute -left-[9px] top-1 h-4 w-4 rounded-full bg-primary border-4 border-card group-hover:scale-125 transition-transform" />
+                <div className="space-y-1">
+                  <span className="text-xs font-extrabold text-primary uppercase tracking-wider">
+                    {item.year}
+                  </span>
+                  <h3 className="font-heading font-extrabold text-base sm:text-lg text-foreground">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed max-w-2xl">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Nursery Specialist Team */}
+        <div className="space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full uppercase tracking-wider">
+              The Plantsmen
+            </span>
+            <h2 className="font-heading text-2xl sm:text-3xl font-extrabold text-foreground">
+              Meet Our Horticulturists
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Experienced hands dedicated to root aeration, balanced nutrition, and healthy plant development.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {team.map((member, i) => (
+              <div
+                key={i}
+                className="bg-card rounded-2xl border border-border/80 p-6 space-y-4 hover:border-primary/40 shadow-sm transition-all"
+              >
+                <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center font-heading font-extrabold text-foreground text-sm border border-border">
+                  {member.name.split(' ').map((n) => n[0]).join('')}
+                </div>
+                <div>
+                  <h3 className="font-heading font-extrabold text-lg text-foreground">
+                    {member.name}
+                  </h3>
+                  <div className="text-xs font-bold text-primary mt-0.5">
+                    {member.role}
+                  </div>
+                  <div className="text-xs text-muted-foreground font-medium mt-1">
+                    {member.experience}
+                  </div>
+                </div>
+                <div className="pt-3 border-t border-border/60 text-xs text-muted-foreground">
+                  <strong className="text-foreground">Specialty:</strong> {member.specialty}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Physical Visit Invitation Banner */}
+        <div className="rounded-3xl bg-secondary/50 border border-border p-8 sm:p-12 text-center space-y-4 max-w-3xl mx-auto">
+          <div className="h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
+            <MapPin className="h-6 w-6" />
+          </div>
+          <h3 className="font-heading font-extrabold text-2xl text-foreground">
+            Experience the Greenery in Person
+          </h3>
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            Walk through our 15-acre greenhouses, inspect live blooming Adenium and Desi Rose benches, and consult our horticulturists directly.
+          </p>
+          <div className="pt-2 flex flex-wrap justify-center gap-3">
+            <button
+              onClick={onNavigateContact}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+            >
+              Get Directions to Nursery
+            </button>
+            <a
+              href="tel:9479480068"
+              className="bg-card hover:bg-muted text-foreground border border-border font-bold px-6 py-2.5 rounded-xl text-xs sm:text-sm transition-all"
+            >
+              Call 9479480068
+            </a>
+          </div>
         </div>
       </div>
     </div>

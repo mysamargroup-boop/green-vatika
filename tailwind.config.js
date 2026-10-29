@@ -35,8 +35,8 @@ export default {
         border: 'hsl(var(--border))',
       },
       fontFamily: {
-        sans: ['Poppins', 'sans-serif'],
-        heading: ['Poppins', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        heading: ['Outfit', '"Plus Jakarta Sans"', 'sans-serif'],
       },
       keyframes: {
         floaty: {

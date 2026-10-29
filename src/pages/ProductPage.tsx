@@ -113,32 +113,32 @@ export const ProductPage: React.FC<ProductPageProps> = ({
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
-          {/* Left Column: Product Image Gallery (Product Only, Clean Neutral Background) */}
+          {/* Left Column: Product Image Gallery (Product Only, Clean Neutral Background, Symmetrical Luxury Padding) */}
           <div className="space-y-4">
-            {/* Main Featured Image - Isolated Product Presentation */}
-            <div className="relative rounded-3xl overflow-hidden border border-border/80 bg-card shadow-sm flex items-center justify-center p-4 sm:p-6 min-h-[340px] sm:min-h-[420px]">
-              <div className="w-full h-[320px] sm:h-[400px] flex items-center justify-center">
+            {/* Main Featured Image - Isolated Product Presentation with Dribbble-Grade Frame */}
+            <div className="relative rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-border/80 bg-gradient-to-b from-secondary/50 via-card to-secondary/30 shadow-lg shadow-primary/5 flex items-center justify-center p-6 sm:p-8 md:p-10 min-h-[380px] sm:min-h-[460px]">
+              <div className="w-full max-w-[440px] aspect-[4/5] sm:aspect-square flex items-center justify-center relative">
                 <LazyImage
                   src={galleryImages[activeImageIndex] || plant.image}
                   alt={plant.name}
-                  aspectRatio="aspect-square"
-                  className="w-full h-full object-contain object-center transition-transform duration-500 hover:scale-105"
+                  aspectRatio="aspect-[4/5]"
+                  className="w-full h-full object-contain object-center transition-transform duration-700 hover:scale-105 rounded-2xl"
                 />
               </div>
 
               {plant.badge && (
-                <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-wider text-white bg-primary shadow-sm border border-white/20">
+                <span className="absolute top-4 left-4 sm:top-5 sm:left-5 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-white bg-primary shadow-md border border-white/20">
                   {plant.badge}
                 </span>
               )}
 
-              <div className="absolute top-4 right-4 flex items-center gap-2">
+              <div className="absolute top-4 right-4 sm:top-5 sm:right-5 flex items-center gap-2 z-10">
                 <button
                   onClick={() => setIsWishlisted(!isWishlisted)}
                   aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
-                  className="p-2.5 rounded-full bg-background/80 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60"
+                  className="p-2.5 sm:p-3 rounded-full bg-background/85 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60 hover:scale-110"
                 >
-                  <Heart className={`h-4.5 w-4.5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
+                  <Heart className={`h-4 w-4 sm:h-4.5 sm:w-4.5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-muted-foreground'}`} />
                 </button>
                 <button
                   onClick={() => {
@@ -146,28 +146,28 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                     alert('Product link copied to clipboard!');
                   }}
                   aria-label="Share product"
-                  className="p-2.5 rounded-full bg-background/80 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60"
+                  className="p-2.5 sm:p-3 rounded-full bg-background/85 backdrop-blur-md hover:bg-background text-foreground shadow-sm transition-all border border-border/60 hover:scale-110"
                 >
-                  <Share2 className="h-4.5 w-4.5 text-muted-foreground" />
+                  <Share2 className="h-4 w-4 sm:h-4.5 sm:w-4.5 text-muted-foreground" />
                 </button>
               </div>
             </div>
 
             {/* Gallery Thumbnails (Only rendered when multiple authentic photos exist) */}
             {galleryImages.length > 1 && (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 pt-1">
                 {galleryImages.map((img, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveImageIndex(index)}
                     aria-label={`View product image ${index + 1}`}
-                    className={`h-20 w-20 rounded-2xl overflow-hidden border-2 bg-card p-1 transition-all ${
+                    className={`h-20 w-20 sm:h-22 sm:w-22 rounded-2xl overflow-hidden border-2 bg-card p-1.5 transition-all ${
                       activeImageIndex === index
-                        ? 'border-primary shadow-xs scale-105'
-                        : 'border-border/70 opacity-70 hover:opacity-100'
+                        ? 'border-primary ring-2 ring-primary/25 shadow-md scale-105'
+                        : 'border-border/70 opacity-70 hover:opacity-100 hover:border-primary/40'
                     }`}
                   >
-                    <LazyImage src={img} alt={`${plant.name} angle ${index + 1}`} aspectRatio="aspect-square" className="w-full h-full object-contain" />
+                    <LazyImage src={img} alt={`${plant.name} angle ${index + 1}`} aspectRatio="aspect-square" className="w-full h-full object-contain rounded-xl" />
                   </button>
                 ))}
               </div>

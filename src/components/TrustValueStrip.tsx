@@ -1,59 +1,57 @@
 import React from 'react';
-import { ShieldCheck, Sprout, PackageCheck, MessageCircle, ThermometerSun, IndianRupee } from 'lucide-react';
+import { PackageCheck, Sprout, MessageCircle, ThermometerSun, ShieldCheck, Truck } from 'lucide-react';
 
 export const TrustValueStrip: React.FC = () => {
   const perks = [
     {
-      icon: ThermometerSun,
-      title: '100% Sun-Acclimatized',
-      subtitle: 'Native hardy varieties grown under Indian climate, zero leaf drop',
-      badge: 'Local Climate Ready',
+      icon: PackageCheck,
+      title: '100% Transit-Safe Box',
+      subtitle: 'Special ventilated honeycomb packaging prevents root shock and leaf drop during delivery',
+      badge: 'Zero Shock Guarantee',
     },
     {
-      icon: PackageCheck,
-      title: 'Root-Ball Safe Delivery',
-      subtitle: 'Moist organic coco-peat packaging prevents root transit shock',
-      badge: 'Zero Shock',
+      icon: ThermometerSun,
+      title: 'Sun & Climate Hardy',
+      subtitle: 'Naturally acclimatized varieties grown under Central Indian weather conditions (up to 45°C)',
+      badge: 'Acclimatized Flora',
     },
     {
       icon: Sprout,
-      title: 'Pot Optional (+₹60)',
-      subtitle: 'Buy in grower polybag from ₹45 or add handcrafted planters',
-      badge: 'Fair Pricing',
+      title: 'Pot Optional (Save ₹60)',
+      subtitle: 'Order in grower nursery polybags from ₹45 or upgrade to artisan terracotta planters',
+      badge: 'Honest Pricing',
     },
     {
       icon: MessageCircle,
-      title: 'Free WhatsApp Plant Doctor',
-      subtitle: 'Direct lifetime guidance from senior Narsinghpur horticulturists',
-      badge: '1-on-1 Advice',
+      title: 'Free Plant Doctor',
+      subtitle: 'Direct lifetime care consultation with senior nursery horticulturists via WhatsApp',
+      badge: '1-on-1 WhatsApp Support',
     },
   ];
 
   return (
-    <section className="relative z-20 -mt-6 sm:-mt-8 mb-12 sm:mb-16">
+    <section className="relative z-20 -mt-6 sm:-mt-8 mb-10 sm:mb-14">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="bg-card/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 border border-border/80 shadow-2xl shadow-primary/5">
+        <div className="bg-card/95 backdrop-blur-xl rounded-3xl p-5 sm:p-7 md:p-8 border border-border/80 shadow-2xl shadow-primary/5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {perks.map((perk, idx) => {
               const Icon = perk.icon;
               return (
                 <div
                   key={idx}
-                  className="flex items-start gap-4 p-3 sm:p-4 rounded-2xl bg-secondary/40 hover:bg-secondary/70 border border-border/50 hover:border-primary/30 transition-all duration-300 group"
+                  className="flex items-start gap-4 p-3.5 sm:p-4 rounded-2xl bg-secondary/30 hover:bg-secondary/60 border border-border/50 hover:border-primary/30 transition-all duration-300 group"
                 >
-                  <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all shadow-sm">
+                  <div className="h-12 w-12 rounded-2xl bg-[#0A4C36]/10 text-[#0A4C36] dark:text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#0A4C36] group-hover:text-white transition-all shadow-xs">
                     <Icon className="h-6 w-6" />
                   </div>
                   <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <h4 className="font-heading font-extrabold text-sm sm:text-base text-foreground leading-snug">
-                        {perk.title}
-                      </h4>
-                    </div>
+                    <h4 className="font-heading font-extrabold text-sm sm:text-base text-foreground leading-snug">
+                      {perk.title}
+                    </h4>
                     <p className="text-xs text-muted-foreground leading-relaxed font-medium">
                       {perk.subtitle}
                     </p>
-                    <span className="inline-block text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-0.5 rounded-full mt-1">
+                    <span className="inline-block text-[10px] font-bold text-[#0A4C36] dark:text-emerald-400 uppercase tracking-wider bg-[#0A4C36]/10 px-2.5 py-0.5 rounded-full mt-1">
                       {perk.badge}
                     </span>
                   </div>

@@ -98,9 +98,10 @@ export default function App() {
     }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
 
+    const isTestMode = typeof window !== 'undefined' && window.location.search.includes('loading_test');
     const timer = setTimeout(() => {
       setInitialLoading(false);
-    }, 350);
+    }, isTestMode ? 2500 : 350);
     return () => clearTimeout(timer);
   }, []);
 

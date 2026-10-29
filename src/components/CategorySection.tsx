@@ -23,69 +23,66 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
   };
 
   return (
-    <section id="section-categories" className="py-10 md:py-14 bg-background border-b border-border/40 scroll-mt-20">
+    <section id="section-categories" className="py-12 md:py-16 bg-background border-b border-border/40 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-4">
+        {/* Section Header (Ugaoo Clean Luxury Editorial Style) */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-3">
           <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-primary">
-            <Leaf className="h-3.5 w-3.5" /> Explore Collections
+            <Leaf className="h-3.5 w-3.5" /> Curated Flora Collections
           </span>
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
-            Browse by Category
+            Explore by Category
           </h2>
-          <p className="text-base sm:text-lg text-muted-foreground font-medium">
-            Everything you need to build a lush, thriving green space — curated with care by Green Vatika.
+          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto">
+            Acclimatized Indian plants, artisan terracotta planters, and organic gardening essentials — nurtured at Green Vatika.
           </p>
         </div>
 
-        {/* Categories Grid - 3 Columns on Mobile (Strictly Clean: Only Name & Image), 6 Columns on Desktop */}
-        <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 md:gap-5">
+        {/* Categories Circular Showcase - Ugaoo Pattern: Round Avatar + Text Underneath */}
+        {/* Mobile: Smooth Horizontal Scrollable Carousel | Desktop: Balanced 6-Column Grid */}
+        <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-4 sm:pb-0 scrollbar-thin snap-x">
           {categoriesData.map((cat) => {
             const IconComponent = getCategoryIcon(cat.iconName);
+            const cleanCategoryFilter = cat.name
+              .replace(' Plants', '')
+              .replace(' & Planters', '')
+              .replace(' & Vines', '');
+
             return (
-              <a
+              <button
                 key={cat.id}
-                href="#featured"
-                onClick={() => onSelectCategory(cat.name.replace(' Plants', '').replace(' & Planters', '').replace(' & Vines', ''))}
-                className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-card border border-border/60 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/20 transition-all duration-500 block"
+                onClick={() => onSelectCategory(cleanCategoryFilter)}
+                className="group flex flex-col items-center text-center shrink-0 w-28 sm:w-auto snap-start cursor-pointer transition-transform duration-300 focus:outline-none"
               >
-                {/* Aspect Square Image Container with Lazy Loading */}
-                <div className="aspect-square overflow-hidden relative">
-                  <LazyImage
-                    src={cat.image}
-                    alt={cat.name}
-                    aspectRatio="aspect-square"
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  {/* Smooth Dark Gradient for Legibility */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent" />
-                </div>
-
-                {/* Top Corner Variety Badge - Desktop/Tablet Only */}
-                <div className="hidden sm:flex absolute top-2.5 right-2.5 sm:top-3 sm:right-3 items-center gap-1.5 z-10">
-                  <span className="text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-md text-emerald-300 shadow-md border border-emerald-400/30">
-                    {cat.count}+ Varieties
-                  </span>
-                </div>
-
-                {/* Category Details & Bottom Name */}
-                <div className="absolute inset-x-0 bottom-0 p-2 sm:p-4 text-white z-10 flex flex-col justify-end">
-                  {/* Category Lucide Icon Badge - Desktop Only */}
-                  <div className="hidden sm:flex h-8 w-8 rounded-xl bg-emerald-500/25 backdrop-blur-md border border-emerald-300/40 text-emerald-300 items-center justify-center mb-1.5 shadow-md">
-                    <IconComponent className="h-4 w-4" />
+                {/* Round Circular Avatar with Dual Border Ring */}
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full p-1 bg-card border-2 border-border/80 group-hover:border-primary shadow-xs group-hover:shadow-xl group-hover:shadow-primary/15 transition-all duration-300 mb-3 mx-auto flex items-center justify-center">
+                  <div className="w-full h-full rounded-full overflow-hidden relative">
+                    <LazyImage
+                      src={cat.image}
+                      alt={cat.name}
+                      aspectRatio="aspect-square"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 rounded-full"
+                    />
+                    {/* Subtle Glass Tint on Hover */}
+                    <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors duration-300 rounded-full" />
                   </div>
 
-                  {/* Clean Category Name (Never Truncated, Refined Weight) */}
-                  <div className="font-heading font-semibold sm:font-bold text-[11px] sm:text-sm md:text-base leading-tight text-white drop-shadow-md text-center sm:text-left break-words">
-                    {cat.name}
-                  </div>
-
-                  {/* Description - Desktop Only */}
-                  <div className="hidden sm:block text-[11px] text-white/80 font-medium line-clamp-1 mt-0.5">
-                    {cat.description}
+                  {/* Micro Lucide Floating Icon Badge */}
+                  <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-[#0A4C36] text-white flex items-center justify-center shadow-md border-2 border-background group-hover:scale-110 transition-transform">
+                    <IconComponent className="h-3.5 w-3.5" />
                   </div>
                 </div>
-              </a>
+
+                {/* Category Title - Untruncated, Outfit Body Font, Semi-bold */}
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-snug px-1">
+                  {cat.name}
+                </h3>
+
+                {/* Subtitle / Variety Count */}
+                <span className="text-[10px] sm:text-xs text-muted-foreground font-semibold mt-0.5">
+                  {cat.count}+ Varieties
+                </span>
+              </button>
             );
           })}
         </div>

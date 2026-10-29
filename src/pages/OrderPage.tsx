@@ -85,6 +85,9 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   const [stateName, setStateName] = useState('Madhya Pradesh');
   const [orderNotes, setOrderNotes] = useState('');
 
+  // Delivery Fulfillment Mode: 'local_express' | 'nursery_pickup' | 'courier_pilot'
+  const [deliveryMode, setDeliveryMode] = useState<'local_express' | 'nursery_pickup' | 'courier_pilot'>('local_express');
+
   // Delivery Scheduling
   const [selectedDateOption, setSelectedDateOption] = useState<'today' | 'tomorrow' | 'dayAfter' | 'custom'>('tomorrow');
   const [customDate, setCustomDate] = useState('');
@@ -115,8 +118,8 @@ export const OrderPage: React.FC<OrderPageProps> = ({
 
   const subtotal = itemsToOrder.reduce((acc, item) => acc + item.plant.price * item.quantity, 0);
 
-  // Free shipping above ₹499 (Ugaoo standard)
-  const shippingFee = subtotal >= 499 || subtotal === 0 ? 0 : 49;
+  // Free shipping above ₹499 (Ugaoo standard) or Free for Direct Nursery Pickup
+  const shippingFee = deliveryMode === 'nursery_pickup' ? 0 : subtotal >= 499 || subtotal === 0 ? 0 : 49;
   const total = Math.max(0, subtotal - discountAmount + shippingFee);
 
   // Auto-detect Indian city/state on Pincode entry
@@ -201,8 +204,13 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   const handlePlaceOrder = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!fullName.trim() || !phone.trim() || !address.trim() || !pincode.trim() || !city.trim()) {
-      alert('Please fill in your Full Name, Mobile Number, Delivery Address, Pincode, and City.');
+    if (!fullName.trim() || !phone.trim()) {
+      alert('Please fill in your Full Name and Mobile Number.');
+      return;
+    }
+
+    if (deliveryMode !== 'nursery_pickup' && (!address.trim() || !pincode.trim() || !city.trim())) {
+      alert('Please provide your complete Delivery Address, Pincode, and City.');
       return;
     }
 
@@ -217,12 +225,23 @@ export const OrderPage: React.FC<OrderPageProps> = ({
     const generatedId = `GV-${Math.floor(10000 + Math.random() * 90000)}`;
     const schedule = `${getDateLabel()} [${selectedTimeSlot}]`;
 
+    const fullDeliveryAddress =
+      deliveryMode === 'nursery_pickup'
+        ? 'Direct Self-Pickup: Green Vatika Nursery, Khairi Naka, Teen Puliya, Narsinghpur (MP)'
+        : `${address}${landmark ? `, Near ${landmark}` : ''}, ${city}, ${stateName} - ${pincode}`;
+
     const summary = {
       orderId: generatedId,
       fullName,
       phone,
       email,
-      address: `${address}${landmark ? `, Near ${landmark}` : ''}, ${city}, ${stateName} - ${pincode}`,
+      deliveryMode:
+        deliveryMode === 'local_express'
+          ? 'Local Express Delivery (Narsinghpur & MP)'
+          : deliveryMode === 'nursery_pickup'
+          ? 'Direct Nursery Pickup (Teen Puliya)'
+          : 'Pan-India Courier (Pilot Phase)',
+      address: fullDeliveryAddress,
       schedule,
       paymentMethod:
         paymentMethod === 'upi'
@@ -274,7 +293,8 @@ export const OrderPage: React.FC<OrderPageProps> = ({
       `*CUSTOMER DETAILS:*\n` +
       `• Name: ${confirmedOrderSummary.fullName}\n` +
       `• Phone: ${confirmedOrderSummary.phone}\n` +
-      `• Address: ${confirmedOrderSummary.address}\n` +
+      `• Delivery Mode: ${confirmedOrderSummary.deliveryMode}\n` +
+      `• Address/Pickup: ${confirmedOrderSummary.address}\n` +
       `• Delivery Slot: ${confirmedOrderSummary.schedule}\n` +
       `• Payment Mode: ${confirmedOrderSummary.paymentMethod}\n` +
       `${confirmedOrderSummary.notes ? `• Notes: ${confirmedOrderSummary.notes}\n` : ''}` +
@@ -319,9 +339,13 @@ export const OrderPage: React.FC<OrderPageProps> = ({
 
             {/* Order Details Grid */}
             <div className="bg-secondary/40 rounded-2xl border border-border/60 p-4 sm:p-6 text-left space-y-4 text-xs sm:text-sm">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-border/60">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pb-4 border-b border-border/60">
                 <div>
-                  <span className="text-[11px] font-bold text-muted-foreground uppercase">Delivery Address</span>
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase">Fulfillment Mode</span>
+                  <p className="font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">{confirmedOrderSummary.deliveryMode}</p>
+                </div>
+                <div>
+                  <span className="text-[11px] font-bold text-muted-foreground uppercase">Address / Location</span>
                   <p className="font-semibold text-foreground mt-0.5">{confirmedOrderSummary.address}</p>
                 </div>
                 <div>
@@ -450,12 +474,35 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
         </div>
 
+        {/* Important Delivery Notice: Local Narsinghpur Express Active vs Pan-India Pilot */}
+        <div className="mb-5 rounded-3xl border-2 border-amber-500/30 bg-amber-500/10 p-4 sm:p-5 text-amber-950 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
+          <div className="h-10 w-10 rounded-2xl bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0">
+            <Truck className="h-5 w-5" />
+          </div>
+          <div className="flex-1 space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-heading font-extrabold text-sm sm:text-base text-amber-950 dark:text-amber-100">
+                Delivery Service Notice: Narsinghpur &amp; MP Express Active • Pan-India Courier Coming Soon
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-900 dark:text-amber-200 border border-amber-500/30">
+                Pilot Phase
+              </span>
+            </div>
+            <p className="text-xs text-amber-900/80 dark:text-amber-200/80 leading-relaxed font-medium">
+              National courier shipping outside Madhya Pradesh is currently in pilot rollout and will be fully automated soon. 
+              Currently, all orders across <strong>Narsinghpur, Kareli, Gotegaon, Gadarwara &amp; MP districts</strong> are fulfilled via active <strong>Same-Day / Next-Day Nursery Express Delivery</strong> or <strong>Direct Nursery Pickup</strong>. For other states, you can still submit your order; our nursery manager will connect on WhatsApp (+91 94794 80068) to arrange safe live-plant freight.
+            </p>
+          </div>
+        </div>
+
         {/* Free Delivery Announcement (Ugaoo Theme Pattern) */}
         <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-emerald-900 text-white flex items-center justify-between gap-3 shadow-md">
           <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
             <Truck className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
             <span>
-              {subtotal >= 499 ? (
+              {deliveryMode === 'nursery_pickup' ? (
+                <strong className="text-emerald-300">Direct Nursery Pickup Selected — 100% FREE!</strong>
+              ) : subtotal >= 499 ? (
                 <strong className="text-emerald-300">Congratulations! You have unlocked FREE Express Delivery!</strong>
               ) : (
                 <>Add ₹{499 - subtotal} more to unlock <strong>FREE Delivery</strong> across Narsinghpur &amp; MP!</>
@@ -538,92 +585,217 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               </div>
             </div>
 
-            {/* Step 2: Shipping & Delivery Address */}
+            {/* Step 2: Shipping & Delivery Method / Address */}
             <div className="bg-card rounded-3xl border border-border/80 p-5 sm:p-7 shadow-sm space-y-5">
-              <div className="flex items-center gap-3 border-b border-border/60 pb-3.5">
-                <div className="h-7 w-7 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">
-                  2
-                </div>
-                <h2 className="font-heading text-lg sm:text-xl font-extrabold text-foreground">
-                  Delivery Address
-                </h2>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-foreground mb-1">
-                    House / Flat / Plot No. &amp; Street Address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="e.g. House No. 24, Teen Puliya, Niranjan Ward"
-                    className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                  />
-                </div>
-
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-foreground mb-1">
-                    Nearby Landmark (Optional)
-                  </label>
-                  <input
-                    type="text"
-                    value={landmark}
-                    onChange={(e) => setLandmark(e.target.value)}
-                    placeholder="e.g. Near Shiv Temple / Khairi Naka"
-                    className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-foreground mb-1">
-                    Pincode <span className="text-red-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <input
-                      type="text"
-                      required
-                      maxLength={6}
-                      value={pincode}
-                      onChange={(e) => handlePincodeChange(e.target.value)}
-                      placeholder="e.g. 487001"
-                      className="w-full bg-secondary/40 border border-border/80 rounded-xl pl-10 pr-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                    />
+              <div className="flex items-center justify-between border-b border-border/60 pb-3.5">
+                <div className="flex items-center gap-3">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 text-primary font-bold flex items-center justify-center text-xs">
+                    2
                   </div>
-                  {pincode.length === 6 && (
-                    <span className="text-[10px] text-emerald-600 font-bold mt-1 block">
-                      Direct nursery delivery available!
-                    </span>
-                  )}
+                  <h2 className="font-heading text-lg sm:text-xl font-extrabold text-foreground">
+                    Fulfillment &amp; Delivery
+                  </h2>
                 </div>
+                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+                  {deliveryMode === 'nursery_pickup' ? 'Self Pickup' : 'Doorstep Dispatch'}
+                </span>
+              </div>
 
-                <div>
-                  <label className="block text-xs font-bold text-foreground mb-1">
-                    City / District <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="e.g. Narsinghpur"
-                    className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                  />
-                </div>
+              {/* Delivery Fulfillment Selector (3 Options) */}
+              <div className="space-y-2">
+                <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground">
+                  Choose How You Want to Receive Your Plants
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setDeliveryMode('local_express')}
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                      deliveryMode === 'local_express'
+                        ? 'border-primary bg-primary/10 ring-2 ring-primary/20 shadow-xs'
+                        : 'border-border/80 bg-secondary/30 hover:border-primary/40'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
+                        <Truck className="h-4 w-4 text-primary" /> Local Express
+                      </span>
+                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
+                        Active
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-muted-foreground leading-snug">
+                      Narsinghpur &amp; MP districts doorstep delivery in transit-safe box
+                    </p>
+                  </button>
 
-                <div className="sm:col-span-2">
-                  <label className="block text-xs font-bold text-foreground mb-1">State</label>
-                  <input
-                    type="text"
-                    value={stateName}
-                    onChange={(e) => setStateName(e.target.value)}
-                    className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                  />
+                  <button
+                    type="button"
+                    onClick={() => setDeliveryMode('nursery_pickup')}
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                      deliveryMode === 'nursery_pickup'
+                        ? 'border-primary bg-primary/10 ring-2 ring-primary/20 shadow-xs'
+                        : 'border-border/80 bg-secondary/30 hover:border-primary/40'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
+                        <MapPin className="h-4 w-4 text-primary" /> Nursery Pickup
+                      </span>
+                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-700 dark:text-blue-300">
+                        Free
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-muted-foreground leading-snug">
+                      Direct self-pickup from Khairi Naka, Teen Puliya nursery beds (Ready in 2h)
+                    </p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setDeliveryMode('courier_pilot')}
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                      deliveryMode === 'courier_pilot'
+                        ? 'border-amber-500 bg-amber-500/10 ring-2 ring-amber-500/20 shadow-xs'
+                        : 'border-border/80 bg-secondary/30 hover:border-amber-400'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
+                        <Clock className="h-4 w-4 text-amber-600" /> Pan-India Courier
+                      </span>
+                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300">
+                        Coming Soon
+                      </span>
+                    </div>
+                    <p className="text-[10px] text-amber-800/80 dark:text-amber-200/80 leading-snug">
+                      National parcel shipping rolling out soon. Inquire &amp; confirm via WhatsApp
+                    </p>
+                  </button>
                 </div>
               </div>
+
+              {/* Conditional Mode: Direct Nursery Pickup Details */}
+              {deliveryMode === 'nursery_pickup' ? (
+                <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-2.5 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
+                    <MapPin className="h-4 w-4 text-emerald-600 shrink-0" />
+                    <span>Nursery Pickup Location (Ready within 2 hours):</span>
+                  </div>
+                  <p className="text-xs text-foreground leading-relaxed">
+                    <strong>Green Vatika Nursery</strong><br />
+                    Khairi Naka, Teen Puliya, Niranjan Ward, Narsinghpur, Madhya Pradesh 487001<br />
+                    <span className="text-muted-foreground">Open Every Day: 7:00 AM – 8:00 PM • Phone: +91 94794 80068</span>
+                  </p>
+                  <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold pt-1">
+                    Your plants will be inspected, watered, and safely set aside in grower bags ready for you.
+                  </div>
+                </div>
+              ) : (
+                /* Doorstep Delivery Address Fields */
+                <div className="space-y-4 pt-1 animate-in fade-in duration-200">
+                  {deliveryMode === 'courier_pilot' && (
+                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-950 dark:text-amber-200 text-xs space-y-1">
+                      <div className="font-bold flex items-center gap-1.5 text-amber-900 dark:text-amber-100">
+                        <Clock className="h-4 w-4 text-amber-600 shrink-0" />
+                        <span>Pan-India Courier Delivery Notice (Pilot Phase)</span>
+                      </div>
+                      <p className="text-[11px] leading-relaxed text-amber-900/80 dark:text-amber-200/80">
+                        Long-distance courier shipping outside MP is currently in pilot rollout. Your order will be accepted and our nursery team will coordinate live transit logistics and freight packing with you on WhatsApp.
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-foreground mb-1">
+                        House / Flat / Plot No. &amp; Street Address <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        placeholder="e.g. House No. 24, Teen Puliya, Niranjan Ward"
+                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-foreground mb-1">
+                        Nearby Landmark (Optional)
+                      </label>
+                      <input
+                        type="text"
+                        value={landmark}
+                        onChange={(e) => setLandmark(e.target.value)}
+                        placeholder="e.g. Near Shiv Temple / Khairi Naka"
+                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-foreground mb-1">
+                        Pincode <span className="text-red-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <input
+                          type="text"
+                          required
+                          maxLength={6}
+                          value={pincode}
+                          onChange={(e) => handlePincodeChange(e.target.value)}
+                          placeholder="e.g. 487001"
+                          className="w-full bg-secondary/40 border border-border/80 rounded-xl pl-10 pr-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
+                        />
+                      </div>
+                      {pincode.length === 6 && (
+                        pincode.startsWith('48') || pincode.startsWith('46') || pincode.startsWith('45') || pincode.startsWith('47') ? (
+                          <div className="mt-1.5 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold flex items-center gap-1.5">
+                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                            <span>Direct nursery express delivery is ACTIVE for this MP area!</span>
+                          </div>
+                        ) : (
+                          <div className="mt-1.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-950 dark:text-amber-200 text-[11px] space-y-1">
+                            <div className="font-bold flex items-center gap-1.5 text-amber-800 dark:text-amber-300">
+                              <Clock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                              <span>Pan-India Courier Delivery Coming Soon for this Pincode</span>
+                            </div>
+                            <p className="text-[10px] leading-relaxed text-amber-900/80 dark:text-amber-200/80">
+                              Standard courier delivery outside MP is in pilot rollout. You can place your order now and our nursery team will confirm custom freight packaging via WhatsApp (+91 94794 80068).
+                            </p>
+                          </div>
+                        )
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-foreground mb-1">
+                        City / District <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="e.g. Narsinghpur"
+                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
+                      />
+                    </div>
+
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-foreground mb-1">State</label>
+                      <input
+                        type="text"
+                        value={stateName}
+                        onChange={(e) => setStateName(e.target.value)}
+                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Step 3: Preferred Delivery Schedule & Time Slot (Ugaoo Feature) */}
@@ -634,18 +806,18 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                     3
                   </div>
                   <h2 className="font-heading text-lg sm:text-xl font-extrabold text-foreground">
-                    Delivery Schedule
+                    {deliveryMode === 'nursery_pickup' ? 'Pickup Schedule' : 'Delivery Schedule'}
                   </h2>
                 </div>
                 <span className="text-xs font-extrabold text-emerald-600 bg-emerald-500/10 px-3 py-1 rounded-full">
-                  Nursery Care Dispatch
+                  {deliveryMode === 'nursery_pickup' ? 'Ready in 2 Hours' : 'Nursery Care Dispatch'}
                 </span>
               </div>
 
               {/* Date Option Pills */}
               <div>
                 <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground mb-2.5">
-                  Choose Preferred Delivery Day
+                  {deliveryMode === 'nursery_pickup' ? 'Choose Preferred Pickup Day' : 'Choose Preferred Delivery Day'}
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   {[
@@ -987,10 +1159,10 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Nursery Express Shipping</span>
+                  <span>{deliveryMode === 'nursery_pickup' ? 'Nursery Self-Pickup' : 'Nursery Express Shipping'}</span>
                   <span>
                     {shippingFee === 0 ? (
-                      <strong className="text-emerald-600 font-extrabold">FREE</strong>
+                      <strong className="text-emerald-600 font-extrabold">{deliveryMode === 'nursery_pickup' ? 'FREE (Pickup)' : 'FREE'}</strong>
                     ) : (
                       `₹${shippingFee}`
                     )}

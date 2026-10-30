@@ -305,7 +305,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   // ORDER CONFIRMATION VIEW (SUCCESS STATE)
   if (confirmedOrderId && confirmedOrderSummary) {
     return (
-      <div className="pt-24 pb-20 bg-background text-foreground min-h-screen animate-in fade-in duration-300">
+      <div className="pt-36 sm:pt-40 pb-20 bg-background text-foreground min-h-screen animate-in fade-in duration-300">
         <div className="container mx-auto px-4 md:px-8 max-w-3xl">
           {/* Success Banner Card */}
           <div className="bg-card rounded-3xl border border-border/80 p-6 sm:p-10 shadow-2xl text-center space-y-6">
@@ -421,7 +421,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   // EMPTY CART GUARD
   if (itemsToOrder.length === 0) {
     return (
-      <div className="pt-24 pb-20 bg-background text-foreground min-h-[70vh] flex items-center justify-center animate-in fade-in duration-300">
+      <div className="pt-36 sm:pt-40 pb-20 bg-background text-foreground min-h-[70vh] flex items-center justify-center animate-in fade-in duration-300">
         <div className="text-center p-8 max-w-md space-y-4">
           <div className="h-16 w-16 mx-auto rounded-full bg-secondary text-muted-foreground flex items-center justify-center border border-border/60">
             <ShoppingBag className="h-8 w-8 text-primary" />
@@ -442,7 +442,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   }
 
   return (
-    <div className="pt-20 sm:pt-24 pb-24 bg-[#FAF8F5] dark:bg-[#0D1812] text-foreground min-h-screen animate-in fade-in duration-300">
+    <div className="pt-36 sm:pt-40 pb-24 bg-[#FAF8F5] dark:bg-[#0D1812] text-foreground min-h-screen animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8 max-w-6xl">
         {/* Top Breadcrumb & Trust Banner */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 sm:mb-8 pb-4 border-b border-border/60">

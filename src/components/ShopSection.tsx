@@ -132,18 +132,18 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
           </div>
         </div>
 
-        {/* Category Tabs Bar - Scrollbar Completely Hidden on Mobile */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mb-10 border-b border-border/40">
+        {/* Category Tabs Bar - Scrollbar Completely Hidden on Mobile, Generous Padding to Prevent Left Clipping */}
+        <div className="flex items-center gap-2.5 overflow-x-auto pt-2 pb-4 px-3 sm:px-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mb-10 border-b border-border/40">
           {categories.map((tab) => {
             const isSelected = activeTab === tab.key;
             return (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all flex items-center gap-2 ${
+                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-extrabold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer ${
                   isSelected
-                    ? 'bg-primary text-white shadow-lg shadow-primary/25 scale-105'
-                    : 'bg-card text-foreground/80 hover:bg-primary/10 hover:text-primary border border-border/60'
+                    ? 'bg-primary text-white shadow-md shadow-primary/30 ring-2 ring-primary/25'
+                    : 'bg-card text-foreground/80 hover:bg-primary/10 hover:text-primary border border-border/60 hover:border-primary/40'
                 }`}
               >
                 <span>{tab.label}</span>

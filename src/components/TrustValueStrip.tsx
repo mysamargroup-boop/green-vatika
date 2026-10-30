@@ -1,5 +1,5 @@
 import React from 'react';
-import { PackageCheck, Sprout, MessageCircle, ThermometerSun } from 'lucide-react';
+import { PackageCheck, Sprout, Stethoscope, ThermometerSun } from 'lucide-react';
 
 export const TrustValueStrip: React.FC = () => {
   const perks = [
@@ -22,7 +22,7 @@ export const TrustValueStrip: React.FC = () => {
       badge: 'Honest Pricing',
     },
     {
-      icon: MessageCircle,
+      icon: Stethoscope,
       title: 'Free Plant Doctor',
       subtitle: 'Direct lifetime care consultation with senior nursery horticulturists via WhatsApp',
       badge: '1-on-1 WhatsApp Support',

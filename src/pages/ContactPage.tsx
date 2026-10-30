@@ -27,7 +27,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
   };
 
   return (
-    <div className="pt-24 pb-20 bg-background text-foreground animate-in fade-in duration-300">
+    <div className="pt-36 sm:pt-40 pb-20 bg-background text-foreground animate-in fade-in duration-300">
       <div className="container mx-auto px-4 md:px-8 space-y-16">
         {/* Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">

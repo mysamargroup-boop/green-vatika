@@ -44,7 +44,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
   };
 
   return (
-    <div className="pt-24 pb-24 bg-background text-foreground animate-in fade-in duration-300">
+    <div className="pt-36 sm:pt-40 pb-24 bg-background text-foreground animate-in fade-in duration-300">
       {/* Broadened Container: max-w-7xl with generous padding */}
       <div className="container mx-auto px-4 md:px-8 max-w-7xl">
         {/* Top Navigation & Breadcrumb */}

@@ -24,6 +24,7 @@ import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
 import { NurseryChatbot } from './components/NurseryChatbot';
 import { Skeleton } from './components/Skeleton';
 import { ScrollSkeletonContainer } from './components/ScrollSkeletonContainer';
+import { trackMetaPageView } from './utils/metaPixel';
 import { Plant, CartItem } from './types/nursery';
 import { plantsData, blogPostsData } from './data/mockData';
 import { Search, X, CheckCircle, ShoppingCart } from 'lucide-react';
@@ -110,7 +111,7 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Ensure scroll is anchored to top (0, 0) and dispatch GA4 pageview on view change
+  // Ensure scroll is anchored to top (0, 0) and dispatch GA4 & Meta Pixel pageview on view change
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     if (typeof window !== 'undefined' && (window as any).gtag) {
@@ -120,6 +121,7 @@ export default function App() {
         page_path: window.location.pathname + (window.location.hash || ''),
       });
     }
+    trackMetaPageView();
   }, [currentView, activeProductView]);
 
   // Dynamic Document Title & Meta Description updater based on currentView & active product

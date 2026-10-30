@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Sparkles, HelpCircle, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Sparkles } from 'lucide-react';
 import { PlantQuiz } from '../components/PlantQuiz';
 import { Plant } from '../types/nursery';
 
@@ -11,8 +11,8 @@ interface QuizPageProps {
 
 export const QuizPage: React.FC<QuizPageProps> = ({ onBack, onSelectPlant, onAddToCart }) => {
   return (
-    <div className="pt-36 sm:pt-40 pb-20 bg-background text-foreground animate-in fade-in duration-300">
-      <div className="container mx-auto px-4 md:px-8 space-y-12">
+    <div className="pt-32 sm:pt-36 pb-20 bg-background text-foreground animate-in fade-in duration-300">
+      <div className="container mx-auto px-4 md:px-8 max-w-5xl space-y-8">
         {/* Navigation Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">
           <button
@@ -28,24 +28,10 @@ export const QuizPage: React.FC<QuizPageProps> = ({ onBack, onSelectPlant, onAdd
           </div>
         </div>
 
-        {/* Distinct Hero Header */}
-        <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 md:p-16 bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-950 text-white shadow-2xl border border-emerald-800/40 text-center max-w-4xl mx-auto">
-          <div className="space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-300 bg-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md inline-block border border-white/15">
-              Personalized Plant Recommender
-            </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-              Find Your Ideal Plant Match in 60 Seconds
-            </h1>
-            <p className="text-sm sm:text-base text-emerald-100/90 leading-relaxed font-normal max-w-2xl mx-auto">
-              Answer 3 quick questions about your balcony sunlight, watering routine, and space to discover the exact acclimatized species that will thrive in your home.
-            </p>
-          </div>
-        </div>
-
-        {/* The Interactive Plant Quiz Component */}
-        <div className="max-w-4xl mx-auto">
+        {/* The Interactive Plant Quiz Component (Single Box, Spacious Width) */}
+        <div>
           <PlantQuiz
+            isPageMode={true}
             onSelectPlant={onSelectPlant}
             onAddToCart={onAddToCart}
           />

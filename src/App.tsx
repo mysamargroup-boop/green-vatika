@@ -15,6 +15,10 @@ import { CartDrawer } from './components/CartDrawer';
 import { TrustValueStrip } from './components/TrustValueStrip';
 import { InspirationGallery } from './components/InspirationGallery';
 import { Footer } from './components/Footer';
+import { CuratedCollectionSlider } from './components/CuratedCollectionSlider';
+import { NurseryJourneySection } from './components/NurseryJourneySection';
+import { ComparisonSection } from './components/ComparisonSection';
+import { WhatsAppDoctorBanner } from './components/WhatsAppDoctorBanner';
 import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
 import { NurseryChatbot } from './components/NurseryChatbot';
 import { Skeleton } from './components/Skeleton';
@@ -454,7 +458,31 @@ export default function App() {
                 }}
               />
             </ScrollSkeletonContainer>
+
+            {/* Ugaao Signature Pattern: Most Loved & Bestsellers Collection Carousel */}
+            <CuratedCollectionSlider
+              title="Most Loved & Bestsellers"
+              subtitle="Cultivated with organic care and handpicked by our nursery garden specialists."
+              badge="Top Rated Nursery Flora"
+              plants={plantsData.slice(0, 8)}
+              onSelectPlant={(plant) => openProductPage(plant)}
+              onAddToCart={(plant) => handleAddToCart(plant)}
+              onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
+            />
+
             <HeroSlider />
+
+            {/* Ugaao Signature Pattern: Beginner Friendly & Low Maintenance Carousel */}
+            <CuratedCollectionSlider
+              title="Beginner Friendly Plants"
+              subtitle="Tough, sun-hardy varieties that thrive with minimal watering and forgiving care."
+              badge="Easy Care Balcony Flora"
+              plants={plantsData.slice(6, 14)}
+              onSelectPlant={(plant) => openProductPage(plant)}
+              onAddToCart={(plant) => handleAddToCart(plant)}
+              onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
+            />
+
             <ScrollSkeletonContainer height="h-[600px]">
               <ShopSection
                 onSelectPlant={(plant) => openProductPage(plant)}
@@ -463,6 +491,13 @@ export default function App() {
                 selectedCategoryFilter={selectedCategory}
               />
             </ScrollSkeletonContainer>
+
+            {/* Ugaao Signature Pattern: From Our Farm to Your Home (4-Step Trust Journey) */}
+            <NurseryJourneySection />
+
+            {/* Ugaao Signature Pattern: Green Vatika vs The Rest Comparison Matrix */}
+            <ComparisonSection />
+
             <InspirationGallery onSelectPlant={(plant) => openProductPage(plant)} />
             <ScrollSkeletonContainer height="h-80">
               <AboutSection />
@@ -478,6 +513,10 @@ export default function App() {
             </ScrollSkeletonContainer>
             <TestimonialsSection />
             <BlogSection onSelectPost={openBlogPostPage} />
+
+            {/* Ugaao Signature Pattern: Stuck with Plant Care? WhatsApp Doctor Banner */}
+            <WhatsAppDoctorBanner />
+
             <ContactSection />
           </>
         )}

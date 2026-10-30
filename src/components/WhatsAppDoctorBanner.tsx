@@ -28,9 +28,9 @@ export const WhatsAppDoctorBanner: React.FC = () => {
               href="https://wa.me/919479480068?text=Hello%20Green%20Vatika%20Doctor%2C%20I%20need%20expert%20care%20advice%20for%20my%20plants!"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-white hover:bg-neutral-100 text-[#0A4C36] font-extrabold text-base shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              <WhatsAppIcon className="h-5 w-5" />
+              <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
               <span>Chat With Plant Doctor</span>
             </a>
 

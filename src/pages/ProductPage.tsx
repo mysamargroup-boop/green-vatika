@@ -170,10 +170,10 @@ export const ProductPage: React.FC<ProductPageProps> = ({
           </nav>
         </div>
 
-        {/* Product Above-The-Fold Grid: Fits Compactly Without Forcing Downward Scroll */}
+        {/* Product Above-The-Fold Grid: Generous 3:4 Image Stage (6 cols / 6 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-start">
-          {/* Left Column (5 Cols on large displays): Compact 3:4 Image with Side Thumbnails */}
-          <div className="lg:col-span-5 flex flex-col-reverse sm:flex-row gap-3 items-start">
+          {/* Left Column (6 Cols on large displays): Large 3:4 Image with Side Thumbnails */}
+          <div className="lg:col-span-6 flex flex-col-reverse sm:flex-row gap-3.5 items-start">
             {/* Vertical Thumbnails on Side (Standard E-Commerce Pattern) */}
             {galleryImages.length > 1 && (
               <div className="flex flex-row sm:flex-col gap-2.5 sm:w-16 md:w-20 shrink-0 w-full overflow-x-auto sm:overflow-visible pb-1 sm:pb-0">
@@ -199,8 +199,8 @@ export const ProductPage: React.FC<ProductPageProps> = ({
               </div>
             )}
 
-            {/* Main Featured Image: Compact Height (Fits Above the Fold Without Scrolling) */}
-            <div className="relative flex-1 w-full max-h-[460px] sm:max-h-[490px] aspect-[3/4] rounded-3xl overflow-hidden border border-border/80 shadow-lg bg-secondary/30 group mx-auto">
+            {/* Main Featured Image: Prominent 3:4 Aspect Ratio */}
+            <div className="relative flex-1 w-full max-h-[560px] sm:max-h-[620px] aspect-[3/4] rounded-3xl overflow-hidden border border-border/80 shadow-xl bg-secondary/30 group mx-auto">
               <LazyImage
                 src={galleryImages[activeImageIndex] || plant.image}
                 alt={plant.name}
@@ -240,8 +240,8 @@ export const ProductPage: React.FC<ProductPageProps> = ({
             </div>
           </div>
 
-          {/* Right Column (7 Cols): Details, Reviews Beside Price, Action Buttons with Distinct Colors */}
-          <div className="lg:col-span-7 space-y-4 sm:space-y-5">
+          {/* Right Column (6 Cols): Details, Distinct Price Color, Short Description, FOMO, Actions */}
+          <div className="lg:col-span-6 space-y-4 sm:space-y-5">
             {/* Title & Botanical Name */}
             <div>
               <div className="flex items-center gap-2 mb-1.5">
@@ -266,7 +266,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                   Direct Nursery Price
                 </div>
                 <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mt-1">
-                  <span className="text-2xl sm:text-3xl font-black text-foreground font-heading">
+                  <span className="text-2xl sm:text-3xl font-black text-[#0A4C36] dark:text-emerald-400 font-heading">
                     ₹{calculatedTotal}
                   </span>
                   {calculatedOriginalTotal && (
@@ -291,6 +291,25 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                 <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1 mt-1">
                   <CheckCircle2 className="h-3 w-3" /> 100% Verified Customer Reviews
                 </span>
+              </div>
+            </div>
+
+            {/* Short Description Below Pricing */}
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-secondary/40 border border-border/70 text-xs sm:text-sm text-foreground/90 leading-relaxed font-normal shadow-2xs">
+              <p>{plant.description}</p>
+            </div>
+
+            {/* High-Converting Botanical Polyhouse Batch FOMO Strip */}
+            <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs shadow-2xs">
+              <div className="flex items-center gap-2 font-bold">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-500 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-600"></span>
+                </span>
+                <span>Only 4 saplings remaining in this greenhouse batch</span>
+              </div>
+              <div className="text-[11px] font-semibold text-amber-800/80 dark:text-amber-300/80">
+                12 plant lovers viewing today
               </div>
             </div>
 
@@ -420,7 +439,7 @@ export const ProductPage: React.FC<ProductPageProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {plant.careInstructions.map((tip, idx) => (
               <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl bg-secondary/40 border border-border/60">
                 <CheckCircle2 className="h-4.5 w-4.5 text-primary shrink-0 mt-0.5" />
@@ -592,18 +611,42 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                       aspectRatio="aspect-[3/4]"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    {p.discount && (
+                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-white bg-primary shadow-xs z-10">
+                        {p.discount}% OFF
+                      </span>
+                    )}
+                    {p.badge && !p.discount && (
+                      <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-white bg-primary shadow-xs z-10">
+                        {p.badge}
+                      </span>
+                    )}
                   </div>
 
                   <div className="p-3.5 sm:p-4 space-y-2">
-                    <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">
-                      {p.category}
+                    <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase font-bold tracking-wider">
+                      <span>{p.category}</span>
+                      <span className="text-emerald-600 font-extrabold">In Stock</span>
                     </div>
                     <div className="font-heading font-extrabold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors line-clamp-1">
                       {p.name}
                     </div>
-                    <div className="flex items-baseline justify-between pt-1 border-t border-border/40">
-                      <span className="text-sm sm:text-base font-black text-foreground">₹{p.price}</span>
+
+                    <div className="flex items-center justify-between text-[11px] text-muted-foreground pt-0.5">
                       <StarRating rating={p.rating} size="xs" />
+                      <span className="font-semibold text-[10px]">{p.reviewsCount} reviews</span>
+                    </div>
+
+                    <div className="flex items-baseline gap-2 pt-1 border-t border-border/40">
+                      <span className="text-sm sm:text-base font-black text-[#0A4C36] dark:text-emerald-400">₹{p.price}</span>
+                      {p.originalPrice && (
+                        <span className="text-xs text-muted-foreground line-through font-semibold">₹{p.originalPrice}</span>
+                      )}
+                      {p.discount && (
+                        <span className="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 ml-auto">
+                          SAVE {p.discount}%
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -172,22 +172,21 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
           </div>
         </div>
 
-        {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-muted-foreground gap-4">
-          <div>
-            © {new Date().getFullYear()} Green Vatika Nursery. All Rights Reserved.
-          </div>
-
-          <div className="flex items-center gap-1.5 font-medium">
-            Crafted with <Heart className="h-3.5 w-3.5 text-red-500 fill-red-500" /> by{' '}
+        {/* Bottom Credits - Centered Crafted with Samar */}
+        <div className="pt-8 border-t border-border/40 flex flex-col items-center justify-center text-xs text-muted-foreground gap-2 text-center">
+          <div className="flex items-center justify-center gap-1.5 font-bold text-sm text-foreground">
+            Crafted with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{' '}
             <a
               href="https://instagram.com/shubham__nema"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-extrabold text-primary hover:underline"
+              className="font-black text-primary hover:underline"
             >
               Samar
             </a>
+          </div>
+          <div className="text-[11px] text-muted-foreground/80">
+            © {new Date().getFullYear()} Green Vatika Nursery. All Rights Reserved.
           </div>
         </div>
       </div>

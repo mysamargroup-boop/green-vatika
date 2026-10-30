@@ -47,21 +47,6 @@ export const RemotionBotanicalLoader: React.FC<RemotionBotanicalLoaderProps> = (
           </div>
         </div>
       </div>
-
-      {/* Luxury Botanical Typography */}
-      <div className="text-center space-y-2">
-        <div className="font-heading font-black text-xl sm:text-2xl tracking-[0.22em] uppercase text-[#0A4C36] dark:text-emerald-300 drop-shadow-xs">
-          {label}
-        </div>
-        <p className="text-xs sm:text-sm font-semibold text-muted-foreground tracking-wider uppercase flex items-center justify-center gap-2">
-          <span>{subtext}</span>
-          <span className="inline-flex items-center space-x-1">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#0A4C36] dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#0A4C36] dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-            <span className="h-1.5 w-1.5 rounded-full bg-[#0A4C36] dark:bg-emerald-400 animate-bounce" style={{ animationDelay: '300ms' }} />
-          </span>
-        </p>
-      </div>
     </div>
   );
 

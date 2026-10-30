@@ -100,8 +100,8 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="font-heading font-extrabold text-lg leading-tight tracking-tight text-foreground">
                   Green Vatika
                 </div>
-                <div className="text-[10px] uppercase tracking-widest text-primary font-bold">
-                  Premium Nursery
+                <div className="text-[10.5px] font-bold text-primary tracking-normal">
+                  Seedha Nursery Se Aapke Ghar
                 </div>
               </div>
             </button>
@@ -200,8 +200,8 @@ export const Header: React.FC<HeaderProps> = ({
                   <div className="font-heading font-extrabold text-base text-foreground leading-tight">
                     Green Vatika
                   </div>
-                  <div className="text-[9px] uppercase tracking-widest text-primary font-bold">
-                    Premium Nursery
+                  <div className="text-[10px] font-bold text-primary tracking-normal">
+                    Seedha Nursery Se Aapke Ghar
                   </div>
                 </div>
               </div>

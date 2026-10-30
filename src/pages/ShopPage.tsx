@@ -248,14 +248,19 @@ export const ShopPage: React.FC<ShopPageProps> = ({
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
 
-                  {/* Discount / Badge */}
-                  {plant.badge && (
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full bg-primary text-white shadow-xs">
+                  {/* Badges & Discount Overlay Left */}
+                  <div className="absolute top-3 left-3 flex flex-col gap-1 z-10">
+                    {plant.discount && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider text-white bg-gradient-to-r from-red-600 to-rose-500 shadow-md border border-white/20">
+                        {plant.discount}% OFF
+                      </span>
+                    )}
+                    {plant.badge && (
+                      <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary text-white shadow-xs">
                         {plant.badge}
                       </span>
-                    </div>
-                  )}
+                    )}
+                  </div>
 
                   {/* Wishlist Button */}
                   <button

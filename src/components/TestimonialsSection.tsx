@@ -51,12 +51,14 @@ export const TestimonialsSection: React.FC = () => {
                     />
                   )}
                   <div>
-                    <div className="font-heading font-bold text-sm text-foreground flex items-center gap-1.5">
-                      {t.name}
+                    <div className="font-heading font-bold text-sm text-foreground flex flex-wrap items-center gap-1.5">
+                      <span className="break-words">{t.name}</span>
                       {t.verified && (
-                        <span title="Verified Nursery Buyer" className="inline-flex items-center gap-0.5 text-xs text-primary font-bold">
-                          <CheckCircle2 className="h-4 w-4 text-primary fill-primary/20" />
-                          <span className="text-[10px] bg-primary/10 px-1.5 py-0.5 rounded text-primary font-bold hidden sm:inline">Verified Buyer</span>
+                        <span title="Verified Nursery Buyer" className="inline-flex items-center gap-1 text-xs text-primary font-bold">
+                          <CheckCircle2 className="h-3.5 w-3.5 text-primary fill-primary/20 shrink-0" />
+                          <span className="text-[10px] bg-primary/10 px-1.5 py-0.5 rounded text-primary font-bold whitespace-normal text-wrap">
+                            Verified Buyer
+                          </span>
                         </span>
                       )}
                     </div>

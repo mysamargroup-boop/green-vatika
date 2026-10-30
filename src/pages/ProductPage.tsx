@@ -493,9 +493,9 @@ export const ProductPage: React.FC<ProductPageProps> = ({
                       <User className="h-4 w-4" />
                     </div>
                     <div>
-                      <div className="font-extrabold text-xs sm:text-sm text-foreground flex items-center gap-1.5">
-                        <span>{rev.name}</span>
-                        <span className="text-[9px] font-bold text-emerald-600 bg-emerald-500/10 px-1.5 py-0.5 rounded">
+                      <div className="font-extrabold text-xs sm:text-sm text-foreground flex flex-wrap items-center gap-1.5">
+                        <span className="break-words">{rev.name}</span>
+                        <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded whitespace-normal text-wrap">
                           Verified Buyer
                         </span>
                       </div>

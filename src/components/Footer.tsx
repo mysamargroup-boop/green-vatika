@@ -30,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
   };
 
   return (
-    <footer className="bg-card border-t border-border/80 pt-16 pb-8 relative overflow-hidden">
+    <footer className="bg-card border-t border-border/80 pt-16 pb-32 sm:pb-12 relative overflow-hidden">
       {/* Photorealistic Botanical Foliage Pattern Background */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.16] dark:opacity-[0.12] bg-repeat mix-blend-multiply dark:mix-blend-screen transition-opacity"
@@ -184,8 +184,8 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
           </div>
         </div>
 
-        {/* Bottom Credits - Centered Crafted with Samar */}
-        <div className="pt-8 border-t border-border/40 flex flex-col items-center justify-center text-xs text-muted-foreground gap-2 text-center">
+        {/* Bottom Credits - Centered Crafted with Samar (Lifts Above Mobile Sticky Bar) */}
+        <div className="pt-8 mb-6 sm:mb-0 border-t border-border/40 flex flex-col items-center justify-center text-xs text-muted-foreground gap-2 text-center">
           <div className="flex items-center justify-center gap-1.5 font-bold text-sm text-foreground">
             Crafted with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{' '}
             <a

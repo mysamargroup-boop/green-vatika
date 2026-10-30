@@ -14,10 +14,17 @@ interface ChatMessage {
 }
 
 // Helper to strictly ensure NO emojis are displayed anywhere in the chatbot
+// Note: We do NOT call .trim() here so users can type spaces between words naturally
 const removeEmojis = (text: string): string => {
-  return text
-    .replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, '')
-    .trim();
+  return text.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, '');
+};
+
+const getFormattedTime = (): string => {
+  return new Date().toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 };
 
 // Pure Web Audio API Synthesizer for Bot Response Chime (Zero External Asset Dependency)
@@ -72,12 +79,13 @@ export const NurseryChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [currentTopic, setCurrentTopic] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       sender: 'bot',
-      text: 'Welcome to <strong>Green Vatika Nursery</strong>. I am your direct knowledge assistant. Ask me about <strong>plant varieties, live prices, terracotta gamla add-ons, balcony plant care, or how to place an order via WhatsApp</strong>.',
-      timestamp: 'Just now',
+      text: 'Welcome to <strong>Green Vatika Nursery</strong>. I am your direct knowledge assistant. Ask me about <strong>plant varieties, live prices, terracotta gamla add-ons, balcony plant care, nursery ownership, or how to place an order via WhatsApp</strong>.',
+      timestamp: getFormattedTime(),
     },
   ]);
 
@@ -94,12 +102,13 @@ export const NurseryChatbot: React.FC = () => {
   }, [messages, isOpen, isTyping]);
 
   const handleReset = () => {
+    setCurrentTopic(null);
     setMessages([
       {
         id: 'welcome_reset_' + Date.now(),
         sender: 'bot',
         text: 'Conversation reset. How can <strong>Green Vatika</strong> help your garden today? Ask about <strong>flowering plants, prices, terracotta pots, or WhatsApp orders</strong>.',
-        timestamp: 'Just now',
+        timestamp: getFormattedTime(),
       },
     ]);
   };
@@ -107,8 +116,111 @@ export const NurseryChatbot: React.FC = () => {
   const generateAnswer = (userQuery: string): { text: string; quickAction?: ChatMessage['quickAction'] } => {
     const q = userQuery.toLowerCase().trim();
 
+    // 0. Owner, Founder, Proprietor & Samar Patel queries
+    if (
+      q.includes('owner') ||
+      q.includes('founder') ||
+      q.includes('malik') ||
+      q.includes('kiska') ||
+      q.includes('kiski') ||
+      q.includes('who owns') ||
+      q.includes('proprietor') ||
+      q.includes('samar') ||
+      q.includes('who created') ||
+      q.includes('who started')
+    ) {
+      setCurrentTopic('owner');
+      return {
+        text: '<strong>Green Vatika Nursery</strong> was founded and is steered by <strong>Samar Patel</strong> along with our experienced horticulturists and master plant propagators at <strong>Teen Puliya, Khairi Naka, Narsinghpur (Madhya Pradesh)</strong>.<br/><br/>With deep dedication to Indian tropical gardening and indigenous potting methods, Samar Patel established Green Vatika to provide direct-from-polyhouse, sun-hardened flowering varieties, mature Adenium bonsai, and handcrafted clay terracotta planters directly to plant lovers across Madhya Pradesh.',
+        quickAction: {
+          type: 'whatsapp',
+          label: 'Connect with Samar Patel & Nursery Team',
+          actionUrl: 'https://wa.me/919179812429?text=Hello%20Samar%20Patel,%20I%20am%20reaching%20out%20via%20Green%20Vatika%20website.',
+        },
+      };
+    }
+
+    // Contextual Follow-up Memory: If user asks "price?", "how much?", "kitne ka hai?"
+    const isPriceFollowUp =
+      (q === 'price' ||
+        q === 'price?' ||
+        q === 'kitne ka hai' ||
+        q === 'kitne ka hai?' ||
+        q === 'how much' ||
+        q === 'how much?' ||
+        q === 'cost' ||
+        q === 'rate' ||
+        q.includes('iska price') ||
+        q.includes('rate kya hai')) &&
+      currentTopic;
+
+    if (isPriceFollowUp) {
+      if (currentTopic === 'rose') {
+        return {
+          text: 'Our <strong>Desi Red Rose (Fragrant Gulab)</strong> is priced at <strong>Rs 70</strong> (MRP Rs 120) in a root-balled grower polybag. Handcrafted 8-Inch Terracotta Gamla add-on is +Rs 60.',
+          quickAction: {
+            type: 'whatsapp',
+            label: 'Order Desi Red Rose on WhatsApp (Rs 70)',
+            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Desi%20Red%20Rose%20(Rs%2070).',
+          },
+        };
+      }
+      if (currentTopic === 'adenium') {
+        return {
+          text: 'Our <strong>Adenium Bonsai (Desert Rose)</strong> is priced at <strong>Rs 100</strong> (MRP Rs 180). Aged caudex trunk, sun-hardened and drought-resilient.',
+          quickAction: {
+            type: 'whatsapp',
+            label: 'Order Adenium Bonsai on WhatsApp (Rs 100)',
+            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Adenium%20Bonsai%20(Rs%20100).',
+          },
+        };
+      }
+      if (currentTopic === 'bougainvillea') {
+        return {
+          text: 'Our <strong>Bougainvillea (Kagaz Ke Phool)</strong> is priced at <strong>Rs 160</strong> (MRP Rs 250) in lush magenta blooms.',
+          quickAction: {
+            type: 'whatsapp',
+            label: 'Order Bougainvillea on WhatsApp (Rs 160)',
+            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Bougainvillea%20(Rs%20160).',
+          },
+        };
+      }
+      if (currentTopic === 'gamla' || currentTopic === 'pot') {
+        return {
+          text: 'Our <strong>8-Inch Handcrafted Terracotta Clay Gamla</strong> is priced at <strong>Rs 60 per piece</strong>, crafted from natural riverbed clay for superior root aeration.',
+        };
+      }
+    }
+
+    // Contextual Follow-up Memory: If user asks "care?", "water?", "pani kab de?"
+    const isCareFollowUp =
+      (q.includes('care') || q.includes('water') || q.includes('pani') || q.includes('dhoop')) &&
+      currentTopic &&
+      !q.includes('rose') &&
+      !q.includes('adenium') &&
+      !q.includes('bougainvillea');
+
+    if (isCareFollowUp) {
+      if (currentTopic === 'adenium') {
+        return {
+          text: 'For your <strong>Adenium Bonsai</strong>: Water strictly <strong>once a week</strong> only when the gritty soil mix is completely bone dry. Position in <strong>6+ hours of blistering outdoor sun</strong>. Overwatering can cause caudex rot.',
+        };
+      }
+      if (currentTopic === 'rose') {
+        return {
+          text: 'For your <strong>Desi Red Rose</strong>: Water whenever the top 2 inches of soil feel dry. Needs 5-6 hours of morning or direct sunlight. Feed with mustard cake tonic or aged cow dung every 20 days.',
+        };
+      }
+      if (currentTopic === 'bougainvillea') {
+        return {
+          text: 'For your <strong>Bougainvillea</strong>: Give it maximum direct sunlight (6+ hours). Let the soil dry out between waterings — mild drought stress actually triggers heavy magenta flowering flushes!',
+        };
+      }
+    }
+
     // 1. Pot inclusion & Packaging warning
     if (q.includes('pot') || q.includes('gamla') || q.includes('included') || q.includes('packaging') || q.includes('bag')) {
+      setCurrentTopic('gamla');
       return {
         text: 'Important note: <strong>Pot is NOT included</strong> with standard plant orders. All saplings are shipped in protective, root-balled <strong>Grower Nursery Polybags</strong> with enriched soil to prevent root shock during transit.<br/><br/>You can opt for our <strong>8-Inch Handcrafted Terracotta Clay Gamla</strong> as an add-on for just <strong>Rs 60 per plant</strong>. Clay pots offer superior root aeration and prevent root rot in hot Indian weather.',
         quickAction: {
@@ -121,12 +233,12 @@ export const NurseryChatbot: React.FC = () => {
 
     // 2. Pricing & Plant Catalog
     if (q.includes('price') || q.includes('rate') || q.includes('cost') || q.includes('catalog') || q.includes('list') || q.includes('plants available')) {
+      setCurrentTopic('pricing');
       return {
         text: 'Here is our verified nursery catalog with current direct rates:<br/><br/>' +
           '• <strong>Adenium Bonsai (Desert Rose)</strong>: <strong>Rs 100</strong> (MRP Rs 180)<br/>' +
           '• <strong>Bougainvillea (Kagaz Ke Phool)</strong>: <strong>Rs 160</strong> (MRP Rs 250)<br/>' +
           '• <strong>Desi Red Rose (Fragrant Gulab)</strong>: <strong>Rs 70</strong> (MRP Rs 120)<br/>' +
-          '• <strong>Yellow Marigold (Genda)</strong>: <strong>Rs 45</strong> (MRP Rs 70)<br/>' +
           '• <strong>Dahlia (Dinnerplate Hybrid)</strong>: <strong>Rs 50</strong> (MRP Rs 85)<br/>' +
           '• <strong>Aparajita (Blue Butterfly Pea)</strong>: <strong>Rs 50</strong> (MRP Rs 80)<br/>' +
           '• <strong>Mogra (Arabian Jasmine)</strong>: <strong>Rs 70</strong> (MRP Rs 110)<br/>' +
@@ -143,6 +255,7 @@ export const NurseryChatbot: React.FC = () => {
 
     // 3. Ordering, Buy Now & Shipping Policy
     if (q.includes('order') || q.includes('buy') || q.includes('shipping') || q.includes('delivery') || q.includes('online') || q.includes('courier')) {
+      setCurrentTopic('order');
       return {
         text: 'Direct online automated courier shipping is <strong>Coming Soon</strong> to guarantee 100 percent live plant safety.<br/><br/>Right now, we accept direct orders via <strong>WhatsApp at +91 91798 12429</strong>. We arrange nursery pickup as well as localized delivery across <strong>Narsinghpur, Jabalpur, Bhopal, Indore, and Madhya Pradesh</strong>.',
         quickAction: {
@@ -155,9 +268,10 @@ export const NurseryChatbot: React.FC = () => {
 
     // 4. Plant Care, Sunlight & Watering
     if (q.includes('care') || q.includes('water') || q.includes('sun') || q.includes('soil') || q.includes('fertilizer') || q.includes('khad')) {
+      setCurrentTopic('care');
       return {
         text: 'Essential Indian gardening guidelines for healthy blooms:<br/><br/>' +
-          '• <strong>Sunlight</strong>: Desi Gulab, Bougainvillea, Marigold, and Adenium require <strong>5 to 6 hours of direct outdoor sunlight</strong> daily.<br/>' +
+          '• <strong>Sunlight</strong>: Desi Gulab, Bougainvillea, and Adenium require <strong>5 to 6 hours of direct outdoor sunlight</strong> daily.<br/>' +
           '• <strong>Watering</strong>: For Adenium Bonsai, water strictly <strong>once a week</strong> when the soil is completely bone dry. For Roses and Bougainvillea, water when the top 2 inches of soil feel dry.<br/>' +
           '• <strong>Soil Mix</strong>: Use <strong>40 percent garden loam, 30 percent coarse river sand, and 30 percent aged cow dung manure (gobar khad)</strong> for supreme drainage.<br/>' +
           '• <strong>Feeding</strong>: Feed with bone meal, neem cake powder, or organic vermicompost every <strong>20 to 30 days</strong>.',
@@ -166,18 +280,21 @@ export const NurseryChatbot: React.FC = () => {
 
     // 5. Specific plant queries
     if (q.includes('rose') || q.includes('gulab')) {
+      setCurrentTopic('rose');
       return {
         text: 'Our <strong>Desi Red Rose (Fragrant Gulab)</strong> is priced at <strong>Rs 70</strong>. Unlike scentless English roses, this heritage native variety features rich damask fragrance and continuous blooming flushes. Place in full sun and enrich with bone meal and mustard cake liquid once a month.',
       };
     }
 
     if (q.includes('adenium') || q.includes('desert rose')) {
+      setCurrentTopic('adenium');
       return {
         text: 'The <strong>Adenium Bonsai (Desert Rose)</strong> is priced at <strong>Rs 100</strong>. It features a swollen, water-storing caudex trunk and vibrant bell-shaped blossoms. It is drought resilient, loves scorching Indian heat, and should never sit in standing water.',
       };
     }
 
     if (q.includes('bougainvillea')) {
+      setCurrentTopic('bougainvillea');
       return {
         text: 'Our <strong>Bougainvillea (Kagaz Ke Phool)</strong> is priced at <strong>Rs 160</strong>. It produces dense magenta bracts and thrives on sunny balconies and fences. Tip: Mild dry stress in full sun triggers prolific blooming.',
       };
@@ -190,6 +307,7 @@ export const NurseryChatbot: React.FC = () => {
           '• <strong>Location</strong>: Green Vatika Nursery, Station Road, Narsinghpur, Madhya Pradesh 487001<br/>' +
           '• <strong>Timings</strong>: Open Monday to Sunday from <strong>8:00 AM to 7:00 PM</strong><br/>' +
           '• <strong>Customer Care & Orders</strong>: <strong>+91 91798 12429</strong><br/>' +
+          '• <strong>Founder & Proprietor</strong>: Samar Patel<br/>' +
           '• <strong>Email</strong>: info@greenvatika.in',
         quickAction: {
           type: 'whatsapp',
@@ -211,7 +329,7 @@ export const NurseryChatbot: React.FC = () => {
 
     // Default intelligent fallback
     return {
-      text: 'Thank you for your question. At <strong>Green Vatika Nursery</strong>, we provide healthy flowering outdoor saplings starting at <strong>Rs 45</strong>, aged Adenium bonsai for <strong>Rs 100</strong>, and handcrafted terracotta gamlas for <strong>Rs 60</strong>.<br/><br/>Live plants are dispatched in <strong>Grower Polybags</strong> (pots optional). For custom orders or immediate nursery assistance, connect directly with our head horticulturist on WhatsApp.',
+      text: 'Thank you for your question. At <strong>Green Vatika Nursery</strong> (founded by Samar Patel), we provide healthy flowering outdoor saplings starting at <strong>Rs 50</strong>, aged Adenium bonsai for <strong>Rs 100</strong>, and handcrafted terracotta gamlas for <strong>Rs 60</strong>.<br/><br/>Live plants are dispatched in <strong>Grower Polybags</strong> (pots optional). For custom orders or immediate nursery assistance, connect directly with our head horticulturist on WhatsApp.',
       quickAction: {
         type: 'whatsapp',
         label: 'Connect with Horticulturist on WhatsApp',
@@ -223,13 +341,13 @@ export const NurseryChatbot: React.FC = () => {
   const handleSendMessage = (textToSend?: string) => {
     const rawText = textToSend || inputValue;
     const cleanText = removeEmojis(rawText);
-    if (!cleanText) return;
+    if (!cleanText.trim()) return;
 
     const userMsg: ChatMessage = {
       id: 'user_' + Date.now(),
       sender: 'user',
       text: cleanText,
-      timestamp: 'Just now',
+      timestamp: getFormattedTime(),
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -242,7 +360,7 @@ export const NurseryChatbot: React.FC = () => {
         id: 'bot_' + Date.now(),
         sender: 'bot',
         text: removeEmojis(text),
-        timestamp: 'Just now',
+        timestamp: getFormattedTime(),
         quickAction,
       };
       setMessages((prev) => [...prev, botMsg]);
@@ -374,21 +492,22 @@ export const NurseryChatbot: React.FC = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input Footer */}
+          {/* Input Footer with Neon Glowing Botanical Styling */}
           <div className="p-3 bg-card border-t border-border/80 shrink-0">
-            <div className="flex items-center gap-2 bg-muted/50 border border-border rounded-2xl px-3 py-1.5 focus-within:border-primary/60 transition-colors">
+            <div className="flex items-center gap-2 bg-card border border-emerald-500/40 shadow-[0_0_12px_rgba(16,185,129,0.22)] focus-within:border-emerald-400 focus-within:shadow-[0_0_18px_rgba(16,185,129,0.45)] focus-within:ring-1 focus-within:ring-emerald-400/40 rounded-2xl px-3 py-1.5 transition-all">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(removeEmojis(e.target.value))}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask plant name, price, pot add-on or care..."
-                className="flex-1 bg-transparent border-none text-xs sm:text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-hidden py-1.5"
+                placeholder="Ask plant name, price, owner or care..."
+                className="flex-1 bg-transparent border-0 outline-none ring-0 focus:outline-none focus:ring-0 focus:border-0 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground/70 py-1.5 shadow-none"
+                style={{ outline: 'none', border: 'none', boxShadow: 'none' }}
               />
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!inputValue.trim()}
-                className="h-8 w-8 rounded-xl bg-primary disabled:opacity-40 text-white flex items-center justify-center shrink-0 hover:bg-primary/90 transition-colors"
+                className="h-8 w-8 rounded-xl bg-primary disabled:opacity-40 text-white flex items-center justify-center shrink-0 hover:bg-primary/90 transition-colors cursor-pointer shadow-xs"
               >
                 <Send className="h-4 w-4" />
               </button>

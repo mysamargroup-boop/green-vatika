@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, MapPin, Phone, Mail, Clock, Send, CheckCircle2, ChevronRight, Navigation, Car, Train, ShieldCheck, Heart } from 'lucide-react';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
+import { CustomSelect } from '../components/CustomSelect';
 
 interface ContactPageProps {
   onBack: () => void;
@@ -220,21 +221,21 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onBack }) => {
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-foreground block mb-1">
-                    Garden or Inquiry Type:
-                  </label>
-                  <select
+                  <CustomSelect
+                    label="Garden or Inquiry Type:"
                     value={gardenType}
-                    onChange={(e) => setGardenType(e.target.value)}
-                    className="w-full bg-secondary/50 border border-border rounded-xl px-4 py-2.5 text-xs text-foreground focus:outline-none focus:border-primary transition-colors"
-                  >
-                    <option value="Balcony / Terrace">Balcony / Terrace Flowering Plants</option>
-                    <option value="Adenium Bonsai">Adenium Bonsai & Specimen Plants</option>
-                    <option value="Terracotta Gamlas">Handcrafted Terracotta Pots & Soil Mix</option>
-                    <option value="Landscaping Service">Full Lawn / Farmhouse Landscaping</option>
-                    <option value="Plant Doctor Visit">Sick Plants / Plant Doctor Diagnosis</option>
-                    <option value="Physical Nursery Visit">Planning a Physical Nursery Visit</option>
-                  </select>
+                    onChange={(val) => setGardenType(val)}
+                    options={[
+                      { value: 'Balcony / Terrace', label: 'Balcony / Terrace Flowering Plants' },
+                      { value: 'Adenium Bonsai', label: 'Adenium Bonsai & Specimen Plants' },
+                      { value: 'Terracotta Gamlas', label: 'Handcrafted Terracotta Pots & Soil Mix' },
+                      { value: 'Landscaping Service', label: 'Full Lawn / Farmhouse Landscaping' },
+                      { value: 'Plant Doctor Visit', label: 'Sick Plants / Plant Doctor Diagnosis' },
+                      { value: 'Physical Nursery Visit', label: 'Planning a Physical Nursery Visit' },
+                    ]}
+                    className="w-full"
+                    ariaLabel="Select Inquiry Type"
+                  />
                 </div>
 
                 <div>

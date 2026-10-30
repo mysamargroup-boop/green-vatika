@@ -20,6 +20,7 @@ export interface Plant {
   height: string;
   potSize: string;
   careInstructions: string[];
+  hidden?: boolean;
 }
 
 export interface Category {

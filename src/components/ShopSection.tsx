@@ -3,6 +3,7 @@ import { Plant } from '../types/nursery';
 import { plantsData } from '../data/mockData';
 import { LazyImage } from './LazyImage';
 import { StarRating } from './StarRating';
+import { CustomSelect } from './CustomSelect';
 import { Heart, Eye, ShoppingCart, Search, Filter, Sun, Droplets, Wind, Leaf, MessageSquare, Flame, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -115,20 +116,19 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
               />
             </div>
 
-            {/* Sort Dropdown */}
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-card border border-border/80 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:border-primary text-foreground shadow-sm appearance-none pr-8 cursor-pointer font-bold"
-              >
-                <option value="featured">Sort: Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-              </select>
-              <Filter className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
-            </div>
+            {/* Modernized Custom Sort Dropdown */}
+            <CustomSelect
+              value={sortBy}
+              onChange={(val) => setSortBy(val)}
+              options={[
+                { value: 'featured', label: 'Sort: Featured' },
+                { value: 'price-low', label: 'Price: Low to High' },
+                { value: 'price-high', label: 'Price: High to Low' },
+                { value: 'rating', label: 'Top Rated' },
+              ]}
+              className="min-w-[170px]"
+              ariaLabel="Sort Nursery Plants"
+            />
           </div>
         </div>
 

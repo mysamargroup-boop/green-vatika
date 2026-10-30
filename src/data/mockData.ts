@@ -51,7 +51,7 @@ export const categoriesData: Category[] = [
   },
 ];
 
-export const plantsData: Plant[] = [
+const allRawPlantsData: Plant[] = [
   {
     id: 'adenium-bonsai-desert-rose',
     name: 'Adenium Bonsai (Desert Rose)',
@@ -140,6 +140,7 @@ export const plantsData: Plant[] = [
     id: 'yellow-marigold-genda',
     name: 'Yellow Marigold (Genda)',
     botanicalName: 'Tagetes erecta',
+    hidden: true,
     category: 'Flowering',
     price: 45,
     originalPrice: 80,
@@ -332,6 +333,9 @@ export const plantsData: Plant[] = [
     ]
   }
 ];
+
+// Active nursery plants (hidden varieties excluded from shop display)
+export const plantsData: Plant[] = allRawPlantsData.filter((plant) => !plant.hidden);
 
 export const servicesData: Service[] = [
   {

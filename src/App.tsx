@@ -22,6 +22,7 @@ import { NurseryPillarsSection } from './components/NurseryPillarsSection';
 import { WhatsAppDoctorBanner } from './components/WhatsAppDoctorBanner';
 import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
 import { NurseryChatbot } from './components/NurseryChatbot';
+import { CookieConsent } from './components/CookieConsent';
 import { Skeleton } from './components/Skeleton';
 import { ScrollSkeletonContainer } from './components/ScrollSkeletonContainer';
 import { trackMetaPageView } from './utils/metaPixel';
@@ -772,6 +773,9 @@ export default function App() {
           </div>
         </div>
       )}
+
+      {/* Botanical Cookie & Privacy Consent Banner */}
+      <CookieConsent onOpenPrivacyPolicy={() => setCurrentView('privacy')} />
 
       {/* Floating Nursery Knowledge Chatbot (Right-Side, Working Heuristic & Catalog Q&A) */}
       <NurseryChatbot />

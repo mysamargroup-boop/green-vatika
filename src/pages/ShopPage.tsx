@@ -3,6 +3,8 @@ import { Plant } from '../types/nursery';
 import { plantsData } from '../data/mockData';
 import { LazyImage } from '../components/LazyImage';
 import { StarRating } from '../components/StarRating';
+import { CustomSelect } from '../components/CustomSelect';
+import { BotanicalCatalogShowcase } from '../components/BotanicalCatalogShowcase';
 import { ArrowLeft, Search, Filter, Sun, Droplets, ShoppingCart, Heart, Eye, CheckCircle2, PackageCheck, Sparkles, ChevronRight, X, Phone } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
@@ -106,36 +108,11 @@ export const ShopPage: React.FC<ShopPageProps> = ({
           </div>
         </div>
 
-        {/* Distinct Storefront Hero Header */}
-        <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 md:p-16 bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-950 text-white shadow-2xl border border-emerald-800/40">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 max-w-3xl space-y-4">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-300 bg-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md inline-block border border-white/15">
-              Direct From Greenhouse
-            </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-              Shop Sun-Hardened Plants & Handcrafted Pots
-            </h1>
-            <p className="text-sm sm:text-base md:text-lg text-emerald-100/90 leading-relaxed font-normal">
-              Every sapling is nurtured in our open polyhouses in Narsinghpur, potted in organic vermicompost soil, and safely packed in protective grower polybags with optional baked terracotta clay gamlas.
-            </p>
-
-            <div className="flex flex-wrap gap-3 pt-2 text-xs font-semibold text-emerald-100">
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>100% Acclimatized Species</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Root-Ball Protection Guaranteed</span>
-              </div>
-              <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15">
-                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />
-                <span>Direct Nursery Pricing (₹45 - ₹160)</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Animated Botanical Showcase & Greenhouse Spotlight */}
+        <BotanicalCatalogShowcase
+          onSelectPlant={onSelectPlant}
+          onAddToCart={onAddToCart}
+        />
 
         {/* Filter & Sort Command Bar */}
         <div className="bg-card rounded-2xl border border-border/80 p-4 sm:p-5 shadow-xs space-y-4">
@@ -157,30 +134,34 @@ export const ShopPage: React.FC<ShopPageProps> = ({
               ))}
             </div>
 
-            {/* Search & Sort Controls */}
+            {/* Search & Sort Controls with Luxury Modern Dropdowns */}
             <div className="flex flex-wrap items-center gap-3">
               {/* Sunlight Filter */}
-              <select
+              <CustomSelect
                 value={lightFilter}
-                onChange={(e) => setLightFilter(e.target.value)}
-                className="bg-secondary/50 border border-border rounded-xl px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:border-primary"
-              >
-                <option value="all">All Sunlight Levels</option>
-                <option value="direct">Direct Sunlight (Full Sun)</option>
-                <option value="partial">Partial Shade / Morning Sun</option>
-              </select>
+                onChange={(val) => setLightFilter(val)}
+                options={[
+                  { value: 'all', label: 'All Sunlight Levels' },
+                  { value: 'direct', label: 'Direct Sunlight (Full Sun)' },
+                  { value: 'partial', label: 'Partial Shade / Morning Sun' },
+                ]}
+                className="w-full sm:w-auto min-w-[190px]"
+                ariaLabel="Filter by Sunlight"
+              />
 
               {/* Sort By Dropdown */}
-              <select
+              <CustomSelect
                 value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-secondary/50 border border-border rounded-xl px-3 py-2 text-xs font-medium text-foreground focus:outline-none focus:border-primary"
-              >
-                <option value="featured">Sort: Featured Nursery Stock</option>
-                <option value="price-low">Price: Low to High (₹)</option>
-                <option value="price-high">Price: High to Low (₹)</option>
-                <option value="rating">Highest Customer Rating</option>
-              </select>
+                onChange={(val) => setSortBy(val)}
+                options={[
+                  { value: 'featured', label: 'Sort: Featured Stock' },
+                  { value: 'price-low', label: 'Price: Low to High (Rs)' },
+                  { value: 'price-high', label: 'Price: High to Low (Rs)' },
+                  { value: 'rating', label: 'Highest Customer Rating' },
+                ]}
+                className="w-full sm:w-auto min-w-[190px]"
+                ariaLabel="Sort Nursery Plants"
+              />
 
               {/* Search Bar */}
               <div className="relative w-full sm:w-60">

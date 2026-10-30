@@ -45,8 +45,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
 
   return (
     <div className="pt-36 sm:pt-40 pb-24 bg-background text-foreground animate-in fade-in duration-300">
-      {/* Broadened Container: max-w-7xl with generous padding */}
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl">
+      {/* Broadened Luxury Editorial Container: max-w-[1550px] */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-10 max-w-[1550px] w-full">
         {/* Top Navigation & Breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6 sm:mb-8 pb-4 border-b border-border/60">
           <button
@@ -101,10 +101,10 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
           </div>
         </div>
 
-        {/* 2-Column Responsive Editorial Grid (Article on Left 8 cols, Sticky Sidebar on Right 4 cols) */}
+        {/* 2-Column Responsive Editorial Grid (Article on Left 8/9 cols, Sticky Sidebar on Right 4/3 cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Main Article Content (Left 8 Cols) */}
-          <article className="lg:col-span-8 space-y-8">
+          {/* Main Article Content */}
+          <article className="lg:col-span-8 xl:col-span-9 space-y-8">
             {/* Featured Hero Image */}
             <div className="relative rounded-3xl overflow-hidden shadow-xl border border-border/80 aspect-[16/9] bg-muted group">
               <img
@@ -169,12 +169,12 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                             <Table className="h-3.5 w-3.5 text-primary" /> {section.table.caption}
                           </div>
                         )}
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-left text-xs sm:text-sm">
-                            <thead className="bg-primary/10 text-primary font-black uppercase text-[11px] tracking-wider border-b border-border/60">
+                        <div className="overflow-x-auto [scrollbar-width:thin]">
+                          <table className="w-full table-auto text-left text-xs sm:text-sm">
+                            <thead className="bg-primary/10 text-primary font-black uppercase text-[11px] sm:text-xs tracking-wider border-b border-border/60">
                               <tr>
                                 {section.table.headers.map((h, hIdx) => (
-                                  <th key={hIdx} className="p-3.5 sm:p-4 whitespace-nowrap">
+                                  <th key={hIdx} className="p-3 sm:p-4 leading-snug">
                                     {h}
                                   </th>
                                 ))}
@@ -186,7 +186,7 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
                                   {row.map((cell, cIdx) => (
                                     <td
                                       key={cIdx}
-                                      className={`p-3.5 sm:p-4 text-foreground/90 ${
+                                      className={`p-3 sm:p-4 text-foreground/90 leading-relaxed ${
                                         cIdx === 0 ? 'font-bold text-foreground' : ''
                                       }`}
                                     >
@@ -245,8 +245,8 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
             </div>
           </article>
 
-          {/* Right Column (Sticky Editorial Sidebar - 4 Cols) */}
-          <aside className="lg:col-span-4 lg:sticky lg:top-28 space-y-6">
+          {/* Right Column (Sticky Editorial Sidebar - 4/3 Cols) */}
+          <aside className="lg:col-span-4 xl:col-span-3 lg:sticky lg:top-28 space-y-6">
             {/* Table of Contents Widget */}
             {post.tableOfContents && post.tableOfContents.length > 0 && (
               <div className="p-5 sm:p-6 rounded-3xl bg-card border border-border/80 shadow-sm space-y-3">

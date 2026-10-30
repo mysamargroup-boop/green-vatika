@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
                   Green Vatika
                 </div>
                 <div className="text-[10.5px] font-bold text-primary tracking-normal">
-                  Seedha Nursery Se Aapke Ghar
+                  Seedha Nursery Aakar Chuniye
                 </div>
               </div>
             </button>

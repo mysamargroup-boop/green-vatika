@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircleMore, X, Send, RotateCcw, ShoppingBag, PhoneCall, ChevronRight, HelpCircle } from 'lucide-react';
+import { plantsData, categoriesData, blogPostsData } from '../data/mockData';
+import { Plant } from '../types/nursery';
 
 interface ChatMessage {
   id: string;
@@ -75,16 +77,72 @@ const SUGGESTED_QUERIES = [
   'Nursery Address & Timings',
 ];
 
+// Dynamic plant finder function: searches live plantsData without any hardcoded values
+const findMatchingPlant = (query: string): Plant | undefined => {
+  const q = query.toLowerCase().trim();
+  if (!q) return undefined;
+
+  // 1. Exact match on ID or name
+  let matched = plantsData.find(
+    (p) =>
+      p.id.toLowerCase() === q ||
+      p.name.toLowerCase() === q ||
+      p.botanicalName.toLowerCase() === q
+  );
+  if (matched) return matched;
+
+  // 2. Substring match on name or botanical name
+  matched = plantsData.find(
+    (p) =>
+      p.name.toLowerCase().includes(q) ||
+      p.botanicalName.toLowerCase().includes(q) ||
+      q.includes(p.name.toLowerCase()) ||
+      q.includes(p.botanicalName.toLowerCase())
+  );
+  if (matched) return matched;
+
+  // 3. Keyword aliases mapping to live IDs
+  const aliases: Record<string, string[]> = {
+    'adenium-bonsai-desert-rose': ['adenium', 'desert rose', 'fat trunk', 'caudex', 'bonsai'],
+    'desi-red-rose-gulab': ['rose', 'gulab', 'desi gulab', 'red rose', 'desi rose'],
+    'bougainvillea-magenta': ['bougainvillea', 'kagaz ke phool', 'booganbel', 'paper flower'],
+    'yellow-marigold-genda': ['marigold', 'genda', 'tagetes', 'yellow genda', 'pooja flower'],
+    'aparajita-blue-pea': ['aparajita', 'blue pea', 'shankhpushpi', 'clitoria'],
+    'chandani-crepe-jasmine': ['chandani', 'chandni', 'crepe jasmine', 'tabernaemontana'],
+    'dahlia-pompom': ['dahlia', 'dinnerplate', 'winter flower'],
+    'mogara-arabian-jasmine': ['mogara', 'mogra', 'arabian jasmine', 'jasminum sambac', 'fragrant jasmine'],
+    'krishna-kamal-passionflower': ['krishna kamal', 'passion flower', 'passionflower', 'passiflora', 'kaurav pandav'],
+    'terracotta-pot-traditional': ['pot', 'pots', 'gamla', 'gamle', 'terracotta', 'mitti ka gamla', 'clay pot'],
+  };
+
+  for (const [plantId, keywords] of Object.entries(aliases)) {
+    if (keywords.some((kw) => q.includes(kw))) {
+      const found = plantsData.find((p) => p.id === plantId);
+      if (found) return found;
+    }
+  }
+
+  // 4. Match category or care instructions
+  matched = plantsData.find(
+    (p) =>
+      !p.hidden &&
+      (p.category.toLowerCase().includes(q) ||
+        p.careInstructions.some((c) => c.toLowerCase().includes(q)))
+  );
+  return matched;
+};
+
 export const NurseryChatbot: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [currentTopic, setCurrentTopic] = useState<string | null>(null);
+  const [lastReferencedPlantId, setLastReferencedPlantId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
       id: 'welcome',
       sender: 'bot',
-      text: 'Welcome to <strong>Green Vatika Nursery</strong>. I am your direct knowledge assistant. Ask me about <strong>plant varieties, live prices, terracotta gamla add-ons, balcony plant care, nursery ownership, or how to place an order via WhatsApp</strong>.',
+      text: 'Welcome to <strong>Green Vatika Nursery</strong>. I am your direct live data assistant. Ask me about <strong>live plant prices, varieties, care guidelines, terracotta pots, nursery founder, or direct WhatsApp ordering</strong>.',
       timestamp: getFormattedTime(),
     },
   ]);
@@ -103,11 +161,12 @@ export const NurseryChatbot: React.FC = () => {
 
   const handleReset = () => {
     setCurrentTopic(null);
+    setLastReferencedPlantId(null);
     setMessages([
       {
         id: 'welcome_reset_' + Date.now(),
         sender: 'bot',
-        text: 'Conversation reset. How can <strong>Green Vatika</strong> help your garden today? Ask about <strong>flowering plants, prices, terracotta pots, or WhatsApp orders</strong>.',
+        text: 'Conversation reset. How can <strong>Green Vatika</strong> help your garden today? Ask about <strong>any live plant, current prices, terracotta pots, or nursery pickup</strong>.',
         timestamp: getFormattedTime(),
       },
     ]);
@@ -126,21 +185,22 @@ export const NurseryChatbot: React.FC = () => {
       q.includes('who owns') ||
       q.includes('proprietor') ||
       q.includes('samar') ||
+      q.includes('rajkumar') ||
       q.includes('who created') ||
       q.includes('who started')
     ) {
       setCurrentTopic('owner');
       return {
-        text: '<strong>Green Vatika Nursery</strong> was founded and is steered by <strong>Samar Patel</strong> along with our experienced horticulturists and master plant propagators at <strong>Teen Puliya, Khairi Naka, Narsinghpur (Madhya Pradesh)</strong>.<br/><br/>With deep dedication to Indian tropical gardening and indigenous potting methods, Samar Patel established Green Vatika to provide direct-from-polyhouse, sun-hardened flowering varieties, mature Adenium bonsai, and handcrafted clay terracotta planters directly to plant lovers across Madhya Pradesh.',
+        text: '<strong>Green Vatika Nursery</strong> was founded by <strong>Rajkumar Patel</strong> (Founder & Master Horticulturist with 15+ years experience in tropical flora) and is steered together with <strong>Samar Patel</strong>.<br/><br/>Based in <strong>Teen Puliya, Khairi Naka, Niranjan Ward, Narsinghpur (Madhya Pradesh) - 487001</strong>, our 15-acre polyhouses nurture sun-hardy flowering varieties, specimen Adenium bonsai, and artisanal terracotta planters directly for plant lovers.',
         quickAction: {
           type: 'whatsapp',
-          label: 'Connect with Samar Patel & Nursery Team',
-          actionUrl: 'https://wa.me/919179812429?text=Hello%20Samar%20Patel,%20I%20am%20reaching%20out%20via%20Green%20Vatika%20website.',
+          label: 'Chat with Nursery Team on WhatsApp',
+          actionUrl: 'https://wa.me/919479480068?text=Hello%20Green%20Vatika%20team,%20I%20am%20reaching%20out%20via%20the%20website.',
         },
       };
     }
 
-    // Contextual Follow-up Memory: If user asks "price?", "how much?", "kitne ka hai?"
+    // 1. Contextual Follow-up Memory: If user asks "price?", "how much?", "kitne ka hai?"
     const isPriceFollowUp =
       (q === 'price' ||
         q === 'price?' ||
@@ -150,123 +210,150 @@ export const NurseryChatbot: React.FC = () => {
         q === 'how much?' ||
         q === 'cost' ||
         q === 'rate' ||
+        q === 'rate?' ||
         q.includes('iska price') ||
         q.includes('rate kya hai')) &&
-      currentTopic;
+      lastReferencedPlantId;
 
     if (isPriceFollowUp) {
-      if (currentTopic === 'rose') {
+      const p = plantsData.find((item) => item.id === lastReferencedPlantId);
+      if (p) {
         return {
-          text: 'Our <strong>Desi Red Rose (Fragrant Gulab)</strong> is priced at <strong>Rs 70</strong> (MRP Rs 120) in a root-balled grower polybag. Handcrafted 8-Inch Terracotta Gamla add-on is +Rs 60.',
+          text: `Our <strong>${p.name}</strong> (${p.botanicalName}) is currently priced at <strong>Rs ${p.price}</strong> (MRP Rs ${p.originalPrice}, ${p.discount}% OFF). Supplied root-balled in a nursery grower bag with enriched organic loam.`,
           quickAction: {
             type: 'whatsapp',
-            label: 'Order Desi Red Rose on WhatsApp (Rs 70)',
-            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Desi%20Red%20Rose%20(Rs%2070).',
+            label: `Order ${p.name} on WhatsApp (Rs ${p.price})`,
+            actionUrl: `https://wa.me/919479480068?text=${encodeURIComponent(`Hello Green Vatika, I want to order ${p.name} (Rs ${p.price}).`)}`,
           },
-        };
-      }
-      if (currentTopic === 'adenium') {
-        return {
-          text: 'Our <strong>Adenium Bonsai (Desert Rose)</strong> is priced at <strong>Rs 100</strong> (MRP Rs 180). Aged caudex trunk, sun-hardened and drought-resilient.',
-          quickAction: {
-            type: 'whatsapp',
-            label: 'Order Adenium Bonsai on WhatsApp (Rs 100)',
-            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Adenium%20Bonsai%20(Rs%20100).',
-          },
-        };
-      }
-      if (currentTopic === 'bougainvillea') {
-        return {
-          text: 'Our <strong>Bougainvillea (Kagaz Ke Phool)</strong> is priced at <strong>Rs 160</strong> (MRP Rs 250) in lush magenta blooms.',
-          quickAction: {
-            type: 'whatsapp',
-            label: 'Order Bougainvillea on WhatsApp (Rs 160)',
-            actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20Bougainvillea%20(Rs%20160).',
-          },
-        };
-      }
-      if (currentTopic === 'gamla' || currentTopic === 'pot') {
-        return {
-          text: 'Our <strong>8-Inch Handcrafted Terracotta Clay Gamla</strong> is priced at <strong>Rs 60 per piece</strong>, crafted from natural riverbed clay for superior root aeration.',
         };
       }
     }
 
-    // Contextual Follow-up Memory: If user asks "care?", "water?", "pani kab de?"
+    // 2. Contextual Follow-up Memory: If user asks "care?", "water?", "pani kab de?", "dhoop?"
     const isCareFollowUp =
-      (q.includes('care') || q.includes('water') || q.includes('pani') || q.includes('dhoop')) &&
-      currentTopic &&
-      !q.includes('rose') &&
-      !q.includes('adenium') &&
-      !q.includes('bougainvillea');
+      (q.includes('care') || q.includes('water') || q.includes('pani') || q.includes('dhoop') || q.includes('sun')) &&
+      lastReferencedPlantId;
 
     if (isCareFollowUp) {
-      if (currentTopic === 'adenium') {
+      const p = plantsData.find((item) => item.id === lastReferencedPlantId);
+      if (p) {
         return {
-          text: 'For your <strong>Adenium Bonsai</strong>: Water strictly <strong>once a week</strong> only when the gritty soil mix is completely bone dry. Position in <strong>6+ hours of blistering outdoor sun</strong>. Overwatering can cause caudex rot.',
-        };
-      }
-      if (currentTopic === 'rose') {
-        return {
-          text: 'For your <strong>Desi Red Rose</strong>: Water whenever the top 2 inches of soil feel dry. Needs 5-6 hours of morning or direct sunlight. Feed with mustard cake tonic or aged cow dung every 20 days.',
-        };
-      }
-      if (currentTopic === 'bougainvillea') {
-        return {
-          text: 'For your <strong>Bougainvillea</strong>: Give it maximum direct sunlight (6+ hours). Let the soil dry out between waterings — mild drought stress actually triggers heavy magenta flowering flushes!',
+          text: `Care Guide for <strong>${p.name}</strong>:<br/><br/>` +
+            `• <strong>Sunlight</strong>: ${p.light}<br/>` +
+            `• <strong>Watering</strong>: ${p.water}<br/>` +
+            `• <strong>Care Difficulty</strong>: ${p.difficulty}<br/>` +
+            `• <strong>Horticulturist Note</strong>: ${p.description}`,
+          quickAction: {
+            type: 'whatsapp',
+            label: `Ask Plant Doctor about ${p.name}`,
+            actionUrl: `https://wa.me/919479480068?text=${encodeURIComponent(`Hello Plant Doctor, I need care advice for ${p.name}.`)}`,
+          },
         };
       }
     }
 
-    // 1. Pot inclusion & Packaging warning
+    // 3. Dynamic Search for Specific Plant mentioned in user query
+    const matchedPlant = findMatchingPlant(q);
+    if (matchedPlant) {
+      setLastReferencedPlantId(matchedPlant.id);
+      setCurrentTopic('plant');
+      return {
+        text: `<strong>${matchedPlant.name}</strong> (<em>${matchedPlant.botanicalName}</em>):<br/><br/>` +
+          `• <strong>Live Rate</strong>: <strong>Rs ${matchedPlant.price}</strong> (MRP Rs ${matchedPlant.originalPrice} • <strong>${matchedPlant.discount}% OFF</strong>)<br/>` +
+          `• <strong>Sunlight Needs</strong>: ${matchedPlant.light}<br/>` +
+          `• <strong>Watering</strong>: ${matchedPlant.water}<br/>` +
+          `• <strong>Care Level</strong>: ${matchedPlant.difficulty}<br/>` +
+          `• <strong>About</strong>: ${matchedPlant.description}<br/><br/>` +
+          `<em>Supplied fresh in grower nursery bag. Porous Terracotta Gamla add-on available for +Rs 60.</em>`,
+        quickAction: {
+          type: 'whatsapp',
+          label: `Order ${matchedPlant.name} on WhatsApp (Rs ${matchedPlant.price})`,
+          actionUrl: `https://wa.me/919479480068?text=${encodeURIComponent(`Hello Green Vatika, I want to reserve ${matchedPlant.name} (Rs ${matchedPlant.price}).`)}`,
+        },
+      };
+    }
+
+    // 4. Pot inclusion & Packaging warning
     if (q.includes('pot') || q.includes('gamla') || q.includes('included') || q.includes('packaging') || q.includes('bag')) {
       setCurrentTopic('gamla');
       return {
-        text: 'Important note: <strong>Pot is NOT included</strong> with standard plant orders. All saplings are shipped in protective, root-balled <strong>Grower Nursery Polybags</strong> with enriched soil to prevent root shock during transit.<br/><br/>You can opt for our <strong>8-Inch Handcrafted Terracotta Clay Gamla</strong> as an add-on for just <strong>Rs 60 per plant</strong>. Clay pots offer superior root aeration and prevent root rot in hot Indian weather.',
+        text: 'Important note on Packaging: <strong>Pot is NOT included</strong> with standard plant orders. All saplings are shipped in protective, root-balled <strong>Grower Nursery Polybags</strong> with enriched soil to prevent root shock during transit.<br/><br/>You can opt for our <strong>8-Inch Handcrafted Terracotta Clay Gamla</strong> as an add-on for just <strong>Rs 60 per plant</strong>. Clay pots offer superior root aeration and prevent root rot in hot Indian weather.',
         quickAction: {
           type: 'whatsapp',
           label: 'Order Plant with Terracotta Pot (+Rs 60)',
-          actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20inquire%20about%20ordering%20plants%20with%20Terracotta%20Pots.',
+          actionUrl: 'https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20I%20want%20to%20inquire%20about%20ordering%20plants%20with%20Terracotta%20Pots.',
         },
       };
     }
 
-    // 2. Pricing & Plant Catalog
-    if (q.includes('price') || q.includes('rate') || q.includes('cost') || q.includes('catalog') || q.includes('list') || q.includes('plants available')) {
+    // 5. Dynamic Pricing & Plant Catalog (Generated 100% dynamically from live plantsData)
+    if (
+      q.includes('price') ||
+      q.includes('rate') ||
+      q.includes('cost') ||
+      q.includes('catalog') ||
+      q.includes('list') ||
+      q.includes('plants available') ||
+      q.includes('kya kya') ||
+      q.includes('menu') ||
+      q.includes('stock')
+    ) {
       setCurrentTopic('pricing');
+      const liveCatalogItems = plantsData
+        .filter((p) => !p.hidden)
+        .map(
+          (p) =>
+            `• <strong>${p.name}</strong>: <strong>Rs ${p.price}</strong> <span style="text-decoration: line-through; opacity: 0.65; font-size: 11px;">Rs ${p.originalPrice}</span>`
+        )
+        .join('<br/>');
+
       return {
-        text: 'Here is our verified nursery catalog with current direct rates:<br/><br/>' +
-          '• <strong>Adenium Bonsai (Desert Rose)</strong>: <strong>Rs 100</strong> (MRP Rs 180)<br/>' +
-          '• <strong>Bougainvillea (Kagaz Ke Phool)</strong>: <strong>Rs 160</strong> (MRP Rs 250)<br/>' +
-          '• <strong>Desi Red Rose (Fragrant Gulab)</strong>: <strong>Rs 70</strong> (MRP Rs 120)<br/>' +
-          '• <strong>Dahlia (Dinnerplate Hybrid)</strong>: <strong>Rs 50</strong> (MRP Rs 85)<br/>' +
-          '• <strong>Aparajita (Blue Butterfly Pea)</strong>: <strong>Rs 50</strong> (MRP Rs 80)<br/>' +
-          '• <strong>Mogra (Arabian Jasmine)</strong>: <strong>Rs 70</strong> (MRP Rs 110)<br/>' +
-          '• <strong>Chandni (Crepe Jasmine)</strong>: <strong>Rs 60</strong> (MRP Rs 95)<br/>' +
-          '• <strong>Krishna Kamal (Passionflower)</strong>: <strong>Rs 50</strong> (MRP Rs 90)<br/>' +
-          '• <strong>Handcrafted Terracotta Pot</strong>: <strong>Rs 60</strong>',
+        text: `Here is our <strong>live nursery catalog</strong> directly synced from our database:<br/><br/>${liveCatalogItems}<br/><br/><em>All plants are grown in organic compost beds at Teen Puliya, Narsinghpur.</em>`,
         quickAction: {
           type: 'whatsapp',
-          label: 'Book Order via WhatsApp',
-          actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20plants%20from%20your%20nursery%20catalog.',
+          label: 'Book Order via WhatsApp (+91 94794 80068)',
+          actionUrl: 'https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20I%20want%20to%20order%20plants%20from%20your%20nursery%20catalog.',
         },
       };
     }
 
-    // 3. Ordering, Buy Now & Shipping Policy
-    if (q.includes('order') || q.includes('buy') || q.includes('shipping') || q.includes('delivery') || q.includes('online') || q.includes('courier')) {
+    // 6. Ordering, Buy Now & Shipping Policy (Live status: online courier paused, direct pickup active)
+    if (q.includes('order') || q.includes('buy') || q.includes('shipping') || q.includes('delivery') || q.includes('online') || q.includes('courier') || q.includes('pickup')) {
       setCurrentTopic('order');
       return {
-        text: 'Direct online automated courier shipping is <strong>Coming Soon</strong> to guarantee 100 percent live plant safety.<br/><br/>Right now, we accept direct orders via <strong>WhatsApp at +91 91798 12429</strong>. We arrange nursery pickup as well as localized delivery across <strong>Narsinghpur, Jabalpur, Bhopal, Indore, and Madhya Pradesh</strong>.',
+        text: 'Important Update on Ordering & Delivery:<br/><br/>' +
+          '• <strong>Online Courier Delivery</strong>: Currently <strong>Paused</strong> to ensure live root balls are never subjected to transit dehydration or box damage.<br/>' +
+          '• <strong>Direct Nursery Pickup</strong>: <strong>Active Daily (8:00 AM to 7:30 PM)</strong> at Teen Puliya, Khairi Naka, Narsinghpur.<br/>' +
+          '• <strong>WhatsApp Direct Booking</strong>: You can reserve varieties in advance or arrange local pickup via WhatsApp at <strong>+91 94794 80068</strong>.',
         quickAction: {
           type: 'whatsapp',
-          label: 'Message Helpline on WhatsApp',
-          actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20I%20would%20like%20to%20place%20an%20order.',
+          label: 'Reserve Plants on WhatsApp (+91 94794 80068)',
+          actionUrl: 'https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20I%20would%20like%20to%20reserve%20plants%20for%20direct%20pickup.',
         },
       };
     }
 
-    // 4. Plant Care, Sunlight & Watering
+    // 7. Categories Query (Generated dynamically from categoriesData)
+    if (q.includes('category') || q.includes('categories') || q.includes('types of plant') || q.includes('varieties')) {
+      const cats = categoriesData
+        .map((c) => `• <strong>${c.name}</strong> (${c.count} varieties): ${c.description}`)
+        .join('<br/>');
+      return {
+        text: `Green Vatika specializes in the following core botanical categories:<br/><br/>${cats}`,
+      };
+    }
+
+    // 8. Gardening Guides & Blog Knowledge (Generated dynamically from blogPostsData)
+    if (q.includes('blog') || q.includes('guide') || q.includes('article') || q.includes('read') || q.includes('knowledge')) {
+      const guides = blogPostsData
+        .map((b) => `• <strong>${b.title}</strong> (${b.readTime}) - ${b.category}`)
+        .join('<br/>');
+      return {
+        text: `Here are our evidence-based horticultural guides written by our nursery experts:<br/><br/>${guides}`,
+      };
+    }
+
+    // 9. Plant Care, Sunlight & Watering
     if (q.includes('care') || q.includes('water') || q.includes('sun') || q.includes('soil') || q.includes('fertilizer') || q.includes('khad')) {
       setCurrentTopic('care');
       return {
@@ -278,46 +365,24 @@ export const NurseryChatbot: React.FC = () => {
       };
     }
 
-    // 5. Specific plant queries
-    if (q.includes('rose') || q.includes('gulab')) {
-      setCurrentTopic('rose');
-      return {
-        text: 'Our <strong>Desi Red Rose (Fragrant Gulab)</strong> is priced at <strong>Rs 70</strong>. Unlike scentless English roses, this heritage native variety features rich damask fragrance and continuous blooming flushes. Place in full sun and enrich with bone meal and mustard cake liquid once a month.',
-      };
-    }
-
-    if (q.includes('adenium') || q.includes('desert rose')) {
-      setCurrentTopic('adenium');
-      return {
-        text: 'The <strong>Adenium Bonsai (Desert Rose)</strong> is priced at <strong>Rs 100</strong>. It features a swollen, water-storing caudex trunk and vibrant bell-shaped blossoms. It is drought resilient, loves scorching Indian heat, and should never sit in standing water.',
-      };
-    }
-
-    if (q.includes('bougainvillea')) {
-      setCurrentTopic('bougainvillea');
-      return {
-        text: 'Our <strong>Bougainvillea (Kagaz Ke Phool)</strong> is priced at <strong>Rs 160</strong>. It produces dense magenta bracts and thrives on sunny balconies and fences. Tip: Mild dry stress in full sun triggers prolific blooming.',
-      };
-    }
-
-    // 6. Nursery Address, Location & Timings
+    // 10. Nursery Address, Location & Timings
     if (q.includes('address') || q.includes('location') || q.includes('where') || q.includes('timing') || q.includes('time') || q.includes('phone') || q.includes('contact')) {
       return {
         text: 'Nursery Details:<br/><br/>' +
-          '• <strong>Location</strong>: Green Vatika Nursery, Station Road, Narsinghpur, Madhya Pradesh 487001<br/>' +
-          '• <strong>Timings</strong>: Open Monday to Sunday from <strong>8:00 AM to 7:00 PM</strong><br/>' +
-          '• <strong>Customer Care & Orders</strong>: <strong>+91 91798 12429</strong><br/>' +
-          '• <strong>Founder & Proprietor</strong>: Samar Patel<br/>' +
-          '• <strong>Email</strong>: info@greenvatika.in',
+          '• <strong>Location</strong>: Green Vatika Nursery, Teen Puliya, Khairi Naka, Niranjan Ward, Narsinghpur, Madhya Pradesh 487001<br/>' +
+          '• <strong>Timings</strong>: Open Monday to Sunday from <strong>8:00 AM to 7:30 PM</strong><br/>' +
+          '• <strong>Customer Care & WhatsApp</strong>: <strong>+91 94794 80068</strong><br/>' +
+          '• <strong>Founders</strong>: Rajkumar Patel (Founder & Master Horticulturist) & Samar Patel<br/>' +
+          '• <strong>Website</strong>: greenvatika.co',
         quickAction: {
           type: 'whatsapp',
           label: 'Get Google Maps Directions on WhatsApp',
-          actionUrl: 'https://wa.me/919179812429?text=Hello%20Green%20Vatika,%20please%20share%20nursery%20location%20and%20directions.',
+          actionUrl: 'https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20please%20share%20nursery%20location%20and%20directions.',
         },
       };
     }
 
-    // 7. Services (Landscape, Garden setup)
+    // 11. Services (Landscape, Garden setup)
     if (q.includes('service') || q.includes('balcony') || q.includes('landscape') || q.includes('lawn') || q.includes('setup')) {
       return {
         text: 'Green Vatika provides specialized on-site horticultural services:<br/><br/>' +
@@ -327,13 +392,13 @@ export const NurseryChatbot: React.FC = () => {
       };
     }
 
-    // Default intelligent fallback
+    // Default intelligent fallback referencing dynamic database count
     return {
-      text: 'Thank you for your question. At <strong>Green Vatika Nursery</strong> (founded by Samar Patel), we provide healthy flowering outdoor saplings starting at <strong>Rs 50</strong>, aged Adenium bonsai for <strong>Rs 100</strong>, and handcrafted terracotta gamlas for <strong>Rs 60</strong>.<br/><br/>Live plants are dispatched in <strong>Grower Polybags</strong> (pots optional). For custom orders or immediate nursery assistance, connect directly with our head horticulturist on WhatsApp.',
+      text: `Thank you for your question. At <strong>Green Vatika Nursery</strong> (Teen Puliya, Narsinghpur), we cultivate over <strong>${plantsData.length}+ live plant varieties</strong> including Adenium bonsai, fragrant Desi roses, and handcrafted clay terracotta gamlas.<br/><br/>Live plants are supplied in <strong>Grower Polybags</strong> (pots optional). Online courier delivery is currently paused, but <strong>Direct Nursery Pickup</strong> is open daily (8:00 AM – 7:30 PM). Connect with our team on WhatsApp for any custom requirements!`,
       quickAction: {
         type: 'whatsapp',
-        label: 'Connect with Horticulturist on WhatsApp',
-        actionUrl: `https://wa.me/919179812429?text=${encodeURIComponent('Hello Green Vatika, I have a question: ' + userQuery)}`,
+        label: 'Connect with Nursery Team on WhatsApp',
+        actionUrl: `https://wa.me/919479480068?text=${encodeURIComponent('Hello Green Vatika, I have a question: ' + userQuery)}`,
       },
     };
   };

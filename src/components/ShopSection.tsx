@@ -90,16 +90,13 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
   return (
     <section id="featured" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
+        {/* Header - Strictly NO Capsule Pill Labels */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 font-bold uppercase tracking-widest text-xs mb-3">
-              <Leaf className="h-3.5 w-3.5" /> Handpicked Collection
-            </div>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
               Featured Plants & Supplies
             </h2>
-            <p className="text-muted-foreground mt-2 text-base font-medium">
+            <p className="text-muted-foreground mt-1.5 text-sm sm:text-base font-medium">
               Healthy, vibrant plants grown with love & organic care at Green Vatika.
             </p>
           </div>
@@ -135,8 +132,8 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
           </div>
         </div>
 
-        {/* Category Tabs Bar - Dribbble Aesthetic Pill Ribbon with Counts */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none mb-10 border-b border-border/40">
+        {/* Category Tabs Bar - Scrollbar Completely Hidden on Mobile */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden mb-10 border-b border-border/40">
           {categories.map((tab) => {
             const isSelected = activeTab === tab.key;
             return (

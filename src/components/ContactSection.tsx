@@ -27,15 +27,12 @@ export const ContactSection: React.FC = () => {
   return (
     <section id="section-contact" className="py-10 md:py-14 bg-secondary/30 relative scroll-mt-20 border-t border-border/40">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Title */}
-        <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            Visit & Contact Us
-          </span>
+        {/* Title - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Get in Touch with Green Vatika
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <p className="text-muted-foreground text-sm sm:text-base px-4">
             Have questions about plant care, bulk orders, or nursery visits? We’re always excited to chat green!
           </p>
         </div>

@@ -39,15 +39,12 @@ export const PlantQuiz: React.FC<PlantQuizProps> = ({ onSelectPlant, onAddToCart
   return (
     <section id="section-quiz" className="py-24 md:py-32 bg-gradient-to-br from-primary/5 via-background to-accent/5 relative scroll-mt-20 border-y border-border/40">
       <div className="container mx-auto px-4 md:px-8 max-w-4xl">
-        {/* Header */}
-        <div className="text-center mb-12 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            <Leaf className="h-3.5 w-3.5" /> Interactive Matcher
-          </span>
+        {/* Header - Strictly NO Capsule Pill Labels */}
+        <div className="text-center mb-10 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Find Your Perfect Plant Match
           </h2>
-          <p className="text-muted-foreground text-base max-w-lg mx-auto">
+          <p className="text-muted-foreground text-sm sm:text-base max-w-lg mx-auto px-4">
             Answer 3 quick questions and our Green Vatika algorithm will recommend the ideal plants for your home.
           </p>
         </div>

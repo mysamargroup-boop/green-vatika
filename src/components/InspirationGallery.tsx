@@ -57,16 +57,13 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
   return (
     <section className="py-16 md:py-24 bg-background border-t border-border/40 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div className="max-w-2xl space-y-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-primary">
-              <Sparkles className="h-3.5 w-3.5" /> Garden Inspiration
-            </span>
+        {/* Header - Strictly NO Capsule Pill Labels */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
+          <div className="max-w-2xl space-y-2">
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
               Real Homes, Real Blooms
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground font-medium">
+            <p className="text-sm sm:text-base text-muted-foreground font-medium">
               Discover how plant parents across Central India style their balconies, living rooms, and sunny terraces with Green Vatika nursery plants.
             </p>
           </div>

@@ -12,10 +12,7 @@ export const WhatsAppDoctorBanner: React.FC = () => {
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
           {/* Left Text */}
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-emerald-200 border border-white/15">
-              <Stethoscope className="h-3.5 w-3.5" /> 100% Free Plant Doctor Consultation
-            </div>
+          <div className="space-y-2">
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
               Stuck with plant care? <br />
               <span className="text-emerald-300">We're here to help.</span>

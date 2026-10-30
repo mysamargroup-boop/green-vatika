@@ -21,15 +21,12 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ onSelectPost }) => {
   return (
     <section id="section-blog" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Title */}
-        <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            <BookOpen className="h-3.5 w-3.5" /> Plant Care Knowledge Base
-          </span>
+        {/* Title - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Gardening Tips & Guides
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <p className="text-muted-foreground text-sm sm:text-base px-4">
             Expert advice from Green Vatika horticulturists to keep your green friends flourishing.
           </p>
         </div>

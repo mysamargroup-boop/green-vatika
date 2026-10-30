@@ -7,15 +7,12 @@ export const TestimonialsSection: React.FC = () => {
   return (
     <section id="testimonials" className="py-24 md:py-32 bg-secondary/40 relative scroll-mt-20 border-y border-border/40">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Title */}
-        <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            <Leaf className="h-3.5 w-3.5" /> Customer Stories &amp; Reviews
-          </span>
+        {/* Title - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Loved by 5000+ Plant Enthusiasts
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <p className="text-muted-foreground text-sm sm:text-base px-4">
             Real feedback from home gardeners, interior designers, and nursery visitors across India.
           </p>
         </div>

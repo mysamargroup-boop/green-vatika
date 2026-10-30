@@ -48,15 +48,12 @@ export const NurseryJourneySection: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
-        {/* Section Heading: Ugaao Editorial Luxury Style */}
-        <div className="max-w-3xl mx-auto text-center mb-14 md:mb-18 space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-            <Leaf className="h-3.5 w-3.5" /> The Green Vatika Standard
-          </span>
+        {/* Section Heading: Ugaao Editorial Luxury Style - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             From Our Nursery to Your Living Room
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto px-4">
             Unlike commercial roadside sellers, every sapling is lovingly nurtured in organic potting beds, certified pest-free, and prepared for zero transplant shock.
           </p>
         </div>

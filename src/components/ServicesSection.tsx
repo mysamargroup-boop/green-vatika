@@ -32,15 +32,12 @@ export const ServicesSection: React.FC = () => {
   return (
     <section id="section-services" className="py-10 md:py-14 relative scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Title */}
-        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-4">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
-            Professional Nursery Services
-          </span>
+        {/* Section Title - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground">
             Complete Landscaping & Plant Care
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg">
+          <p className="text-muted-foreground text-sm sm:text-base px-4">
             From balcony transformations to corporate green walls, our expert horticulturists handle it all.
           </p>
         </div>

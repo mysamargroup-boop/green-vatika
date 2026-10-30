@@ -48,12 +48,8 @@ export const AboutSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Story & Highlights */}
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 text-primary px-4 py-1.5 font-bold uppercase tracking-widest text-xs">
-              About Green Vatika
-            </div>
-
+          {/* Right Column: Story & Highlights - Strictly NO Capsule Pill Labels */}
+          <div className="space-y-4">
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-foreground">
               A trusted nursery <br />
               rooted in <span className="text-primary">green passion</span>

@@ -54,14 +54,9 @@ export const CuratedCollectionSlider: React.FC<CuratedCollectionSliderProps> = (
   return (
     <section className="py-10 md:py-14 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Header: Editorial Ugaao Luxury Serif Style */}
+        {/* Section Header: Editorial Ugaao Luxury Serif Style - Strictly NO Capsule Pill Badges */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
-          <div className="space-y-2">
-            {badge && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-                <Leaf className="h-3.5 w-3.5" /> {badge}
-              </span>
-            )}
+          <div className="space-y-1.5">
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
               {title}
             </h2>
@@ -91,10 +86,10 @@ export const CuratedCollectionSlider: React.FC<CuratedCollectionSliderProps> = (
           </div>
         </div>
 
-        {/* Horizontal Scrollable Slider */}
+        {/* Horizontal Scrollable Slider - Scrollbar Completely Hidden on Mobile & Desktop */}
         <div
           ref={sliderRef}
-          className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-thin snap-x snap-mandatory scroll-smooth"
+          className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 pt-1 -mx-4 px-4 sm:mx-0 sm:px-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory scroll-smooth"
         >
           {plants.map((plant) => (
             <div

@@ -38,21 +38,18 @@ export const ComparisonSection: React.FC = () => {
   return (
     <section className="py-16 md:py-24 bg-background relative overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Heading: Ugaao Editorial Style */}
-        <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1 text-xs font-bold uppercase tracking-wider text-primary">
-            <Sparkles className="h-3.5 w-3.5 text-amber-500" /> Transparent Comparison
-          </span>
+        {/* Section Heading: Ugaao Editorial Style - Strictly NO Capsule Pill Labels */}
+        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Green Vatika vs The Rest
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto px-4">
             See why plant lovers trust our authentic nursery over roadside vendors and impersonal online marketplaces.
           </p>
         </div>
 
         {/* Comparison Table / Responsive Matrix */}
-        <div className="overflow-x-auto pb-4 scrollbar-thin">
+        <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <table className="w-full min-w-[760px] border-collapse text-left rounded-3xl overflow-hidden shadow-xl border border-border/80 bg-card">
             <thead>
               <tr className="border-b border-border/60">

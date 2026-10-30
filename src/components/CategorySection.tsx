@@ -25,22 +25,18 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
   return (
     <section id="section-categories" className="py-12 md:py-16 bg-background border-b border-border/40 scroll-mt-20">
       <div className="container mx-auto px-4 md:px-8">
-        {/* Section Header (Ugaoo Clean Luxury Editorial Style) */}
-        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-3">
-          <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-primary">
-            <Leaf className="h-3.5 w-3.5" /> Curated Flora Collections
-          </span>
+        {/* Section Header (Ugaoo Clean Luxury Editorial Style - Strictly NO Pill Badges) */}
+        <div className="max-w-3xl mx-auto text-center mb-8 md:mb-12 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Explore by Category
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto px-4">
             Acclimatized Indian plants, artisan terracotta planters, and organic gardening essentials — nurtured at Green Vatika.
           </p>
         </div>
 
-        {/* Categories Circular Showcase - Ugaoo Pattern: Round Avatar + Text Underneath */}
-        {/* Mobile: Smooth Horizontal Scrollable Carousel | Desktop: Balanced 6-Column Grid */}
-        <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-4 sm:pb-0 scrollbar-thin snap-x">
+        {/* Categories Circular Showcase - Ugaoo Pattern: Scrollbar Completely Hidden on Mobile */}
+        <div className="flex sm:grid sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 md:gap-8 overflow-x-auto pb-2 sm:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x">
           {categoriesData.map((cat) => {
             const IconComponent = getCategoryIcon(cat.iconName);
             const cleanCategoryFilter = cat.name
@@ -73,8 +69,8 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ onSelectCatego
                   </div>
                 </div>
 
-                {/* Category Title - Untruncated, Outfit Body Font, Semi-bold */}
-                <h3 className="font-sans font-bold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-snug px-1">
+                {/* Category Title - Responsive Text Wrapping */}
+                <h3 className="font-sans font-bold text-xs sm:text-sm text-foreground group-hover:text-primary transition-colors leading-snug px-1 break-words">
                   {cat.name}
                 </h3>
 

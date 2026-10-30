@@ -463,20 +463,16 @@ export default function App() {
             <CuratedCollectionSlider
               title="Most Loved & Bestsellers"
               subtitle="Cultivated with organic care and handpicked by our nursery garden specialists."
-              badge="Top Rated Nursery Flora"
               plants={plantsData.slice(0, 8)}
               onSelectPlant={(plant) => openProductPage(plant)}
               onAddToCart={(plant) => handleAddToCart(plant)}
               onBuyNowDirect={(plant) => handleBuyNowDirect(plant)}
             />
 
-            <HeroSlider />
-
             {/* Ugaao Signature Pattern: Beginner Friendly & Low Maintenance Carousel */}
             <CuratedCollectionSlider
               title="Beginner Friendly Plants"
               subtitle="Tough, sun-hardy varieties that thrive with minimal watering and forgiving care."
-              badge="Easy Care Balcony Flora"
               plants={plantsData.slice(6, 14)}
               onSelectPlant={(plant) => openProductPage(plant)}
               onAddToCart={(plant) => handleAddToCart(plant)}

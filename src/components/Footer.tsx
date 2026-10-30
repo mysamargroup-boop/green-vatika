@@ -31,15 +31,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
 
   return (
     <footer className="bg-card border-t border-border/80 pt-16 pb-8 relative overflow-hidden">
-      {/* Botanical Sketch Pattern Background (Around 20% Opacity) */}
+      {/* Photorealistic Botanical Foliage Pattern Background */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-15 bg-repeat"
+        className="absolute inset-0 pointer-events-none opacity-[0.16] dark:opacity-[0.12] bg-repeat mix-blend-multiply dark:mix-blend-screen transition-opacity"
         style={{
-          backgroundImage: 'url(/images/botanical_sketch_pattern.svg)',
-          backgroundSize: '280px 280px',
+          backgroundImage: 'url(/images/realistic_botanical_pattern.webp)',
+          backgroundSize: '360px 360px',
         }}
         aria-hidden="true"
       />
+      {/* Soft gradient wash for text contrast & seamless blend */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-card/75 via-transparent to-card/85 dark:from-card/85 dark:via-transparent dark:to-card/90" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border/60">

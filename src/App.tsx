@@ -18,6 +18,7 @@ import { Footer } from './components/Footer';
 import { CuratedCollectionSlider } from './components/CuratedCollectionSlider';
 import { NurseryJourneySection } from './components/NurseryJourneySection';
 import { ComparisonSection } from './components/ComparisonSection';
+import { NurseryPillarsSection } from './components/NurseryPillarsSection';
 import { WhatsAppDoctorBanner } from './components/WhatsAppDoctorBanner';
 import { RemotionBotanicalLoader } from './components/RemotionBotanicalLoader';
 import { NurseryChatbot } from './components/NurseryChatbot';
@@ -495,8 +496,11 @@ export default function App() {
             <ComparisonSection />
 
             <InspirationGallery onSelectPlant={(plant) => openProductPage(plant)} />
-            <ScrollSkeletonContainer height="h-80">
-              <AboutSection />
+            <ScrollSkeletonContainer height="h-96">
+              <NurseryPillarsSection
+                onExploreClick={() => navigateToView('shop')}
+                onVisitClick={() => navigateToView('contact')}
+              />
             </ScrollSkeletonContainer>
             <ScrollSkeletonContainer height="h-96">
               <PlantQuiz

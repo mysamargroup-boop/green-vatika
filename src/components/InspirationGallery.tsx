@@ -55,8 +55,8 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background border-t border-border/40 scroll-mt-20">
-      <div className="container mx-auto px-4 md:px-8">
+    <section className="py-14 md:py-20 bg-background border-t border-border/40 scroll-mt-20">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
         {/* Header - Strictly NO Capsule Pill Labels */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-12 gap-4">
           <div className="max-w-2xl space-y-2">
@@ -69,18 +69,18 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
           </div>
 
           <a
-            href="https://wa.me/918349271617?text=Hello%20Green%20Vatika,%20I%20want%20garden%20styling%20advice%20for%20my%20balcony"
+            href="https://wa.me/919479480068?text=Hello%20Green%20Vatika,%20I%20want%20garden%20styling%20advice%20for%20my%20balcony"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg shadow-emerald-600/20 transition-all self-start md:self-auto shrink-0"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#0A4C36] hover:bg-[#073626] text-white font-bold text-sm shadow-md transition-all self-start md:self-auto shrink-0"
           >
             <WhatsAppIcon className="h-4 w-4" />
             <span>Consult Nursery Stylist</span>
           </a>
         </div>
 
-        {/* 4-Card Aspirational Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 4-Card Aspirational Grid - Full Width Balance */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {scenes.map((scene) => (
             <div
               key={scene.id}

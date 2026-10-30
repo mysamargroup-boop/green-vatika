@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check, X, AlertTriangle, ShieldCheck, Leaf, Sparkles } from 'lucide-react';
+import { Check, X, AlertTriangle, ShieldCheck, Sparkles } from 'lucide-react';
 
 export const ComparisonSection: React.FC = () => {
   const comparisonData = [
@@ -36,27 +36,27 @@ export const ComparisonSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-background relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
-        {/* Section Heading: Ugaao Editorial Style - Strictly NO Capsule Pill Labels */}
+    <section className="py-14 md:py-20 bg-background relative overflow-hidden">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12">
+        {/* Section Heading: Modern Clean Typography (Strictly NO Capsule Pill Badges) */}
         <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14 space-y-2">
           <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-foreground">
             Green Vatika vs The Rest
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground font-medium max-w-xl mx-auto px-4">
-            See why plant lovers trust our authentic nursery over roadside vendors and impersonal online marketplaces.
+            See why thousands of plant lovers trust our authentic nursery over roadside vendors and impersonal online stores.
           </p>
         </div>
 
-        {/* Comparison Table / Responsive Matrix */}
-        <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <table className="w-full min-w-[760px] border-collapse text-left rounded-3xl overflow-hidden shadow-xl border border-border/80 bg-card">
+        {/* 1. Desktop Comparison Table (Hidden on small mobile screens to prevent cut-off) */}
+        <div className="hidden sm:block overflow-hidden rounded-[20px] border border-[#EBE5DA] dark:border-border/60 shadow-lg bg-card">
+          <table className="w-full border-collapse text-left">
             <thead>
-              <tr className="border-b border-border/60">
-                <th className="py-5 px-6 font-heading font-bold text-sm text-muted-foreground w-1/4">
-                  Botanical Quality Parameter
+              <tr className="border-b border-[#EBE5DA] dark:border-border/60 bg-[#FAF7F2] dark:bg-card">
+                <th className="py-5 px-6 font-heading font-extrabold text-sm text-foreground/80 w-1/4">
+                  Quality Parameter
                 </th>
-                <th className="py-5 px-6 bg-[#0A4C36] text-white font-heading font-extrabold text-base w-1/3 rounded-t-2xl sm:rounded-t-none relative">
+                <th className="py-5 px-6 bg-[#0A4C36] text-white font-heading font-extrabold text-base w-1/3 relative shadow-xs">
                   <div className="flex items-center gap-2">
                     <ShieldCheck className="h-5 w-5 text-emerald-300" />
                     <span>Green Vatika Nursery</span>
@@ -65,24 +65,24 @@ export const ComparisonSection: React.FC = () => {
                     Authentic Central MP Nursery
                   </span>
                 </th>
-                <th className="py-5 px-6 font-heading font-bold text-sm text-foreground/80 w-1/5 bg-secondary/30">
+                <th className="py-5 px-6 font-heading font-bold text-sm text-foreground/80 w-1/5">
                   Local Roadside Nurseries
                 </th>
-                <th className="py-5 px-6 font-heading font-bold text-sm text-foreground/80 w-1/5 bg-secondary/10">
+                <th className="py-5 px-6 font-heading font-bold text-sm text-foreground/80 w-1/5">
                   Generic Online Stores
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border/60 text-xs sm:text-sm">
+            <tbody className="divide-y divide-[#EBE5DA] dark:divide-border/40 text-xs sm:text-sm">
               {comparisonData.map((row, idx) => (
-                <tr key={idx} className="hover:bg-secondary/20 transition-colors">
+                <tr key={idx} className="hover:bg-secondary/15 transition-colors">
                   {/* Parameter Name */}
                   <td className="py-4 px-6 font-bold text-foreground">
                     {row.feature}
                   </td>
 
-                  {/* Green Vatika Highlight Column */}
-                  <td className="py-4 px-6 bg-[#0A4C36]/5 dark:bg-[#0A4C36]/15 border-x-2 border-[#0A4C36] font-medium text-foreground">
+                  {/* Green Vatika Highlight Column - Soft Emerald Tint (Zero Harsh Black Lines) */}
+                  <td className="py-4 px-6 bg-emerald-500/[0.07] dark:bg-emerald-500/[0.12] font-medium text-foreground">
                     <div className="flex items-start gap-2.5">
                       <div className="h-5 w-5 rounded-full bg-[#0A4C36] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
                         <Check className="h-3.5 w-3.5 stroke-[3]" />
@@ -92,7 +92,7 @@ export const ComparisonSection: React.FC = () => {
                   </td>
 
                   {/* Roadside Nurseries */}
-                  <td className="py-4 px-6 text-muted-foreground bg-secondary/10">
+                  <td className="py-4 px-6 text-muted-foreground">
                     <div className="flex items-start gap-2">
                       <div className="h-5 w-5 rounded-full bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400 flex items-center justify-center shrink-0 mt-0.5">
                         <X className="h-3.5 w-3.5 stroke-[2.5]" />
@@ -114,6 +114,47 @@ export const ComparisonSection: React.FC = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* 2. Mobile Responsive Comparison Cards (Shows on Mobile, No Horizontal Cut-off or Black Lines) */}
+        <div className="sm:hidden space-y-4">
+          {comparisonData.map((item, idx) => (
+            <div
+              key={idx}
+              className="rounded-2xl border border-[#EBE5DA] dark:border-border/70 bg-card p-4 shadow-sm space-y-3"
+            >
+              {/* Feature Title */}
+              <h3 className="font-heading font-extrabold text-sm text-foreground flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                {item.feature}
+              </h3>
+
+              {/* Green Vatika (Winner Highlight) */}
+              <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#0A4C36] dark:text-emerald-400">
+                  <div className="h-4 w-4 rounded-full bg-[#0A4C36] text-white flex items-center justify-center">
+                    <Check className="h-3 w-3 stroke-[3]" />
+                  </div>
+                  <span>Green Vatika Nursery</span>
+                </div>
+                <p className="text-xs text-foreground font-medium leading-relaxed pl-5">
+                  {item.greenVatika}
+                </p>
+              </div>
+
+              {/* Roadside vs Online Comparison */}
+              <div className="grid grid-cols-1 gap-2 pt-1 text-[11px] text-muted-foreground">
+                <div className="flex items-start gap-1.5">
+                  <X className="h-3.5 w-3.5 text-red-500 shrink-0 mt-0.5" />
+                  <span><strong>Roadside:</strong> {item.roadside}</span>
+                </div>
+                <div className="flex items-start gap-1.5">
+                  <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
+                  <span><strong>Generic Online:</strong> {item.genericOnline}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

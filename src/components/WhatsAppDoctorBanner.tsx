@@ -9,15 +9,15 @@ export const WhatsAppDoctorBanner: React.FC = () => {
       <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-2xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+      <div className="container mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
           {/* Left Text */}
-          <div className="space-y-2">
-            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white">
+          <div className="space-y-2 max-w-2xl">
+            <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-white tracking-tight">
               Stuck with plant care? <br />
               <span className="text-emerald-300">We're here to help.</span>
             </h2>
-            <p className="text-sm sm:text-base text-emerald-100/90 font-medium max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base text-emerald-100/90 font-medium leading-relaxed">
               Yellow leaves? Pest trouble? Wondering which pot size or fertilizer to use? Send a photo on WhatsApp to our senior nursery horticulturists and get instant guidance.
             </p>
           </div>

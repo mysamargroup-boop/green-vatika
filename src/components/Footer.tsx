@@ -189,7 +189,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
           <div className="flex items-center justify-center gap-1.5 font-bold text-sm text-foreground">
             Crafted with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{' '}
             <a
-              href="https://instagram.com/greenvatika.nursery"
+              href="https://instagram.com/shubham__nema"
               target="_blank"
               rel="noopener noreferrer"
               className="font-black text-primary hover:underline"

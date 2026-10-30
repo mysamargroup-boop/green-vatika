@@ -106,7 +106,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative w-full min-h-[500px] sm:min-h-[560px] md:min-h-[620px] lg:min-h-[680px] flex items-center overflow-hidden bg-[#0A4C36]"
+      className="relative w-full min-h-[580px] sm:min-h-[580px] md:min-h-[620px] lg:min-h-[680px] flex items-center overflow-hidden bg-[#0A4C36]"
     >
       {/* Background Slides */}
       {slides.map((slide, idx) => (
@@ -133,7 +133,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
       ))}
 
       {/* Main Slide Content Container */}
-      <div className="container mx-auto px-4 md:px-8 relative z-20 pt-20 pb-20 sm:py-24">
+      <div className="container mx-auto px-4 md:px-8 relative z-20 pt-24 pb-20 sm:py-24">
         <div className="max-w-2xl space-y-4 sm:space-y-6 text-white">
           {/* Subtle Clean Kicker (NO Capsule Pill) */}
           <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-300/90">

@@ -443,8 +443,8 @@ export const NurseryChatbot: React.FC = () => {
 
   return (
     <>
-      {/* Floating Trigger Button on Bottom-Right - Sleek, Crisp Sizing on Mobile & Desktop */}
-      <div className="fixed bottom-3 sm:bottom-6 right-3 sm:right-6 z-50">
+      {/* Floating Trigger Button on Bottom-Right - Lifted Comfortably Above Bottom Edge on Mobile */}
+      <div className="fixed bottom-8 sm:bottom-6 right-3 sm:right-6 z-50">
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
@@ -458,7 +458,7 @@ export const NurseryChatbot: React.FC = () => {
 
       {/* Floating Chat Modal Box - Anchored to Right with Perfect Mobile Width & Height */}
       {isOpen && (
-        <div className="fixed bottom-16 sm:bottom-6 right-3 sm:right-6 left-auto z-50 w-[calc(100vw-1.5rem)] sm:w-[410px] max-w-[380px] sm:max-w-[410px] h-[510px] max-h-[calc(100vh-5rem)] bg-card border border-border/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed bottom-22 sm:bottom-6 right-3 sm:right-6 left-auto z-50 w-[calc(100vw-1.5rem)] sm:w-[410px] max-w-[380px] sm:max-w-[410px] h-[510px] max-h-[calc(100vh-6.5rem)] bg-card border border-border/80 rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
           {/* Header - Clean, Professional, Strictly NO Green Dot & NO Emojis */}
           <div className="bg-primary text-primary-foreground px-4 py-3.5 flex items-center justify-between border-b border-emerald-600/40 shrink-0">
             <div className="flex items-center gap-2.5">

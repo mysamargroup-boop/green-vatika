@@ -30,7 +30,7 @@ export const TrustValueStrip: React.FC = () => {
   ];
 
   return (
-    <section className="relative z-20 -mt-6 sm:-mt-8 mb-10 sm:mb-14">
+    <section className="relative z-20 mt-8 sm:-mt-8 mb-10 sm:mb-14">
       <div className="container mx-auto px-4 md:px-8">
         <div className="bg-[#FAF7F2] dark:bg-card rounded-[22px] p-5 sm:p-7 md:p-8 border border-[#EBE5DA] dark:border-border/80 shadow-xl shadow-primary/5">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

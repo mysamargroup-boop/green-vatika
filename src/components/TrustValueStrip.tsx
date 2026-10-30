@@ -5,8 +5,8 @@ export const TrustValueStrip: React.FC = () => {
   const perks = [
     {
       icon: PackageCheck,
-      title: '100% Transit-Safe Box',
-      subtitle: 'Special ventilated honeycomb packaging prevents root shock and leaf drop during delivery',
+      title: 'Farm-Fresh Nursery Handpick',
+      subtitle: 'Healthy saplings cultivated organically in our nursery beds and carefully prepared for self-pickup',
       badge: 'Zero Shock Guarantee',
     },
     {

@@ -21,7 +21,8 @@ import {
   Banknote,
   Sparkles,
   ShoppingBag,
-  ExternalLink
+  ExternalLink,
+  AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { WhatsAppIcon } from '../components/WhatsAppIcon';
@@ -85,8 +86,8 @@ export const OrderPage: React.FC<OrderPageProps> = ({
   const [stateName, setStateName] = useState('Madhya Pradesh');
   const [orderNotes, setOrderNotes] = useState('');
 
-  // Delivery Fulfillment Mode: 'local_express' | 'nursery_pickup' | 'courier_pilot'
-  const [deliveryMode, setDeliveryMode] = useState<'local_express' | 'nursery_pickup' | 'courier_pilot'>('local_express');
+  // Delivery Fulfillment Mode: Online home delivery is paused; Direct Nursery Pickup is active
+  const [deliveryMode, setDeliveryMode] = useState<'nursery_pickup' | 'delivery_paused'>('nursery_pickup');
 
   // Delivery Scheduling
   const [selectedDateOption, setSelectedDateOption] = useState<'today' | 'tomorrow' | 'dayAfter' | 'custom'>('tomorrow');
@@ -118,9 +119,9 @@ export const OrderPage: React.FC<OrderPageProps> = ({
 
   const subtotal = itemsToOrder.reduce((acc, item) => acc + item.plant.price * item.quantity, 0);
 
-  // Free shipping above ₹499 (Ugaoo standard) or Free for Direct Nursery Pickup
-  const shippingFee = deliveryMode === 'nursery_pickup' ? 0 : subtotal >= 499 || subtotal === 0 ? 0 : 49;
-  const total = Math.max(0, subtotal - discountAmount + shippingFee);
+  // Online delivery is temporarily paused; Direct Nursery Pickup is 100% Free
+  const shippingFee = 0;
+  const total = Math.max(0, subtotal - discountAmount);
 
   // Auto-detect Indian city/state on Pincode entry
   const handlePincodeChange = (val: string) => {
@@ -209,11 +210,6 @@ export const OrderPage: React.FC<OrderPageProps> = ({
       return;
     }
 
-    if (deliveryMode !== 'nursery_pickup' && (!address.trim() || !pincode.trim() || !city.trim())) {
-      alert('Please provide your complete Delivery Address, Pincode, and City.');
-      return;
-    }
-
     if (itemsToOrder.length === 0) {
       alert('Your cart is empty. Please add plants to order.');
       onBack();
@@ -225,29 +221,21 @@ export const OrderPage: React.FC<OrderPageProps> = ({
     const generatedId = `GV-${Math.floor(10000 + Math.random() * 90000)}`;
     const schedule = `${getDateLabel()} [${selectedTimeSlot}]`;
 
-    const fullDeliveryAddress =
-      deliveryMode === 'nursery_pickup'
-        ? 'Direct Self-Pickup: Green Vatika Nursery, Khairi Naka, Teen Puliya, Narsinghpur (MP)'
-        : `${address}${landmark ? `, Near ${landmark}` : ''}, ${city}, ${stateName} - ${pincode}`;
+    const pickupLocation = 'Green Vatika Nursery, Khairi Naka, Teen Puliya, Niranjan Ward, Narsinghpur (MP) 487001';
 
     const summary = {
       orderId: generatedId,
       fullName,
       phone,
       email,
-      deliveryMode:
-        deliveryMode === 'local_express'
-          ? 'Local Express Delivery (Narsinghpur & MP)'
-          : deliveryMode === 'nursery_pickup'
-          ? 'Direct Nursery Pickup (Teen Puliya)'
-          : 'Pan-India Courier (Pilot Phase)',
-      address: fullDeliveryAddress,
+      deliveryMode: 'Direct Nursery Self-Pickup (Free)',
+      address: pickupLocation,
       schedule,
       paymentMethod:
         paymentMethod === 'upi'
           ? 'UPI / Instant QR Payment'
           : paymentMethod === 'cod'
-          ? 'Cash on Delivery (COD)'
+          ? 'Pay on Pickup at Nursery'
           : 'WhatsApp Assisted Order',
       items: itemsToOrder.map((item) => ({
         name: item.plant.name,
@@ -261,7 +249,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
       })),
       subtotal,
       discountAmount,
-      shippingFee,
+      shippingFee: 0,
       total,
       notes: orderNotes,
     };
@@ -288,27 +276,27 @@ export const OrderPage: React.FC<OrderPageProps> = ({
       .join('\n\n');
 
     const msg = encodeURIComponent(
-      `*GREEN VATIKA — ORDER CONFIRMATION #${confirmedOrderSummary.orderId}*\n` +
+      `*GREEN VATIKA — NURSERY PICKUP ORDER #${confirmedOrderSummary.orderId}*\n` +
       `====================================\n` +
       `*CUSTOMER DETAILS:*\n` +
       `• Name: ${confirmedOrderSummary.fullName}\n` +
       `• Phone: ${confirmedOrderSummary.phone}\n` +
-      `• Delivery Mode: ${confirmedOrderSummary.deliveryMode}\n` +
-      `• Address/Pickup: ${confirmedOrderSummary.address}\n` +
-      `• Delivery Slot: ${confirmedOrderSummary.schedule}\n` +
+      `• Fulfillment: Direct Nursery Self-Pickup (100% Free)\n` +
+      `• Pickup Location: Green Vatika Nursery, Khairi Naka, Teen Puliya, Narsinghpur (MP)\n` +
+      `• Pickup Day & Slot: ${confirmedOrderSummary.schedule}\n` +
       `• Payment Mode: ${confirmedOrderSummary.paymentMethod}\n` +
       `${confirmedOrderSummary.notes ? `• Notes: ${confirmedOrderSummary.notes}\n` : ''}` +
       `====================================\n` +
-      `*ORDERED PLANTS:*\n\n` +
+      `*RESERVED PLANTS:*\n\n` +
       `${itemsFormatted}\n\n` +
       `====================================\n` +
       `*BILLING BREAKDOWN:*\n` +
       `• Subtotal: ₹${confirmedOrderSummary.subtotal}\n` +
       `${confirmedOrderSummary.discountAmount > 0 ? `• Discount: -₹${confirmedOrderSummary.discountAmount}\n` : ''}` +
-      `• Delivery Fee: ${confirmedOrderSummary.shippingFee === 0 ? 'FREE' : `₹${confirmedOrderSummary.shippingFee}`}\n` +
+      `• Pickup Service: FREE (Online Home Delivery Paused)\n` +
       `• *TOTAL PAYABLE: ₹${confirmedOrderSummary.total}*\n` +
       `====================================\n` +
-      `Hello Green Vatika Team! Please dispatch my plant order and share live delivery updates.`
+      `Hello Green Vatika Team! I have placed an order for direct pickup at Teen Puliya nursery. Please confirm availability.`
     );
 
     window.open(`https://wa.me/919479480068?text=${msg}`, '_blank');
@@ -474,44 +462,46 @@ export const OrderPage: React.FC<OrderPageProps> = ({
           </div>
         </div>
 
-        {/* Important Delivery Notice: Local Narsinghpur Express Active vs Pan-India Pilot */}
-        <div className="mb-5 rounded-3xl border-2 border-amber-500/30 bg-amber-500/10 p-4 sm:p-5 text-amber-950 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
-          <div className="h-10 w-10 rounded-2xl bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0">
-            <Truck className="h-5 w-5" />
+        {/* Important Notice: Online Home Delivery Paused • Direct Nursery Pickup Active (100% English) */}
+        <div className="mb-5 rounded-3xl border-2 border-amber-500/40 bg-amber-500/10 p-4 sm:p-5 text-amber-950 dark:text-amber-100 shadow-sm flex flex-col sm:flex-row items-start gap-4">
+          <div className="h-10 w-10 rounded-2xl bg-amber-500/20 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+            <AlertCircle className="h-5 w-5" />
           </div>
-          <div className="flex-1 space-y-1">
+          <div className="flex-1 space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="font-heading font-extrabold text-sm sm:text-base text-amber-950 dark:text-amber-100">
-                Delivery Service Notice: Narsinghpur &amp; MP Express Active • Pan-India Courier Coming Soon
+                Notice: Online Home Delivery Is Currently Paused
               </span>
-              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-900 dark:text-amber-200 border border-amber-500/30">
-                Pilot Phase
+              <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/25 text-amber-900 dark:text-amber-200 border border-amber-500/40">
+                Temporarily Unavailable
               </span>
             </div>
-            <p className="text-xs text-amber-900/80 dark:text-amber-200/80 leading-relaxed font-medium">
-              National courier shipping outside Madhya Pradesh is currently in pilot rollout and will be fully automated soon. 
-              Currently, all orders across <strong>Narsinghpur, Kareli, Gotegaon, Gadarwara &amp; MP districts</strong> are fulfilled via active <strong>Same-Day / Next-Day Nursery Express Delivery</strong> or <strong>Direct Nursery Pickup</strong>. For other states, you can still submit your order; our nursery manager will connect on WhatsApp (+91 94794 80068) to arrange safe live-plant freight.
+            <p className="text-xs text-amber-900/90 dark:text-amber-200/90 leading-relaxed font-medium">
+              Direct online courier and doorstep delivery is temporarily closed. All orders placed on our website are currently fulfilled via <strong>Direct Nursery Self-Pickup (Free of charge)</strong> at Green Vatika Nursery, Khairi Naka, Teen Puliya, Narsinghpur (ready for collection in 2 hours). For special bulk transport or out-of-town delivery requests, please connect directly with our team on WhatsApp at <strong>+91 94794 80068</strong>.
             </p>
           </div>
         </div>
 
-        {/* Free Delivery Announcement (Ugaoo Theme Pattern) */}
-        <div className="mb-6 p-3.5 sm:p-4 rounded-2xl bg-emerald-900 text-white flex items-center justify-between gap-3 shadow-md">
-          <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
-            <Truck className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
-            <span>
-              {deliveryMode === 'nursery_pickup' ? (
-                <strong className="text-emerald-300">Direct Nursery Pickup Selected — 100% FREE!</strong>
-              ) : subtotal >= 499 ? (
-                <strong className="text-emerald-300">Congratulations! You have unlocked FREE Express Delivery!</strong>
-              ) : (
-                <>Add ₹{499 - subtotal} more to unlock <strong>FREE Delivery</strong> across Narsinghpur &amp; MP!</>
-              )}
+        {/* Nursery Pickup Active Announcement Strip */}
+        <div className="mb-6 p-4 rounded-2xl bg-[#0A4C36] text-white flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+          <div className="flex items-center gap-3 text-xs sm:text-sm font-semibold">
+            <div className="h-8 w-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0">
+              <MapPin className="h-4.5 w-4.5 text-emerald-400" />
+            </div>
+            <div>
+              <span className="font-bold text-emerald-200 block text-xs sm:text-sm">
+                Direct Nursery Self-Pickup Active — 100% FREE
+              </span>
+              <span className="text-[11px] text-white/80 font-normal">
+                Your plants will be inspected, watered, and prepared for collection within 2 hours.
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+            <span className="text-[10px] sm:text-xs font-extrabold bg-emerald-800/80 text-emerald-200 px-3 py-1 rounded-full border border-emerald-400/20">
+              Teen Puliya, Narsinghpur
             </span>
           </div>
-          <span className="text-[10px] sm:text-xs font-extrabold bg-emerald-800 text-emerald-200 px-2.5 py-1 rounded-full whitespace-nowrap">
-            100% Transit Safe
-          </span>
         </div>
 
         {/* Main 2-Column Responsive Checkout Grid */}
@@ -585,7 +575,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
               </div>
             </div>
 
-            {/* Step 2: Shipping & Delivery Method / Address */}
+            {/* Step 2: Fulfillment & Collection Method */}
             <div className="bg-card rounded-3xl border border-border/80 p-5 sm:p-7 shadow-sm space-y-5">
               <div className="flex items-center justify-between border-b border-border/60 pb-3.5">
                 <div className="flex items-center gap-3">
@@ -593,209 +583,92 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                     2
                   </div>
                   <h2 className="font-heading text-lg sm:text-xl font-extrabold text-foreground">
-                    Fulfillment &amp; Delivery
+                    Fulfillment Method
                   </h2>
                 </div>
-                <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                  {deliveryMode === 'nursery_pickup' ? 'Self Pickup' : 'Doorstep Dispatch'}
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">
+                  Nursery Pickup Active
                 </span>
               </div>
 
-              {/* Delivery Fulfillment Selector (3 Options) */}
-              <div className="space-y-2">
+              {/* Delivery Fulfillment Selector (Direct Nursery Pickup Active | Online Delivery Paused) */}
+              <div className="space-y-3">
                 <label className="block text-xs font-extrabold uppercase tracking-wider text-muted-foreground">
-                  Choose How You Want to Receive Your Plants
+                  Order Collection Mode
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setDeliveryMode('local_express')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                      deliveryMode === 'local_express'
-                        ? 'border-primary bg-primary/10 ring-2 ring-primary/20 shadow-xs'
-                        : 'border-border/80 bg-secondary/30 hover:border-primary/40'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
-                        <Truck className="h-4 w-4 text-primary" /> Local Express
-                      </span>
-                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
-                        Active
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-muted-foreground leading-snug">
-                      Narsinghpur &amp; MP districts doorstep delivery in transit-safe box
-                    </p>
-                  </button>
-
-                  <button
-                    type="button"
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {/* Card 1: Direct Nursery Pickup (Active & Selected) */}
+                  <div
                     onClick={() => setDeliveryMode('nursery_pickup')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                      deliveryMode === 'nursery_pickup'
-                        ? 'border-primary bg-primary/10 ring-2 ring-primary/20 shadow-xs'
-                        : 'border-border/80 bg-secondary/30 hover:border-primary/40'
-                    }`}
+                    className="p-4 rounded-2xl border-2 border-primary bg-primary/10 ring-2 ring-primary/20 shadow-xs cursor-pointer relative transition-all"
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
-                        <MapPin className="h-4 w-4 text-primary" /> Nursery Pickup
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-bold text-xs sm:text-sm text-foreground flex items-center gap-2">
+                        <MapPin className="h-4 w-4 text-primary" /> Direct Nursery Pickup
                       </span>
-                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-700 dark:text-blue-300">
-                        Free
+                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300">
+                        Active • 100% Free
                       </span>
                     </div>
-                    <p className="text-[10px] text-muted-foreground leading-snug">
-                      Direct self-pickup from Khairi Naka, Teen Puliya nursery beds (Ready in 2h)
+                    <p className="text-xs text-muted-foreground leading-snug">
+                      Inspect &amp; collect your saplings directly from Green Vatika nursery beds. Ready in 2 hours.
                     </p>
-                  </button>
+                  </div>
 
-                  <button
-                    type="button"
-                    onClick={() => setDeliveryMode('courier_pilot')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
-                      deliveryMode === 'courier_pilot'
-                        ? 'border-amber-500 bg-amber-500/10 ring-2 ring-amber-500/20 shadow-xs'
-                        : 'border-border/80 bg-secondary/30 hover:border-amber-400'
-                    }`}
+                  {/* Card 2: Doorstep Courier Delivery (Disabled / Paused) */}
+                  <div
+                    className="p-4 rounded-2xl border border-dashed border-border/80 bg-secondary/30 opacity-70 cursor-not-allowed relative"
+                    title="Online doorstep delivery is temporarily paused"
                   >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-foreground flex items-center gap-1.5">
-                        <Clock className="h-4 w-4 text-amber-600" /> Pan-India Courier
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="font-bold text-xs sm:text-sm text-muted-foreground flex items-center gap-2">
+                        <Truck className="h-4 w-4 text-muted-foreground" /> Doorstep Delivery
                       </span>
-                      <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300">
-                        Coming Soon
+                      <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-500/30">
+                        Temporarily Paused
                       </span>
                     </div>
-                    <p className="text-[10px] text-amber-800/80 dark:text-amber-200/80 leading-snug">
-                      National parcel shipping rolling out soon. Inquire &amp; confirm via WhatsApp
+                    <p className="text-xs text-muted-foreground/80 leading-snug">
+                      Online home courier delivery is currently suspended. All orders are fulfilled via nursery pickup or WhatsApp inquiry.
                     </p>
-                  </button>
+                  </div>
+                </div>
+
+                {/* Direct Nursery Pickup Location Details Card */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-3 animate-in fade-in duration-200">
+                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
+                    <MapPin className="h-4.5 w-4.5 text-emerald-600 shrink-0" />
+                    <span>Nursery Collection Address (Ready within 2 hours):</span>
+                  </div>
+                  <div className="text-xs text-foreground leading-relaxed pl-6 space-y-1">
+                    <div className="font-bold text-sm text-foreground">Green Vatika Nursery</div>
+                    <div>Khairi Naka, Teen Puliya, Niranjan Ward, Narsinghpur, Madhya Pradesh 487001</div>
+                    <div className="text-muted-foreground font-medium pt-1">
+                      Operating Hours: <strong>7:00 AM – 8:00 PM</strong> (Open 7 Days a Week) • Helpline: <strong>+91 94794 80068</strong>
+                    </div>
+                  </div>
+                  <div className="text-[11px] text-emerald-800 dark:text-emerald-300 font-semibold bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20 flex items-center gap-2">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
+                    <span>No delivery address needed. Simply arrive, show your order ID, and collect your fresh plants.</span>
+                  </div>
+                </div>
+
+                {/* WhatsApp Custom Freight Inquiry Pill */}
+                <div className="p-3.5 rounded-2xl bg-secondary/30 border border-border/80 flex items-center justify-between gap-3 text-xs">
+                  <div className="flex items-center gap-2 font-medium text-muted-foreground">
+                    <WhatsAppIcon className="h-4 w-4 text-emerald-600 shrink-0" />
+                    <span>Need special bulk transportation or out-of-town delivery?</span>
+                  </div>
+                  <a
+                    href="https://wa.me/919479480068?text=Hello%20Green%20Vatika%20Team!%20I%20need%20special%20transportation/delivery%20for%20my%20plant%20order."
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-bold text-primary hover:underline whitespace-nowrap"
+                  >
+                    Chat with Botanist
+                  </a>
                 </div>
               </div>
-
-              {/* Conditional Mode: Direct Nursery Pickup Details */}
-              {deliveryMode === 'nursery_pickup' ? (
-                <div className="p-4 sm:p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 space-y-2.5 animate-in fade-in duration-200">
-                  <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-bold text-sm">
-                    <MapPin className="h-4 w-4 text-emerald-600 shrink-0" />
-                    <span>Nursery Pickup Location (Ready within 2 hours):</span>
-                  </div>
-                  <p className="text-xs text-foreground leading-relaxed">
-                    <strong>Green Vatika Nursery</strong><br />
-                    Khairi Naka, Teen Puliya, Niranjan Ward, Narsinghpur, Madhya Pradesh 487001<br />
-                    <span className="text-muted-foreground">Open Every Day: 7:00 AM – 8:00 PM • Phone: +91 94794 80068</span>
-                  </p>
-                  <div className="text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold pt-1">
-                    Your plants will be inspected, watered, and safely set aside in grower bags ready for you.
-                  </div>
-                </div>
-              ) : (
-                /* Doorstep Delivery Address Fields */
-                <div className="space-y-4 pt-1 animate-in fade-in duration-200">
-                  {deliveryMode === 'courier_pilot' && (
-                    <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-950 dark:text-amber-200 text-xs space-y-1">
-                      <div className="font-bold flex items-center gap-1.5 text-amber-900 dark:text-amber-100">
-                        <Clock className="h-4 w-4 text-amber-600 shrink-0" />
-                        <span>Pan-India Courier Delivery Notice (Pilot Phase)</span>
-                      </div>
-                      <p className="text-[11px] leading-relaxed text-amber-900/80 dark:text-amber-200/80">
-                        Long-distance courier shipping outside MP is currently in pilot rollout. Your order will be accepted and our nursery team will coordinate live transit logistics and freight packing with you on WhatsApp.
-                      </p>
-                    </div>
-                  )}
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-bold text-foreground mb-1">
-                        House / Flat / Plot No. &amp; Street Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        placeholder="e.g. House No. 24, Teen Puliya, Niranjan Ward"
-                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-bold text-foreground mb-1">
-                        Nearby Landmark (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        value={landmark}
-                        onChange={(e) => setLandmark(e.target.value)}
-                        placeholder="e.g. Near Shiv Temple / Khairi Naka"
-                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-foreground mb-1">
-                        Pincode <span className="text-red-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <input
-                          type="text"
-                          required
-                          maxLength={6}
-                          value={pincode}
-                          onChange={(e) => handlePincodeChange(e.target.value)}
-                          placeholder="e.g. 487001"
-                          className="w-full bg-secondary/40 border border-border/80 rounded-xl pl-10 pr-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                        />
-                      </div>
-                      {pincode.length === 6 && (
-                        pincode.startsWith('48') || pincode.startsWith('46') || pincode.startsWith('45') || pincode.startsWith('47') ? (
-                          <div className="mt-1.5 p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-[11px] font-bold flex items-center gap-1.5">
-                            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
-                            <span>Direct nursery express delivery is ACTIVE for this MP area!</span>
-                          </div>
-                        ) : (
-                          <div className="mt-1.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-950 dark:text-amber-200 text-[11px] space-y-1">
-                            <div className="font-bold flex items-center gap-1.5 text-amber-800 dark:text-amber-300">
-                              <Clock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
-                              <span>Pan-India Courier Delivery Coming Soon for this Pincode</span>
-                            </div>
-                            <p className="text-[10px] leading-relaxed text-amber-900/80 dark:text-amber-200/80">
-                              Standard courier delivery outside MP is in pilot rollout. You can place your order now and our nursery team will confirm custom freight packaging via WhatsApp (+91 94794 80068).
-                            </p>
-                          </div>
-                        )
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold text-foreground mb-1">
-                        City / District <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder="e.g. Narsinghpur"
-                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                      />
-                    </div>
-
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-bold text-foreground mb-1">State</label>
-                      <input
-                        type="text"
-                        value={stateName}
-                        onChange={(e) => setStateName(e.target.value)}
-                        className="w-full bg-secondary/40 border border-border/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-foreground focus:outline-none focus:border-primary focus:bg-card transition-all"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Step 3: Preferred Delivery Schedule & Time Slot (Ugaoo Feature) */}
@@ -967,14 +840,14 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
                       <span className="font-extrabold text-xs sm:text-sm text-foreground flex items-center gap-2">
-                        <Banknote className="h-4 w-4 text-primary" /> Cash on Delivery (COD)
+                        <Banknote className="h-4 w-4 text-primary" /> Pay on Pickup at Nursery (Cash or UPI)
                       </span>
-                      <span className="text-[10px] font-extrabold text-muted-foreground bg-secondary px-2 py-0.5 rounded">
-                        ₹0 Extra Fee
+                      <span className="text-[10px] font-extrabold text-emerald-600 bg-emerald-500/10 px-2 py-0.5 rounded">
+                        Zero Advance
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Inspect your fresh healthy plants first, then pay the delivery rider in cash or UPI.
+                      Inspect your fresh healthy plants first at our Teen Puliya nursery beds, then pay in cash, Google Pay, or UPI.
                     </p>
                   </div>
                 </div>
@@ -1159,14 +1032,12 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>{deliveryMode === 'nursery_pickup' ? 'Nursery Self-Pickup' : 'Nursery Express Shipping'}</span>
-                  <span>
-                    {shippingFee === 0 ? (
-                      <strong className="text-emerald-600 font-extrabold">{deliveryMode === 'nursery_pickup' ? 'FREE (Pickup)' : 'FREE'}</strong>
-                    ) : (
-                      `₹${shippingFee}`
-                    )}
-                  </span>
+                  <span>Fulfillment Service</span>
+                  <span className="text-emerald-600 font-extrabold">FREE (Nursery Pickup)</span>
+                </div>
+                <div className="flex justify-between text-[11px] text-muted-foreground/80">
+                  <span>Home Courier Delivery</span>
+                  <span className="text-amber-600 dark:text-amber-400 font-bold">Temporarily Paused</span>
                 </div>
                 <div className="flex justify-between text-[11px] text-muted-foreground/80">
                   <span>Estimated Taxes</span>
@@ -1186,7 +1057,7 @@ export const OrderPage: React.FC<OrderPageProps> = ({
                 className="w-full py-4 px-6 rounded-full bg-[#146934] hover:bg-[#0f5329] text-white font-extrabold text-sm sm:text-base shadow-xl shadow-green-900/25 transition-all flex items-center justify-center gap-2 hover:scale-[1.01] cursor-pointer disabled:opacity-50"
               >
                 <Lock className="h-4.5 w-4.5 text-white/90" />
-                <span>Place Order Now • ₹{total}</span>
+                <span>Reserve for Nursery Pickup • ₹{total}</span>
               </button>
 
               <div className="text-[11px] text-center text-muted-foreground font-medium flex items-center justify-center gap-2">

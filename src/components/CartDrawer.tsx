@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CartItem } from '../types/nursery';
-import { X, Trash2, ShoppingBag, ShoppingCart, ArrowRight, MessageSquare, Tag, Truck } from 'lucide-react';
+import { X, Trash2, ShoppingBag, ShoppingCart, ArrowRight, MessageSquare, Tag, Truck, MapPin } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 import { WhatsAppIcon } from './WhatsAppIcon';
@@ -39,9 +39,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.plant.price * item.quantity, 0);
   const discountAmount = Math.round(subtotal * (discountPercent / 100));
-  const shippingThreshold = 999;
-  const shippingFee = subtotal >= shippingThreshold || subtotal === 0 ? 0 : 99;
-  const total = Math.max(0, subtotal - discountAmount + shippingFee);
+  // Online delivery is paused; orders are for Direct Nursery Pickup (100% Free)
+  const shippingFee = 0;
+  const total = Math.max(0, subtotal - discountAmount);
 
   const applyPromo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,23 +111,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </button>
           </div>
 
-          {/* Free Shipping Progress */}
+          {/* Direct Nursery Pickup Notice (Online Delivery Paused) */}
           <div className="px-6 py-3 bg-secondary/50 border-b border-border/40">
-            <div className="flex items-center justify-between text-xs font-semibold mb-1">
-              <span className="flex items-center gap-1 text-primary">
-                <Truck className="h-3.5 w-3.5" /> Free Express Shipping
+            <div className="flex items-center justify-between text-xs font-semibold">
+              <span className="flex items-center gap-1.5 text-primary font-bold">
+                <MapPin className="h-3.5 w-3.5 text-emerald-600" /> Direct Nursery Pickup: <strong>FREE</strong>
               </span>
-              <span>
-                {subtotal >= shippingThreshold
-                  ? 'Unlocked (Free)'
-                  : `Add ₹${shippingThreshold - subtotal} more`}
+              <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-500/30">
+                Delivery Paused
               </span>
             </div>
-            <div className="w-full bg-border rounded-full h-1.5 overflow-hidden">
-              <div
-                className="bg-primary h-full transition-all duration-500"
-                style={{ width: `${Math.min(100, (subtotal / shippingThreshold) * 100)}%` }}
-              />
+            <div className="text-[11px] text-muted-foreground mt-1">
+              Khairi Naka, Teen Puliya, Narsinghpur (Open 7 AM – 8 PM daily)
             </div>
           </div>
 
@@ -264,8 +259,12 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span>Shipping Fee</span>
-                  <span>{shippingFee === 0 ? <strong className="text-emerald-600">FREE</strong> : `₹${shippingFee}`}</span>
+                  <span>Nursery Pickup Service</span>
+                  <span className="text-emerald-600 font-extrabold">FREE (Pickup)</span>
+                </div>
+                <div className="flex justify-between text-[11px] text-muted-foreground/80">
+                  <span>Home Delivery</span>
+                  <span className="text-amber-600 dark:text-amber-400 font-bold">Temporarily Paused</span>
                 </div>
                 <div className="flex justify-between text-sm font-extrabold text-foreground pt-2 border-t border-border/60">
                   <span>Total Amount</span>

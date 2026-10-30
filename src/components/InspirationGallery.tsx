@@ -84,7 +84,16 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
           {scenes.map((scene) => (
             <div
               key={scene.id}
-              className="group relative rounded-3xl overflow-hidden bg-card border border-border/80 shadow-lg hover:shadow-2xl hover:border-primary/40 transition-all duration-500 flex flex-col"
+              onClick={() => handlePlantClick(scene.featuredPlantId)}
+              className="group relative rounded-3xl overflow-hidden bg-card border border-border/80 shadow-lg hover:shadow-2xl hover:border-primary/40 transition-all duration-500 flex flex-col cursor-pointer hover:-translate-y-1"
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handlePlantClick(scene.featuredPlantId);
+                }
+              }}
             >
               {/* Aspect 4:5 Image */}
               <div className="relative aspect-[4/5] overflow-hidden bg-secondary/50">
@@ -104,19 +113,18 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
                 </div>
 
                 {/* Clickable Plant Tag Pill */}
-                <button
-                  onClick={() => handlePlantClick(scene.featuredPlantId)}
-                  className="absolute bottom-3 left-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 text-slate-900 font-extrabold text-xs shadow-xl hover:bg-primary hover:text-white transition-all transform hover:scale-105 border border-white/50"
+                <div
+                  className="absolute bottom-3 left-3 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 text-slate-900 font-extrabold text-xs shadow-xl group-hover:bg-[#0A4C36] group-hover:text-white transition-all transform group-hover:scale-105 border border-white/50"
                   title="View Plant Details"
                 >
-                  <Leaf className="h-3.5 w-3.5 text-emerald-600" />
+                  <Leaf className="h-3.5 w-3.5 text-emerald-600 group-hover:text-white transition-colors" />
                   <span>{scene.plantTag}</span>
                   <ArrowRight className="h-3 w-3" />
-                </button>
+                </div>
               </div>
 
               {/* Text Card Body */}
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-2">
+              <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
                 <div>
                   <h3 className="font-heading font-extrabold text-base text-foreground group-hover:text-primary transition-colors leading-snug">
                     {scene.title}
@@ -124,6 +132,11 @@ export const InspirationGallery: React.FC<InspirationGalleryProps> = ({ onSelect
                   <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2 leading-relaxed">
                     {scene.description}
                   </p>
+                </div>
+
+                <div className="pt-2 border-t border-border/40 flex items-center justify-between text-xs font-bold text-primary group-hover:translate-x-0.5 transition-transform">
+                  <span>Explore Featured Plant</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
                 </div>
               </div>
             </div>

@@ -4,7 +4,7 @@ import { plantsData } from '../data/mockData';
 import { LazyImage } from './LazyImage';
 import { StarRating } from './StarRating';
 import { CustomSelect } from './CustomSelect';
-import { Heart, Eye, ShoppingCart, Search, Filter, Sun, Droplets, Wind, Leaf, MessageSquare, Flame, Zap } from 'lucide-react';
+import { Heart, Eye, ShoppingCart, Search, Filter, Wind, Leaf, MessageSquare, Flame, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface ShopSectionProps {
@@ -264,16 +264,6 @@ export const ShopSection: React.FC<ShopSectionProps> = ({
                       <p className="text-[10px] sm:text-xs text-muted-foreground italic line-clamp-1 mb-2 sm:mb-3">
                         {plant.botanicalName}
                       </p>
-
-                      {/* Care Badges & Packaging Note */}
-                      <div className="flex flex-wrap items-center gap-1 sm:gap-2 mb-2 sm:mb-3">
-                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
-                          <Sun className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-amber-500" /> {plant.light.split(' ')[0]}
-                        </span>
-                        <span className="inline-flex items-center gap-0.5 text-[9px] sm:text-[11px] font-bold text-muted-foreground bg-secondary/80 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-md">
-                          <Droplets className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-blue-500" /> {plant.water.split(' ')[0]}
-                        </span>
-                      </div>
 
                       {/* Pot Status Indicator */}
                       <div className="flex items-center justify-between text-[10px] text-muted-foreground pb-1 border-t border-border/20 pt-1">

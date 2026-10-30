@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, BookOpen, Search, Calendar, Clock, User, ArrowRight, Sparkles, Leaf } from 'lucide-react';
+import { ArrowLeft, BookOpen, Search, Calendar, Clock, User, ArrowRight, Leaf } from 'lucide-react';
 import { blogPostsData } from '../data/mockData';
 import { BlogPost } from '../types/nursery';
 import { LazyImage } from '../components/LazyImage';
@@ -30,10 +30,10 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
   const featuredPost = blogPostsData[0];
 
   return (
-    <div className="pt-36 sm:pt-40 pb-24 bg-background text-foreground animate-in fade-in duration-300">
-      <div className="container mx-auto px-4 md:px-8 space-y-10">
-        {/* Navigation Bar - Clean, Elevated, Zero Header Overlap */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">
+    <div className="pt-28 sm:pt-32 pb-24 bg-background text-foreground animate-in fade-in duration-300">
+      {/* Top Breadcrumb Bar */}
+      <div className="container mx-auto px-4 md:px-8 mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
           <button
             onClick={onBack}
             className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border shadow-xs hover:scale-105 cursor-pointer"
@@ -46,25 +46,27 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
             </span>
           </div>
         </div>
+      </div>
 
-        {/* Faded-Bottom Hero Section: Botanical Photography with Seamless Bottom Fade */}
-        <div className="relative rounded-[28px] overflow-hidden min-h-[380px] sm:min-h-[460px] md:min-h-[500px] flex flex-col justify-end p-6 sm:p-10 md:p-14 border border-border/70 shadow-2xl">
-          {/* Background Image */}
-          <div className="absolute inset-0 z-0">
-            <img
-              src="/images/green-vatika/chatgpt_generated/chatgpt_image_1_1672x941.webp"
-              alt="Green Vatika Botanical Nursery Journal"
-              className="w-full h-full object-cover object-center"
-            />
-            {/* Dark Scrim Over Image for High-Contrast Text Legibility */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-            
-            {/* Seamless Bottom Gradient Fade into Website Background */}
-            <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background via-background/70 to-transparent" />
-          </div>
+      {/* FULL-WIDTH Top Hero Section: Edge-to-Edge with Seamless Bottom Fade */}
+      <div className="relative w-full min-h-[460px] sm:min-h-[520px] md:min-h-[560px] flex items-center overflow-hidden bg-[#0A4C36] mb-12 border-b border-border/40">
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/green-vatika/chatgpt_generated/chatgpt_image_1_1672x941.webp"
+            alt="Green Vatika Botanical Nursery Journal"
+            className="w-full h-full object-cover object-center scale-105 transition-transform duration-[8000ms]"
+          />
+          {/* Dark Scrim Over Image for High-Contrast Text Legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/35" />
+          
+          {/* Seamless Bottom Gradient Fade into Website Background */}
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
+        </div>
 
-          {/* Hero Content Stack */}
-          <div className="relative z-10 max-w-3xl space-y-4">
+        {/* Hero Content aligned within container */}
+        <div className="container mx-auto px-4 md:px-8 relative z-10 py-16 sm:py-20">
+          <div className="max-w-3xl space-y-4">
             <div className="text-xs sm:text-sm font-bold uppercase tracking-widest text-emerald-300">
               Green Vatika Botanical Journal
             </div>
@@ -77,15 +79,15 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
               Practical guides written directly by our nursery horticulturists on beating summer heat, organic soil composting, and getting continuous vibrant blooms.
             </p>
 
-            {/* Featured Article Spotlight Card nestled inside hero with bottom fade */}
+            {/* Featured Article Spotlight Card nestled inside hero */}
             {featuredPost && (
               <div
                 onClick={() => onSelectPost(featuredPost)}
-                className="mt-6 p-4 sm:p-5 rounded-2xl bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 transition-all cursor-pointer group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-2xl"
+                className="mt-6 p-4 sm:p-5 rounded-2xl bg-black/45 hover:bg-black/65 backdrop-blur-md border border-white/20 transition-all cursor-pointer group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 max-w-2xl shadow-xl"
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2 text-[11px] font-bold text-emerald-300">
-                    <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                    <BookOpen className="h-3.5 w-3.5 text-emerald-300" />
                     <span>FEATURED EDITORIAL GUIDE</span>
                     <span>•</span>
                     <span className="flex items-center gap-1 text-white/80">
@@ -105,6 +107,9 @@ export const BlogPage: React.FC<BlogPageProps> = ({ onBack, onSelectPost }) => {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-8 space-y-10">
 
         {/* Search & Filter Toolbar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 bg-card p-4 rounded-2xl border border-border/80 shadow-xs">

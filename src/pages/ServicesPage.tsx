@@ -117,34 +117,50 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack }) => {
   ];
 
   return (
-    <div className="pt-36 sm:pt-40 pb-20 bg-background text-foreground animate-in fade-in duration-300">
-      <div className="container mx-auto px-4 md:px-8 space-y-16">
-        {/* Navigation Bar */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-5">
+    <div className="pt-28 sm:pt-32 pb-20 bg-background text-foreground animate-in fade-in duration-300">
+      {/* Top Breadcrumb Bar */}
+      <div className="container mx-auto px-4 md:px-8 mb-6">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border shadow-xs hover:scale-105"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-foreground hover:text-primary transition-colors bg-card px-4 py-2 rounded-full border border-border shadow-xs hover:scale-105 cursor-pointer"
           >
             <ArrowLeft className="h-4 w-4" /> Back to Home
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 border border-primary/20">
+            <span className="text-xs font-bold text-primary bg-primary/10 px-3.5 py-1.5 rounded-full inline-flex items-center gap-1.5 border border-primary/20">
               <ShieldCheck className="h-3.5 w-3.5" /> Professional Nursery Services
             </span>
           </div>
         </div>
+      </div>
 
-        {/* Distinct Hero Header */}
-        <div className="relative rounded-3xl overflow-hidden p-8 sm:p-12 md:p-16 bg-gradient-to-br from-emerald-950 via-emerald-900 to-green-950 text-white shadow-2xl border border-emerald-800/40">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 max-w-3xl space-y-5">
-            <span className="text-xs font-bold uppercase tracking-widest text-emerald-300 bg-white/10 px-3.5 py-1.5 rounded-full backdrop-blur-md inline-block border border-white/15">
+      {/* FULL-WIDTH Top Hero Section: Edge-to-Edge with Seamless Bottom Fade */}
+      <div className="relative w-full min-h-[460px] sm:min-h-[520px] md:min-h-[560px] flex items-center overflow-hidden bg-[#0A4C36] mb-14 border-b border-border/40">
+        {/* Full-width Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="/images/green-vatika/chatgpt_generated/chatgpt_image_6_1254x1254.webp"
+            alt="Green Vatika Landscaping and Services"
+            className="w-full h-full object-cover object-center scale-105 transition-transform duration-[8000ms]"
+          />
+          {/* Dark Scrim Over Image for High-Contrast Text Legibility */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/40" />
+          
+          {/* Seamless Bottom Gradient Fade into Website Background */}
+          <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
+        </div>
+
+        {/* Hero Content aligned within container */}
+        <div className="container mx-auto px-4 md:px-8 relative z-10 py-16 sm:py-20">
+          <div className="max-w-3xl space-y-5 text-white">
+            <span className="text-xs font-bold uppercase tracking-widest text-emerald-300 bg-black/40 px-3.5 py-1.5 rounded-full backdrop-blur-md inline-block border border-white/15">
               Turnkey Green Architecture & Horticultural Care
             </span>
-            <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+            <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight text-white drop-shadow-md">
               Transforming Spaces Into Flourishing Living Oases
             </h1>
-            <p className="text-sm sm:text-base md:text-lg text-emerald-100/90 leading-relaxed font-normal">
+            <p className="text-sm sm:text-base md:text-lg text-emerald-100/90 leading-relaxed font-normal max-w-2xl">
               Whether you want a blooming terrace, a pristine farmhouse lawn, or expert treatment for suffering plants, Green Vatika brings senior nursery horticulturists directly to your doorstep.
             </p>
 
@@ -166,6 +182,9 @@ export const ServicesPage: React.FC<ServicesPageProps> = ({ onBack }) => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="container mx-auto px-4 md:px-8 space-y-16">
 
         {/* Comprehensive Service Cards (Wide Landscape Split Layout) */}
         <div className="space-y-10">

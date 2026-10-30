@@ -823,7 +823,7 @@ export const blogPostsData: BlogPost[] = [
     "id": "4",
     "title": "Why Terracotta Pots Are Best for Indian Weather: Clay vs Plastic Planters Comparison",
     "excerpt": "The thermodynamic science behind traditional Indian mitti ke gamle. How porous clay prevents root rot, cools soil by 8°C in May heat, and outlives cheap plastic.",
-    "author": "Rajesh Nema (Green Vatika Founder)",
+    "author": "Rajkumar Patel (Green Vatika Founder)",
     "date": "October 12, 2026",
     "readTime": "8 min read",
     "category": "Planters & Soil",

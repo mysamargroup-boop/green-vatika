@@ -223,6 +223,150 @@ export const BlogPostPage: React.FC<BlogPostPageProps> = ({
               </div>
             )}
 
+            {/* Internal Botanical Links: Nursery Plants & Services Referenced in this Guide */}
+            <div className="mt-8 p-6 sm:p-7 rounded-3xl bg-card border border-border/80 shadow-md space-y-4">
+              <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                <div className="flex items-center gap-2 font-heading font-extrabold text-base text-foreground">
+                  <Leaf className="h-4 w-4 text-primary" />
+                  <span>Nursery Stock & Internal Botanical Links</span>
+                </div>
+                <span className="text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  Direct Nursery Bed
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Explore the acclimatized flora varieties and organic potting supplies grown directly at our Narsinghpur polyhouses referenced in this article:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {plantsData.slice(0, 4).map((p) => (
+                  <button
+                    key={p.id}
+                    onClick={() => onSelectPlant(p)}
+                    className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/40 hover:bg-secondary border border-border/60 transition-all text-left cursor-pointer group hover:border-primary/40"
+                  >
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-12 h-14 rounded-xl object-cover shrink-0 border border-border/60"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs font-black text-foreground group-hover:text-primary transition-colors truncate">
+                        {p.name}
+                      </div>
+                      <div className="text-[11px] text-muted-foreground italic truncate">
+                        {p.botanicalName}
+                      </div>
+                      <div className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 mt-0.5">
+                        ₹{p.price}{' '}
+                        <span className="text-[10px] text-muted-foreground line-through font-normal">
+                          ₹{p.originalPrice}
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-transform group-hover:translate-x-0.5 shrink-0" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Authoritative Botanical Citations & External Links (Scientific Research) */}
+            <div className="mt-6 p-6 sm:p-7 rounded-3xl bg-secondary/30 border border-border/80 shadow-xs space-y-4">
+              <div className="flex items-center justify-between border-b border-border/60 pb-3">
+                <div className="flex items-center gap-2 font-heading font-extrabold text-base text-foreground">
+                  <ExternalLink className="h-4 w-4 text-primary" />
+                  <span>Authoritative Botanical Citations & Research References</span>
+                </div>
+                <span className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider bg-card px-2.5 py-1 rounded-full border border-border/50">
+                  Govt & Scientific
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+                Our horticultural practices follow rigorous botanical standards cross-referenced with national floriculture institutes and horticultural research bodies:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                <a
+                  href="https://nhb.gov.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3.5 rounded-2xl bg-card hover:bg-card/80 border border-border/70 hover:border-primary/40 transition-all flex items-start gap-3 group shadow-xs"
+                >
+                  <div className="h-8 w-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                    NHB
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span>National Horticulture Board</span>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                    </div>
+                    <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                      Ministry of Agriculture & Farmers Welfare, Govt of India • Commercial Floriculture Standards
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://iari.res.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3.5 rounded-2xl bg-card hover:bg-card/80 border border-border/70 hover:border-primary/40 transition-all flex items-start gap-3 group shadow-xs"
+                >
+                  <div className="h-8 w-8 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                    IARI
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span>ICAR - Indian Agricultural Research Institute</span>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                    </div>
+                    <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                      Division of Floriculture & Landscaping • Tropical Soil Composting & Disease Defense
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://www.rhs.org.uk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3.5 rounded-2xl bg-card hover:bg-card/80 border border-border/70 hover:border-primary/40 transition-all flex items-start gap-3 group shadow-xs"
+                >
+                  <div className="h-8 w-8 rounded-xl bg-teal-500/10 text-teal-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                    RHS
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span>Royal Horticultural Society</span>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                    </div>
+                    <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                      International Plant Knowledge Base • Pruning Calendars & Root Aeration Research
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://cish.icar.gov.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3.5 rounded-2xl bg-card hover:bg-card/80 border border-border/70 hover:border-primary/40 transition-all flex items-start gap-3 group shadow-xs"
+                >
+                  <div className="h-8 w-8 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center shrink-0 mt-0.5 font-bold text-xs">
+                    CISH
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-xs font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-1.5">
+                      <span>Central Institute of Subtropical Horticulture</span>
+                      <ExternalLink className="h-3 w-3 text-muted-foreground group-hover:text-primary" />
+                    </div>
+                    <div className="text-[11px] text-muted-foreground leading-snug mt-0.5">
+                      Subtropical Nursery Propagation & Organic Pest Control Protocols
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+
             {/* Expert Green Vatika Horticulturist Tip Box */}
             <div className="mt-8 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-emerald-950 via-teal-950 to-green-950 text-white shadow-xl space-y-3 border border-emerald-500/30">
               <div className="flex items-center gap-2 text-emerald-300 font-extrabold text-sm uppercase tracking-wider">

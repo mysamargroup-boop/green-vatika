@@ -35,10 +35,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
       tagline: 'Zero Transplant Shock',
       title: 'From Our Nursery Beds to Your Home',
       subtitle:
-        'Naturally acclimatized to Central Indian heat (up to 45°C). 100% organic compost-grown saplings with thriving roots, ready for self-pickup.',
+        'Naturally acclimatized to Central Indian heat (up to 45°C). 100% organic compost-grown saplings with thriving roots, ready for direct pickup.',
       ctaText: 'Explore Flowering & Roses',
       ctaSecondaryText: 'Direct Nursery Pickup',
-      image: '/images/green-vatika/hero/hero_green_vatika_nursery.webp',
+      image: '/images/green-vatika/chatgpt_generated/chatgpt_image_2_1254x1254.webp',
     },
     {
       id: 3,
@@ -48,7 +48,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
         'Thick fat-trunk desert roses that flourish under full sun with minimal watering. Save ₹60 with our pot-optional nursery grower rates.',
       ctaText: 'View Bonsai Collection',
       ctaSecondaryText: 'Chat on WhatsApp',
-      image: '/images/green-vatika/categories/bonsai.webp',
+      image: '/images/green-vatika/chatgpt_generated/chatgpt_image_5_1254x1254.webp',
+    },
+    {
+      id: 4,
+      tagline: 'Handcrafted Clay Pottery',
+      title: 'Artisanal Terracotta Planters & Soil',
+      subtitle:
+        'Porous earthen gamlas crafted by local potters to cool roots by 8°C in May heat, paired with nutrient-dense vermicompost soil mixes.',
+      ctaText: 'Shop Planters & Soil',
+      ctaSecondaryText: 'Consult Plant Doctor',
+      image: '/images/green-vatika/chatgpt_generated/chatgpt_image_4_1254x1254.webp',
     },
   ];
 
@@ -106,12 +116,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
             idx === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
           }`}
         >
-          {/* Edge-to-Edge Image with Smooth Zoom */}
+          {/* Edge-to-Edge Image with Smooth Zoom (Ken Burns Cinematic Pan/Scale) */}
           <img
             src={slide.image}
             alt={slide.title}
-            className={`w-full h-full object-cover object-center transform transition-transform duration-7000 ease-out ${
-              idx === currentSlide ? 'scale-105' : 'scale-100'
+            className={`w-full h-full object-cover object-center transform transition-transform duration-[8000ms] ease-out ${
+              idx === currentSlide ? 'scale-108' : 'scale-100'
             }`}
             loading={idx === 0 ? 'eager' : 'lazy'}
           />
@@ -160,13 +170,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onShopClick, onVisitCl
                     'https://wa.me/919479480068?text=Hello%20Green%20Vatika%2C%20I%20am%20interested%20in%20your%20Bonsai%20collection!',
                     '_blank'
                   );
+                } else if (currentSlide === 3) {
+                  window.open(
+                    'https://wa.me/919479480068?text=Hello%20Green%20Vatika%20Plant%20Doctor%2C%20I%20need%20advice%20for%20my%20garden!',
+                    '_blank'
+                  );
                 } else if (onVisitClick) {
                   onVisitClick();
                 }
               }}
               className="inline-flex items-center justify-center gap-2 h-12 sm:h-14 px-5 sm:px-7 rounded-full bg-white/15 hover:bg-white/25 text-white text-sm sm:text-base font-semibold backdrop-blur-md border border-white/20 transition-all cursor-pointer"
             >
-              {currentSlide === 2 ? (
+              {currentSlide === 2 || currentSlide === 3 ? (
                 <WhatsAppIcon className="h-4 w-4 text-emerald-300" />
               ) : (
                 <MapPin className="h-4 w-4 text-emerald-300" />

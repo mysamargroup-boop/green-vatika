@@ -31,7 +31,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
 
   return (
     <footer className="bg-card border-t border-border/80 pt-16 pb-8 relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
+      {/* Botanical Sketch Pattern Background (Around 20% Opacity) */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-20 dark:opacity-15 bg-repeat"
+        style={{
+          backgroundImage: 'url(/images/botanical_sketch_pattern.svg)',
+          backgroundSize: '280px 280px',
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border/60">
           {/* Col 1: Brand & Logo */}
           <div className="lg:col-span-2 space-y-4">
@@ -177,7 +187,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigateView }) => {
           <div className="flex items-center justify-center gap-1.5 font-bold text-sm text-foreground">
             Crafted with <Heart className="h-4 w-4 text-red-500 fill-red-500" /> by{' '}
             <a
-              href="https://instagram.com/shubham__nema"
+              href="https://instagram.com/greenvatika.nursery"
               target="_blank"
               rel="noopener noreferrer"
               className="font-black text-primary hover:underline"

@@ -429,12 +429,13 @@ export const ProductPage: React.FC<ProductPageProps> = ({
         </div>
 
         {/* Plant Care Specifications & Detailed Info */}
-        <div className="mt-14 sm:mt-16 bg-card rounded-3xl border border-border/80 p-6 sm:p-8 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-border/60 pb-4">
-            <h3 className="font-heading font-extrabold text-xl sm:text-2xl text-foreground flex items-center gap-2">
-              <Leaf className="h-5 w-5 text-primary" /> Plant Specifications &amp; Care Guide
+        <div className="mt-14 sm:mt-16 bg-card rounded-3xl border border-border/80 p-5 sm:p-8 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4 border-b border-border/60 pb-4">
+            <h3 className="font-heading font-extrabold text-[15px] xs:text-base sm:text-xl md:text-2xl text-foreground flex items-center gap-1.5 sm:gap-2 whitespace-nowrap overflow-x-auto [scrollbar-width:none]">
+              <Leaf className="h-4.5 w-4.5 text-primary shrink-0" />
+              <span>Plant Specifications &amp; Care Guide</span>
             </h3>
-            <span className="text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-full">
+            <span className="self-start sm:self-auto text-[11px] sm:text-xs font-bold text-primary bg-primary/10 px-2.5 sm:px-3 py-1 rounded-full whitespace-normal text-wrap max-w-fit leading-tight border border-primary/20">
               Horticulturist Verified
             </span>
           </div>

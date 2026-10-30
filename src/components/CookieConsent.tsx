@@ -67,7 +67,7 @@ export const CookieConsent: React.FC<CookieConsentProps> = ({ onOpenPrivacyPolic
   return (
     <aside
       aria-label="Cookie and Privacy Preferences"
-      className="fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50 max-w-[calc(100vw-2rem)] sm:max-w-md bg-card/95 backdrop-blur-xl border border-border/90 rounded-3xl p-5 shadow-2xl animate-in slide-in-from-bottom-5 duration-300 ring-1 ring-primary/20 text-foreground"
+      className="fixed bottom-3 sm:bottom-6 left-3 sm:left-6 right-16 sm:right-auto z-40 max-w-[calc(100vw-5rem)] sm:max-w-md bg-card/95 backdrop-blur-xl border border-border/90 rounded-3xl p-4 sm:p-5 shadow-2xl animate-in slide-in-from-bottom-5 duration-300 ring-1 ring-primary/20 text-foreground"
     >
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2.5">
